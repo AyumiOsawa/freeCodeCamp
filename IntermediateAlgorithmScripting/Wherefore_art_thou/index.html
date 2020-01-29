@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Wherefore art thou</title>
+</head>
+<body>
+  <h1>Wherefore_art_thou</h1>
+  <h2>Instruction</h2>
+  <p>Make a function that looks through an array of objects (first argument) and returns an array of all objects that have matching name and value pairs (second argument). Each name and value pair of the source object has to be present in the object from the collection if it is to be included in the returned array.</p>
+  <p>For example, if the first argument is <code>[{ first: "Romeo", last: "Montague" }, { first: "Mercutio", last: null }, { first: "Tybalt", last: "Capulet" }]</code>, and the second argument is <code>{ last: "Capulet" }</code>, then you must return the third object from the array (the first argument), because it contains the name and its value, that was passed on as the second argument.</p>
+  <hr>
+
+  <h2>Tests</h2>
+  <p>All the following test cases should return the expected outputs.</p>
+  <br><br>
+
+  <p>====================</p>
+  <h3>Case 1:</h3>
+  <h4>parameter 1:</h4>
+  <code>[{ "first": "Romeo", "last": "Montague" }, { "first": "Mercutio", "last": null }, { "first": "Tybalt", "last": "Capulet" }]</code>
+  <h4>parameter 2:</h4>
+  <code>{ "last": "Capulet" }</code>
+  <h4>expected output:</h4>
+  <code id="expected1">[{ "first": "Tybalt", "last": "Capulet" }]</code>
+  <h4>my output:</h4>
+  <code id="result1"></code>
+  <h4>Correct?:</h4>
+  <p id="correct1"></p>
+  <br>
+  <p>====================</p>
+  <h3>Case 2:</h3>
+  <h4>parameter 1:</h4>
+  <code>[{ "apple": 1 }, { "apple": 1 }, { "apple": 1, "bat": 2 }]</code>
+  <h4>parameter 2:</h4>
+  <code>{ "apple": 1 }</code>
+  <h4>expected output:</h4>
+  <code id="expected2">[{ "apple": 1 }, { "apple": 1 }, { "apple": 1, "bat": 2 }]</code>
+  <h4>my output:</h4>
+  <code id="result2"></code>
+  <h4>Correct?:</h4>
+  <p id="correct2"></p>
+  <br>
+  <p>====================</p>
+  <h3>Case 3:</h3>
+  <h4>parameter 1:</h4>
+  <code>[{ "apple": 1, "bat": 2 }, { "bat": 2 }, { "apple": 1, "bat": 2, "cookie": 2 }]</code>
+  <h4>parameter 2:</h4>
+  <code>{ "apple": 1, "bat": 2 }</code>
+  <h4>expected output:</h4>
+  <code id="expected3">[{ "apple": 1, "bat": 2 }, { "apple": 1, "bat": 2, "cookie": 2 }]</code>
+  <h4>my output:</h4>
+  <code id="result3"></code>
+  <h4>Correct?:</h4>
+  <p id="correct3"></p>
+  <br>
+  <p>====================</p>
+  <h3>Case 4:</h3>
+  <h4>parameter 1:</h4>
+  <code>[{ "apple": 1, "bat": 2 }, { "apple": 1 }, { "apple": 1, "bat": 2, "cookie": 2 }]</code>
+  <h4>parameter 2:</h4>
+  <code>{ "apple": 1, "cookie": 2 }</code>
+  <h4>expected output:</h4>
+  <code id="expected4">[{ "apple": 1, "bat": 2, "cookie": 2 }]</code>
+  <h4>my output:</h4>
+  <code id="result4"></code>
+  <h4>Correct?:</h4>
+  <p id="correct4"></p>
+  <br>
+  <p>====================</p>
+  <h3>Case 5:</h3>
+  <h4>parameter 1:</h4>
+  <code>[{ "apple": 1, "bat": 2 }, { "apple": 1 }, { "apple": 1, "bat": 2, "cookie": 2 }, { "bat":2 }]</code>
+  <h4>parameter 2:</h4>
+  <code>{ "apple": 1, "bat": 2 }</code>
+  <h4>expected output:</h4>
+  <code id="expected5">[{ "apple": 1, "bat": 2 }, { "apple": 1, "bat": 2, "cookie":2 }]</code>
+  <h4>my output:</h4>
+  <code id="result5"></code>
+  <h4>Correct?:</h4>
+  <p id="correct5"></p>
+  <br>
+  <p>====================</p>
+  <h3>Case 6:</h3>
+  <h4>parameter 1:</h4>
+  <code>[{"a": 1, "b": 2, "c": 3}]</code>
+  <h4>parameter 2:</h4>
+  <code>{"a": 1, "b": 9999, "c": 3}</code>
+  <h4>expected output:</h4>
+  <code id="expected6">[]</code>
+  <h4>my output:</h4>
+  <code id="result6"></code>
+  <h4>Correct?:</h4>
+  <p id="correct6"></p>
+  <br>
+
+  <script src="index.js"></script>
+</body>
+</html>
