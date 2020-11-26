@@ -1,4 +1,4 @@
-const pairElement = require('../dna_parsing/index');
+const pairElement = require('./dna_parsing/index');
 
 test(
   'passing the following inputs should return the correct outputs.',

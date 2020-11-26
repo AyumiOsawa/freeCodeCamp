@@ -1,4 +1,4 @@
-const translatePigLatin = require('../pig_latin/index');
+const translatePigLatin = require('./pig_latin/index');
 
 test(
   "'california' should return 'aliforniacay'",

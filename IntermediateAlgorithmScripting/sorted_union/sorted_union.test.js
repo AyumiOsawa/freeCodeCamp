@@ -1,4 +1,4 @@
-const uniteUnique = require('../sorted_union/index');
+const uniteUnique = require('./sorted_union/index');
 
 test(
   "the function should return a new array which concatenate the inputs, removing the duplicate and preserving the original order.",

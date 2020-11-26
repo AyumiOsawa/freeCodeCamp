@@ -1,4 +1,4 @@
-const spinalCase = require('../spinal_tap_case/index');
+const spinalCase = require('./spinal_tap_case/index');
 
 test(
   "'This Is Spinal Tap' should return 'this-is-spinal-tap'",

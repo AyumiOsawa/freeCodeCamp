@@ -1,4 +1,4 @@
-const fearNotLetter = require('../missing_letters');
+const fearNotLetter = require('./missing_letters');
 
 test(
   'passing the following inputs should return the correct outputs.',
