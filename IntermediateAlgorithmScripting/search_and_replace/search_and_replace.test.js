@@ -1,4 +1,4 @@
-const myReplace = require('./search_and_replace/index');
+const myReplace = require('./index');
 
 test(
   "The word in the input text should be replaced with a new word.",

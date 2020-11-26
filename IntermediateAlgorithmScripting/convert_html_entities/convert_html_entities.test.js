@@ -1,4 +1,4 @@
-const convertHTML = require('./convert_html_entities/index');
+const convertHTML = require('./index');
 
 describe('the special letters should be handled correctly', () => {
   test('convertHTML("Dolce & Gabbana") should return "Dolce &amp; Gabbana".',
