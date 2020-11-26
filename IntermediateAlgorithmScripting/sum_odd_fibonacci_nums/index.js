@@ -8,21 +8,23 @@
 const sumFibs = (num) => {
   const seed = 1;
   const createFibonacci = (num) => {
-    const length = num * 2;
-    let fibonacci = [seed, seed];
-    for (let i = 2; i < length; i++) {
-      fibonacci.push(fibonacci[i-2] + fibonacci[i-1]);
+    let fibonacci = [];
+    let index = 0;
+    let currentVal = 1;
+    while (currentVal <= num) {
+      fibonacci.push(currentVal);
+      currentVal = fibonacci[index] + (fibonacci[index-1] || 0);
+      index += 1;
     }
     return fibonacci;
   }
 
-  const sum = createFibonacci(num).reduce((accumulator, currentVal, index) => {
-    if(index % 2 === 1) {
+  const sum = createFibonacci(num).reduce((accumulator, currentVal) => {
+    if(currentVal % 2 === 1) {
       accumulator += currentVal
     }
     return accumulator;
   })
-  console.log('sum:', sum);
   return sum;
 }
 

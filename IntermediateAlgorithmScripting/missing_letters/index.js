@@ -9,7 +9,7 @@ const fearNotLetter = (str) => {
   for(let i = 0; i < 26; i++) {
     alphabets += String.fromCharCode(startCharCode + i);
   }
-  console.log(alphabets);
+  // console.log(alphabets);
   const imputLetters = str.split('');
   const length = str.length;
   const start = alphabets.indexOf(str[0]);
