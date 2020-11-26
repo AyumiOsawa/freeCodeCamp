@@ -22,7 +22,7 @@ const sumPrimes = (num) => {
       if (_checkIsPrime(currentVal, primes)) {
         primes.push(currentVal);
       }
-      currentVal += 1; // for debugging
+      currentVal += 1;
     };
     return primes;
   };
