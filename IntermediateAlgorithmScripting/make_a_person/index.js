@@ -15,11 +15,11 @@
 // https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/intermediate-algorithm-scripting/make-a-person
 
 function Person (firstAndLast) {
-  newFullNameArr = firstAndLast.split(' ');
+  let lnewFullNameArr = firstAndLast.split(' ');
   let firstName = newFullNameArr[0];
   let lastName = newFullNameArr[1];
   let fullName = firstName + ' ' + lastName;
-   
+
   this.getFirstName = () => {
     console.log(firstName)
     return firstName;
