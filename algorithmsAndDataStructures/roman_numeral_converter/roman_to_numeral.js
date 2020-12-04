@@ -29,42 +29,13 @@ const convertToNumeral = (str) => {
   let numeral = 0;
   let skip = false;
 
-  for(let index = 0; index < str.length; index++) {
-    switch (str[index]) {
-      case letterNumberMapping[0].roman:
-        numeral += handlePrefix(index, 0);
+  for (let index = 0; index < str.length; index++) {
+    for (let mappingIndex = 0; mappingIndex < letterNumberMapping.length; mappingIndex++) {
+      if (str[index] === letterNumberMapping[mappingIndex].roman) {
+        numeral += handlePrefix(index, mappingIndex);
         break;
-      case letterNumberMapping[1].roman:
-        numeral += handlePrefix(index, 1);
-
-        break;
-      case letterNumberMapping[2].roman:
-        numeral += handlePrefix(index, 2);
-
-        break;
-      case letterNumberMapping[3].roman:
-        numeral += handlePrefix(index, 3);
-
-        break;
-      case letterNumberMapping[4].roman:
-        numeral += handlePrefix(index, 4);
-
-        break;
-      case letterNumberMapping[5].roman:
-        numeral += handlePrefix(index, 5);
-
-        break;
-      case letterNumberMapping[6].roman:
-        numeral += handlePrefix(index, 6);
-
-        break;
-      case letterNumberMapping[7].roman:
-        numeral += handlePrefix(index, 7);
-
-        break;
-      default:
-        NaN;
-    };
+      }
+    }
   };
 
   return numeral;
