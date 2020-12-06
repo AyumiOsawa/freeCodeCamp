@@ -20,17 +20,17 @@
 //
 // https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/javascript-algorithms-and-data-structures-projects/cash-register
 
-const statusMessage = ['OPEN', 'CLOESED', 'INSUFFICIENT_FUNDS'];
+const statusMessage = ['OPEN', 'CLOSED', 'INSUFFICIENT_FUNDS'];
 const prices = [
-  { name: "PENNY", price: 0.01 },
-  { name: "NICKEL", price: 0.05 },
-  { name: "DIME", price: 0.1 },
-  { name: "QUARTER", price: 0.25 },
-  { name: "ONE", price: 1 },
-  { name: "FIVE", price: 5 },
-  { name: "TEN", price: 10 },
-  { name: "TWENTY", price: 20 },
-  { name: "ONE HUNDRED", price: 100 }
+  { name: "PENNY", price: 0.01 , order: 0},
+  { name: "NICKEL", price: 0.05, order: 1 },
+  { name: "DIME", price: 0.1, order: 2 },
+  { name: "QUARTER", price: 0.25, order: 3 },
+  { name: "ONE", price: 1, order: 4 },
+  { name: "FIVE", price: 5, order: 5 },
+  { name: "TEN", price: 10, order: 6 },
+  { name: "TWENTY", price: 20, order: 7 },
+  { name: "ONE HUNDRED", price: 100, order: 8 }
 ];
 const changeTemplate = [
   ["PENNY", 0],
@@ -45,110 +45,104 @@ const changeTemplate = [
 ];
 
 const checkCashRegister = (price, cash, cid) => {
-   // count how much each coins/bucks are needed for  change
-   const calculateChange = (change) => {
-    console.log('at the beginning, change:',change);
+  // Multiple everything by 100 at first to avoid the errors coming from the floating numbers.
+  const priceAdjusted = 100 * price;
+  const cashAdjusted = 100 * cash;
+  let changeAdjusted = cashAdjusted - priceAdjusted;
+  let cidAdjusted = [];
+  cid.forEach(item => { 
+    cidAdjusted.push([    
+                        item[0], 
+                        Math.round(item[1] * 100) 
+                      ]);
+  });
+  let priceTableAdjusted = [];
+  prices.forEach(object => {
+    priceTableAdjusted.push({
+                          ...object,
+                          price: object.price * 100
+                      });           
+  });
+
+   const calculateChange = () => {
     const changeTable = [];
 
     for (let priceIndex = cid.length - 1; 
-          priceIndex > 0 && change > 0; 
+          priceIndex >= 0; 
           priceIndex--) {
-            // console.log('priceIndex', priceIndex)
-      // const count = Math.floor(change / prices[priceIndex].price);
-      // console.log('curreent change:',change);
-      // if (count > 0 && count <= cid[priceIndex][1]) {
-      //   changeTable.push([prices[priceIndex].name, 
-      //                   prices[priceIndex].price * count]);
-      //   change -= prices[priceIndex].price * count;
-      // }
-      if (change >= cid[priceIndex][1]) {
-        console.log('---------')
-        console.log('check cid coin', cid[priceIndex][0])
-        const countMax = Math.floor(change / prices[priceIndex].price);
-        console.log('countMax:', countMax)
-        const countCid = Math.floor(cid[priceIndex][1] /  prices[priceIndex].price)
-        console.log('countCid',countCid)
-        const countChange = Math.min(countMax, countCid);
-        console.log('countChange',countChange)
-        changeTable.push([prices[priceIndex].name, 
-                        prices[priceIndex].price * countChange]);
-        change -= prices[priceIndex].price * countChange;
-        console.log('change', change)
-      };
+      if (changeAdjusted >= priceTableAdjusted[priceIndex].price) {
+        const count = Math.floor(changeAdjusted / priceTableAdjusted[priceIndex].price);
+        const changeInCurrentUnit = Math.min(count * priceTableAdjusted[priceIndex].price, cidAdjusted[priceIndex][1]) 
 
-
+        changeTable.push([
+          changeTemplate[priceIndex][0],
+          changeInCurrentUnit / 100
+        ]);
+        changeAdjusted -= changeInCurrentUnit;
+      } else {
+        changeTable.push([
+          changeTemplate[priceIndex][0],
+          0
+        ]);
+      }
     };
-    if (change > 0 ) {
+
+    if (changeAdjusted > 0 ) {
       return false;
     };
-    console.log('change needed to be paid:', changeTable)
-    return changeTable;
+
+  // sort the results from the biggest to the smallest
+  let changeTableSorted = [];
+  const numOfUnits = changeTable.length;
+
+  for(let targetIndex = 0; targetIndex < numOfUnits; targetIndex++) {
+    let biggest = -Infinity;
+    let biggestIndex = 0;
+
+    for (let index = changeTable.length - 1; index >= 0 ; index--) {
+      if (changeTable[index][1] > biggest) {
+        biggest = changeTable[index][1];
+        biggestIndex = index;
+      }
+    };
+    if ( biggest > 0) {
+      changeTableSorted.push(changeTable[biggestIndex]); 
+    };
+    changeTable.splice(biggestIndex, 1);
+  };
+
+    return changeTableSorted;
   }; 
 
-  // // calculate the actual number of coins/bucks that can be returned out of the cash register 
-  // const getCidAfter = (changeTotal, changeTable) => {
-  //   let currentChange = changeTotal;
-  //   const cidAfterTable = changeTemplate;
-
-  //   const carry = (currentChange, startIndex = changeTemplate.length - 1) => {
-  //     for (let index = startIndex; index > 0 
-  //          && currentChange > 0; index--) {
-  //       if (cidTable[index][1] > changeTable[index][1]) {
-  //         cidAfterTable[index][1] = cidTable[index][1] 
-  //                                   - changeTable[index][1];
-  //       } else if (cidTable[index][1] < changeTable[index][1]) {
-  //         carry(currentChange, index);
-  //       };
-  //       // if cidTable[index][1] === changeTable[index][1], the default value will be used.
-  //     };
-  //   };
-
-  //   carry(currentChange);
-  //   return cidAfterTable;
-  // };
-
-// --------------------------------------
-
+  // -----------------------------
+  // Do not use the Adjusted variables (multiplied by 100) after this.
+  // 
   const cidMessage = {status: null, change: null};
-  const changeTotal = cash - price;
-  console.log('changeTotal:',changeTotal)
-  // Calculate total amount in cash register
-
-  // let currentCidTotal = cid.reduce((accumulator, currentValue, index) => {
-  //   accumulator = Array.isArray(accumulator) 
-  //                       ? accumulator[1] 
-  //                       : accumulator;
-
-  //   return accumulator + currentValue[1];
-  // }).toFixed(2);'
+  const changeTotal = parseFloat((cash - price).toFixed(2));
   let currentCidTotal = 0; 
   cid.forEach(item => {
     currentCidTotal += item[1];
   })
-  currentCidTotal = currentCidTotal.toFixed(2);
-  console.log('cid total:',currentCidTotal);
+  currentCidTotal = parseFloat(currentCidTotal.toFixed(2));
 
-  // Return the object based on the amount of cid
-  if (currentCidTotal < changeTotal) {
+  if (currentCidTotal < changeTotal) { // INSUFFICIENT FUNDS
+  console.log('INSUFFICIENT FUNDS')
     cidMessage.status = statusMessage[2];
     cidMessage.change = [];
-    console.log('cidMessage', cidMessage)
-  } else if (currentCidTotal === changeTotal) {
+  } else if (currentCidTotal === changeTotal) { // CLOSED
+  console.log('CLOSED')
+
     cidMessage.status = statusMessage[1];
     cidMessage.change = cid;
-    console.log('cidMessage', cidMessage)
-  } else if (calculateChange(changeTotal)) {
-    const changeTable = calculateChange(changeTotal);
-    // const cidAfterTable = getCidAfter(changeTotal, changeTable);
-    cidMessage.status = statusMessage[0];
-    cidMessage.change = changeTable;
-  } else {
-    cidMessage.status = statusMessage[2];
-    cidMessage.change = [];
-  }
+  } else { // OPEN
+    console.log('OPEN')
+    const changeTable = calculateChange();
+    cidMessage.status = changeTable ? statusMessage[0] : statusMessage[2];
+    cidMessage.change = changeTable ? changeTable : [];
+  }; 
 
-  // console.log(cidMessage);
+  console.log(cidMessage);
   return cidMessage;
-}
+};
 
 module.exports = checkCashRegister;
