@@ -22,15 +22,15 @@
 
 const statusMessage = ['OPEN', 'CLOSED', 'INSUFFICIENT_FUNDS'];
 const prices = [
-  { name: "PENNY", price: 0.01 , order: 0},
-  { name: "NICKEL", price: 0.05, order: 1 },
-  { name: "DIME", price: 0.1, order: 2 },
-  { name: "QUARTER", price: 0.25, order: 3 },
-  { name: "ONE", price: 1, order: 4 },
-  { name: "FIVE", price: 5, order: 5 },
-  { name: "TEN", price: 10, order: 6 },
-  { name: "TWENTY", price: 20, order: 7 },
-  { name: "ONE HUNDRED", price: 100, order: 8 }
+  { name: "PENNY", price: 0.01 },
+  { name: "NICKEL", price: 0.05 },
+  { name: "DIME", price: 0.1 },
+  { name: "QUARTER", price: 0.25 },
+  { name: "ONE", price: 1 },
+  { name: "FIVE", price: 5 },
+  { name: "TEN", price: 10 },
+  { name: "TWENTY", price: 20 },
+  { name: "ONE HUNDRED", price: 100 }
 ];
 const changeTemplate = [
   ["PENNY", 0],
@@ -126,22 +126,17 @@ const checkCashRegister = (price, cash, cid) => {
   currentCidTotal = parseFloat(currentCidTotal.toFixed(2));
 
   if (currentCidTotal < changeTotal) { // INSUFFICIENT FUNDS
-  console.log('INSUFFICIENT FUNDS')
     cidMessage.status = statusMessage[2];
     cidMessage.change = [];
   } else if (currentCidTotal === changeTotal) { // CLOSED
-  console.log('CLOSED')
-
     cidMessage.status = statusMessage[1];
     cidMessage.change = cid;
   } else { // OPEN
-    console.log('OPEN')
     const changeTable = calculateChange();
     cidMessage.status = changeTable ? statusMessage[0] : statusMessage[2];
     cidMessage.change = changeTable ? changeTable : [];
   }; 
 
-  console.log(cidMessage);
   return cidMessage;
 };
 
