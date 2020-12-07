@@ -22,15 +22,15 @@
 
 const statusMessage = ['OPEN', 'CLOSED', 'INSUFFICIENT_FUNDS'];
 const prices = [
-  { name: "PENNY", price: 0.01 },
-  { name: "NICKEL", price: 0.05 },
-  { name: "DIME", price: 0.1 },
-  { name: "QUARTER", price: 0.25 },
-  { name: "ONE", price: 1 },
-  { name: "FIVE", price: 5 },
-  { name: "TEN", price: 10 },
-  { name: "TWENTY", price: 20 },
-  { name: "ONE HUNDRED", price: 100 }
+  { name: "PENNY", priceInCent: 1 },
+  { name: "NICKEL", priceInCent: 5 },
+  { name: "DIME", priceInCent: 10 },
+  { name: "QUARTER", priceInCent: 25 },
+  { name: "ONE", priceInCent: 100 },
+  { name: "FIVE", priceInCent: 500 },
+  { name: "TEN", priceInCent: 1000 },
+  { name: "TWENTY", priceInCent: 2000 },
+  { name: "ONE HUNDRED", priceInCent: 10000 }
 ];
 const changeTemplate = [
   ["PENNY", 0],
@@ -50,29 +50,22 @@ const checkCashRegister = (price, cash, cid) => {
   const cashAdjusted = 100 * cash;
   let changeAdjusted = cashAdjusted - priceAdjusted;
   let cidAdjusted = [];
-  cid.forEach(item => { 
-    cidAdjusted.push([    
-                        item[0], 
-                        Math.round(item[1] * 100) 
+  cid.forEach(item => {
+    cidAdjusted.push([
+                        item[0],
+                        Math.round(item[1] * 100)
                       ]);
-  });
-  let priceTableAdjusted = [];
-  prices.forEach(object => {
-    priceTableAdjusted.push({
-                          ...object,
-                          price: object.price * 100
-                      });           
   });
 
    const calculateChange = () => {
     const changeTable = [];
 
-    for (let priceIndex = cid.length - 1; 
-          priceIndex >= 0; 
+    for (let priceIndex = cid.length - 1;
+          priceIndex >= 0;
           priceIndex--) {
-      if (changeAdjusted >= priceTableAdjusted[priceIndex].price) {
-        const count = Math.floor(changeAdjusted / priceTableAdjusted[priceIndex].price);
-        const changeInCurrentUnit = Math.min(count * priceTableAdjusted[priceIndex].price, cidAdjusted[priceIndex][1]) 
+      if (changeAdjusted >= prices[priceIndex].priceInCent) {
+        const count = Math.floor(changeAdjusted / prices[priceIndex].priceInCent);
+        const changeInCurrentUnit = Math.min(count * prices[priceIndex].priceInCent, cidAdjusted[priceIndex][1])
 
         changeTable.push([
           changeTemplate[priceIndex][0],
@@ -106,20 +99,20 @@ const checkCashRegister = (price, cash, cid) => {
       }
     };
     if ( biggest > 0) {
-      changeTableSorted.push(changeTable[biggestIndex]); 
+      changeTableSorted.push(changeTable[biggestIndex]);
     };
     changeTable.splice(biggestIndex, 1);
   };
 
     return changeTableSorted;
-  }; 
+  };
 
   // -----------------------------
   // Do not use the Adjusted variables (multiplied by 100) after this.
-  // 
+  //
   const cidMessage = {status: null, change: null};
   const changeTotal = parseFloat((cash - price).toFixed(2));
-  let currentCidTotal = 0; 
+  let currentCidTotal = 0;
   cid.forEach(item => {
     currentCidTotal += item[1];
   })
@@ -135,7 +128,7 @@ const checkCashRegister = (price, cash, cid) => {
     const changeTable = calculateChange();
     cidMessage.status = changeTable ? statusMessage[0] : statusMessage[2];
     cidMessage.change = changeTable ? changeTable : [];
-  }; 
+  };
 
   return cidMessage;
 };
