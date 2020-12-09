@@ -16,48 +16,45 @@ function checkPath(graph, start, end) {
 
   const lookForTheNextRoute = (currentRow) => {
     const activeNodes = [];
-    console.log('inside lookForTheNextRoute()');
     // if current node is an ending node, return true.
     if (currentRow === end) {
       arrived = true;
-      console.log('this is the goal. I am at', currentRow);
       return;
-    } else if (graph[currentRow].includes(1)) { // if there are route(s) to anothre node(s), recursively use this function.
-        console.log('not an end: node', currentRow);
-        for (let node = 0; node < graph[currentRow].length; node++) {
-          if(arrived) {
-            break;
-          } else if (graph[currentRow][node] === 1) {
-            console.log(`connection found from ${currentRow} to ${node}`);
-            lookForTheNextRoute(node);
-          };
+    } else if (graph[currentRow].includes(1)) {
+      // if there are route(s) to anothre node(s), recursively use this function.
+      for (let node = 0; node < graph[currentRow].length; node++) {
+        if (arrived) {
+          break;
+        } else if (graph[currentRow][node] === 1) {
+          lookForTheNextRoute(node);
         };
-    } else { // if there is no rounte to another node(i.e. deadend), reset the route.
-      console.log('deadend. resetting the log.');
+      };
+    } else {
+      // if there is no rounte to another node(i.e. deadend), reset the route.
       route = [];
     };
   };
 
   lookForTheNextRoute(start);
 
-	return arrived;
+  return arrived;
 }; // end of function
 
 let graphA = [
-	[0,1,1,0,0],
-  [0,0,0,1,0],
-  [0,0,0,0,1],
-  [0,0,0,0,0],
-  [0,1,0,0,0]
+  [0, 1, 1, 0, 0],
+  [0, 0, 0, 1, 0],
+  [0, 0, 0, 0, 1],
+  [0, 0, 0, 0, 0],
+  [0, 1, 0, 0, 0]
 ]
 
 let testCount = 0;
 
 function test(output, result) {
-	if (output == result) {
-  	console.log(testCount++ + " Passed.")
+  if (output == result) {
+    console.log(testCount++ + " Passed.")
   } else {
-  	console.log(testCount++ + " Failed. Returned " + output + " but expected " + result);
+    console.log(testCount++ + " Failed. Returned " + output + " but expected " + result);
   }
 }
 
