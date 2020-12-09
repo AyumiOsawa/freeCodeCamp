@@ -11,7 +11,6 @@
 // column (index of second level arrays) -> to
 
 function checkPath(graph, start, end) {
-  let route = [];
   let arrived = false;
 
   const lookForTheNextRoute = (currentRow) => {
@@ -20,7 +19,7 @@ function checkPath(graph, start, end) {
     if (currentRow === end) {
       arrived = true;
       return;
-    } else if (graph[currentRow].includes(1)) {
+    } else {
       // if there are route(s) to anothre node(s), recursively use this function.
       for (let node = 0; node < graph[currentRow].length; node++) {
         if (arrived) {
@@ -29,10 +28,8 @@ function checkPath(graph, start, end) {
           lookForTheNextRoute(node);
         };
       };
-    } else {
-      // if there is no rounte to another node(i.e. deadend), reset the route.
-      route = [];
     };
+
   };
 
   lookForTheNextRoute(start);
