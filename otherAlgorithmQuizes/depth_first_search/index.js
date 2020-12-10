@@ -11,6 +11,7 @@
 // column (index of second level arrays) -> to
 
 function checkPath(graph, start, end) {
+  const route = [];
   let arrived = false;
 
   const lookForTheNextRoute = (currentRow) => {

@@ -27,30 +27,56 @@
 // https://www.freecodecamp.org/learn/coding-interview-prep/algorithms/pairwise
 //
 const pairwise = (arr, arg) => {
-// Check all the combinations of the first number and the second number, from
-// the smallest to the biggest.  
-// Then stores the pairs of the values that meet all the 3 conditions:
-// 1) value1 + value2 = arg
-// 2) index of value1 < index of value2 (to remove the same pairs with different
-// order)
-// 3) value 2 is not included in the set (to ensure that the numbers in the
-// result are all unique)
-  const set = [];
+// calculate the value of a conuterpart of a potential pair of each value and
+// see if the array after the element includes the counterpart. if the
+// counterpart is found, remove both from the array.
+  let setIndex = [];
+  const workingArr = [...arr];
 
-  for (let firstNumIndex = 0; firstNumIndex < arr.length; firstNumIndex++) {
-    for (let secondNumIndex = 0; secondNumIndex < arr.length; secondNumIndex++) {
-      if(arr[firstNumIndex] + arr[secondNumIndex] === arg &&
-        firstNumIndex > secondNumIndex &&
-        !set.includes(secondNumIndex)) {
-          set.push(secondNumIndex, firstNumIndex);
-          break;
-      };
+  for (let index = 0; index < arr.length - 1; index++) {
+    const checkValue = workingArr[index];
+    if (Number.isNaN(checkValue)) {
+      continue;
+    };
+    const counterpart = arg - checkValue;
+
+    if (workingArr.includes(counterpart, index + 1) &&
+        !setIndex.includes(workingArr.indexOf(counterpart, index + 1)) ) {
+      setIndex.push(index, workingArr.indexOf(counterpart, index + 1));
+      // remove the checked pair from workingArr without changing array length.
+      workingArr[index] = NaN;
+      workingArr[workingArr.indexOf(counterpart, index + 1)] = NaN;
     };
   };
 
-  return set.length === 0 ? 0 : set.reduce((acc, currentVal) => {
+  return setIndex.length === 0 ? 0 : setIndex.reduce((acc, currentVal) => {
     return acc += currentVal
   });
+
+// // Check all the combinations of the first number and the second number, from
+// // the smallest to the biggest.
+// // Then stores the pairs of the values that meet all the 3 conditions:
+// // 1) value1 + value2 = arg
+// // 2) index of value1 < index of value2 (to remove the same pairs with different
+// // order)
+// // 3) value 2 is not included in the set (to ensure that the numbers in the
+// // result are all unique)
+//   const set = [];
+//
+//   for (let firstNumIndex = 0; firstNumIndex < arr.length; firstNumIndex++) {
+//     for (let secondNumIndex = 0; secondNumIndex < arr.length; secondNumIndex++) {
+//       if(arr[firstNumIndex] + arr[secondNumIndex] === arg &&
+//         firstNumIndex > secondNumIndex &&
+//         !set.includes(secondNumIndex)) {
+//           set.push(secondNumIndex, firstNumIndex);
+//           break;
+//       };
+//     };
+//   };
+  //
+  // return set.length === 0 ? 0 : set.reduce((acc, currentVal) => {
+  //   return acc += currentVal
+  // });
 };
 
 module.exports = pairwise;
