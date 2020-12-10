@@ -27,35 +27,26 @@
 // https://www.freecodecamp.org/learn/coding-interview-prep/algorithms/pairwise
 //
 const pairwise = (arr, arg) => {
-  // create a table of all the valid combination
-  const table = [];
-  for (let i = 0; i < arr.length; i++) {
-    table.push(Array(arr.length));
-  };
-
-  arr.forEach((firstElm, firstIndex, array) => {
-    array.forEach((secondElm, secondIndex) => {
-      if (firstElm + secondElm === arg) {
-        table[firstIndex][secondIndex] = true;
-      }
-    });
-  });
-
-  // consider only the half of the table (under the diagonal line(i.e. where
-  // rowIndex > colmnIndex).
-  // find the set with the row indeces and column indeces and calculate
-  // the sum.
+// Check all the combinations of the first number and the second number, from
+// the smallest to the biggest.  
+// Then stores the pairs of the values that meet all the 3 conditions:
+// 1) value1 + value2 = arg
+// 2) index of value1 < index of value2 (to remove the same pairs with different
+// order)
+// 3) value 2 is not included in the set (to ensure that the numbers in the
+// result are all unique)
   const set = [];
-  table.forEach((row, rowIndex) => {
-    for (let columnIndex = 0; columnIndex < arr.length; columnIndex++) {
-      if (row[columnIndex] &&
-        rowIndex > columnIndex &&
-        !set.includes(columnIndex)) {
-        set.push(columnIndex, rowIndex);
-        break;
+
+  for (let firstNumIndex = 0; firstNumIndex < arr.length; firstNumIndex++) {
+    for (let secondNumIndex = 0; secondNumIndex < arr.length; secondNumIndex++) {
+      if(arr[firstNumIndex] + arr[secondNumIndex] === arg &&
+        firstNumIndex > secondNumIndex &&
+        !set.includes(secondNumIndex)) {
+          set.push(secondNumIndex, firstNumIndex);
+          break;
       };
     };
-  });
+  };
 
   return set.length === 0 ? 0 : set.reduce((acc, currentVal) => {
     return acc += currentVal
