@@ -52,31 +52,6 @@ const pairwise = (arr, arg) => {
   return setIndex.length === 0 ? 0 : setIndex.reduce((acc, currentVal) => {
     return acc += currentVal
   });
-
-// // Check all the combinations of the first number and the second number, from
-// // the smallest to the biggest.
-// // Then stores the pairs of the values that meet all the 3 conditions:
-// // 1) value1 + value2 = arg
-// // 2) index of value1 < index of value2 (to remove the same pairs with different
-// // order)
-// // 3) value 2 is not included in the set (to ensure that the numbers in the
-// // result are all unique)
-//   const set = [];
-//
-//   for (let firstNumIndex = 0; firstNumIndex < arr.length; firstNumIndex++) {
-//     for (let secondNumIndex = 0; secondNumIndex < arr.length; secondNumIndex++) {
-//       if(arr[firstNumIndex] + arr[secondNumIndex] === arg &&
-//         firstNumIndex > secondNumIndex &&
-//         !set.includes(secondNumIndex)) {
-//           set.push(secondNumIndex, firstNumIndex);
-//           break;
-//       };
-//     };
-//   };
-  //
-  // return set.length === 0 ? 0 : set.reduce((acc, currentVal) => {
-  //   return acc += currentVal
-  // });
 };
 
 module.exports = pairwise;
