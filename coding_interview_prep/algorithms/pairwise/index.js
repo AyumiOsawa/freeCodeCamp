@@ -10,8 +10,8 @@
 // rather than the 1 at index 1, because 0+2 < 1+2.
 //
 // For example pairwise([7, 9, 11, 13, 15], 20) returns 6. The pairs that sum to
-// 20 are [7, 13] and [9, 11]. We can then write out the array with their indices
-// and values.
+// 20 are [7, 13] and [9, 11]. We can then write out the array with their
+// indices and values.
 //
 // -----------------------------
 // | Index | 0 | 1 | 2 | 3 | 4 |
@@ -25,6 +25,7 @@
 //  3 + 3 = 6 → Return 6
 //
 // https://www.freecodecamp.org/learn/coding-interview-prep/algorithms/pairwise
+//
 const pairwise = (arr, arg) => {
   // create a table of all the valid combination
   const table = [];
@@ -40,27 +41,25 @@ const pairwise = (arr, arg) => {
     });
   });
 
-  // consider only the half of the table (under the diagonal line(i.e. where rowIndex > colmnIndex).
-  // find the unique sets the row indeces and column indeces and calculate the sum.
-  const sets = [];
+  // consider only the half of the table (under the diagonal line(i.e. where
+  // rowIndex > colmnIndex).
+  // find the set with the row indeces and column indeces and calculate
+  // the sum.
+  const set = [];
   table.forEach((row, rowIndex) => {
-    for (let columnIndex = 0;
-          columnIndex < arr.length;
-          columnIndex++) {
+    for (let columnIndex = 0; columnIndex < arr.length; columnIndex++) {
       if (row[columnIndex] &&
-          rowIndex > columnIndex &&
-          !sets.includes(columnIndex)) {
-        sets.push(columnIndex,rowIndex);
+        rowIndex > columnIndex &&
+        !set.includes(columnIndex)) {
+        set.push(columnIndex, rowIndex);
         break;
       };
     };
   });
 
-  // console.log(table)
-  // console.log(sets)
-  return sets.length === 0 ? 0 : sets.reduce((acc, currentVal) => {
+  return set.length === 0 ? 0 : set.reduce((acc, currentVal) => {
     return acc += currentVal
   });
-}
+};
 
 module.exports = pairwise;
