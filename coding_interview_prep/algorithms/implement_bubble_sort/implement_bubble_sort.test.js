@@ -18,7 +18,7 @@ describe('The function should return correct outputs.',
         return item < array[index + 1]
       };
     });
-    
+
     expect(isSorted)
     .toBeTruthy();
   });
@@ -41,6 +41,6 @@ describe('The function should return correct outputs.',
         };
 
     expect(IsEqualSet(inputSet, outputSet))
-    .toBeTruhty();
+    .toBeTruthy();
   });
 });
