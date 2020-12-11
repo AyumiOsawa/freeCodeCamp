@@ -11,32 +11,27 @@
 // column (index of second level arrays) -> to
 
 function checkPath(graph, start, end) {
-  const route = [];
-  let arrived = false;
+  let route = [];
 
-  const lookForTheNextRoute = (currentRow) => {
-    const activeNodes = [];
-    // if current node is an ending node, return true.
-    if (currentRow === end) {
-      arrived = true;
-      return;
+  const lookForTheNextRoute = (currentNode) => {
+    if (currentNode === end) {
+      route.unshift(currentNode);
+      return true;
     } else {
-      // if there are route(s) to anothre node(s), recursively use this function.
-      for (let node = 0; node < graph[currentRow].length; node++) {
-        if (arrived) {
-          break;
-        } else if (graph[currentRow][node] === 1) {
-          lookForTheNextRoute(node);
+      for (let nextNode = 0; nextNode < graph[currentNode].length; nextNode++) {
+        if (graph[currentNode][nextNode] === 1 &&
+            lookForTheNextRoute(nextNode)) {
+          route.unshift(currentNode);
+          return true;
         };
       };
     };
-
+    route = [];
+    return false;
   };
 
-  lookForTheNextRoute(start);
-
-  return arrived;
-}; // end of function
+  return [lookForTheNextRoute(start), route];
+};
 
 let graphA = [
   [0, 1, 1, 0, 0],
@@ -49,15 +44,18 @@ let graphA = [
 let testCount = 0;
 
 function test(output, result) {
-  if (output == result) {
+  if (output[0] == result[0] &&
+      result[1].every((elm, index) => {
+        return output[1][index] === elm;
+      })) {
     console.log(testCount++ + " Passed.")
   } else {
     console.log(testCount++ + " Failed. Returned " + output + " but expected " + result);
   }
 }
 
-test(checkPath(graphA, 0, 1), true); // True 0 -> 1
-test(checkPath(graphA, 1, 0), false); // False
-test(checkPath(graphA, 0, 3), true); // True 0 -> 1 -> 3
-test(checkPath(graphA, 0, 4), true); // True 0 -> 2 -> 4
-test(checkPath(graphA, 4, 2), false); // Flase
+test(checkPath(graphA, 0, 1), [true, [0,1]]); // True 0 -> 1
+test(checkPath(graphA, 1, 0), [false, []]); // False
+test(checkPath(graphA, 0, 3), [true, [0,1,3]]); // True 0 -> 1 -> 3
+test(checkPath(graphA, 0, 4), [true, [0,2,4]]); // True 0 -> 2 -> 4
+test(checkPath(graphA, 4, 2), [false, []]); // Flase
