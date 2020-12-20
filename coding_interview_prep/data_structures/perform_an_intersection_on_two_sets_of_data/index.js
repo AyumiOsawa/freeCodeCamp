@@ -65,7 +65,7 @@ class Set {
   intersection(inputSet) {
     const newSet = new Set();
 
-    inputSet.forEach(newItem => {
+    inputSet.values().forEach(newItem => {
       if(this.has(newItem)) {
         newSet.add(newItem);
       };

@@ -21,7 +21,12 @@ describe('The Set class should be able to perform intersection on two sets',
         setExample.add('b');
         setExample.add('c');
 
-        expect(setExample.intersection(['a','d','b','e']))
+        const setExample2 = new Set();
+        setExample2.add('a');
+        setExample2.add('d');
+        setExample2.add('b');
+        setExample2.add('e');
+        expect(setExample.intersection(setExample2))
         .toEqual(['a', 'b']);
       })
   }
