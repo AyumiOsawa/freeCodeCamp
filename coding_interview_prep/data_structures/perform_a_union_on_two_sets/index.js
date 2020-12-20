@@ -53,11 +53,6 @@ class Set {
     const newSet = new Set();
     this.values().forEach(oldItem => newSet.add(oldItem));
     inputArray.forEach(newItem => newSet.add(newItem));
-    // for (let inputIndex = 0;
-    //     inputIndex < inputArray.length;
-    //     inputIndex++) {
-    //   this.add(inputArray[inputIndex]);
-    // };
     return newSet.values();
   }
 };
