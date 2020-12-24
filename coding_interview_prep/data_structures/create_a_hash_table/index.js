@@ -26,30 +26,30 @@ var hash = string => {
 var HashTable = function() {
   this.collection = {};
 
-  this.findLastNode = (linkedList) => {
+  const addToTheLastNode = (linkedList, newData) => {
+    console.log('check:', linkedList)
     if(linkedList.next === null) {
-      return linkedList;
+      linkedList.next = newData;
+      return true;
     } else {
-      this.findLastNode(linkedList.next);
+      addToTheLastNode(linkedList.next, newData);
     }
-  }; 
+    return false;
+  };
 
   this.add = (key, value) => {
     const hashedKey = hash(key);
+    const newNode = {
+                      key: key,
+                      value: value,
+                      next: null
+                    };
 
-    if(this.collection.hasOwnProperty(hashedKey)) { // collision
-      let lastNode = this.findLastNode(this.collection[hashedKey]);
-      lastNode.next = {
-                        key: key,
-                        value: value,
-                        next: null
-                      };
+    if(this.collection.hasOwnProperty(hashedKey)) {
+      addToTheLastNode(this.collection[hashedKey], newNode);
+      return true;
     } else {
-      this.collection[hashedKey] = {
-                                      key: key,
-                                      value: value,
-                                      next: null
-                                   };
+      this.collection[hashedKey] = newNode;
     };
   };
 
