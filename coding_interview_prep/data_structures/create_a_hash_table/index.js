@@ -26,45 +26,68 @@ var hash = string => {
 var HashTable = function() {
   this.collection = {};
 
+  this.findLastNode = (linkedList) => {
+    if(linkedList.next === null) {
+      return linkedList;
+    } else {
+      this.findLastNode(linkedList.next);
+    }
+  }; 
+
   this.add = (key, value) => {
     const hashedKey = hash(key);
-    if (Array.isArray(this.collection[hashedKey])) {
+
+    if(this.collection.hasOwnProperty(hashedKey)) { // collision
+      let lastNode = this.findLastNode(this.collection[hashedKey]);
+      lastNode.next = {
+                        key: key,
+                        value: value,
+                        next: null
+                      };
+    } else {
       this.collection[hashedKey] = {
-                                      ...this.collection[hashedKey],
-                                      key: value
-                                    };
+                                      key: key,
+                                      value: value,
+                                      next: null
+                                   };
     };
+  };
+
+  const findAndDeleteNode = (key, linkedList) => {
+    const hashedKey = hash(key);
+    if(linkedList.key === key) {
+      delete this.collection[hashedKey]
+      return true;
+    } else {
+      findAndDeleteNode(key, linkedList.next);
+    };
+    return false;
   };
 
   this.remove = (key) => {
     const hashedKey = hash(key);
-    if(this.collection.hasOwnProperty(hashedKey) &&
-       this.collection[hashedKey][key]) {
-      delete this.collection[hashedKey][key];
+    if(this.collection.hasOwnProperty(hashedKey)) {
+      return findAndDeleteNode(key, this.collection[hashedKey]);
+    };
+    return false;
+  };
+
+  const findNode = (key, linkedList) => {
+    if(linkedList.key === key) {
+      return linkedList;
+    } else {
+      findNode(linkedList.next);
     };
   };
 
   this.lookup = (key) => {
     const hashedKey = hash(key);
-    if(this.collection.hasOwnProperty(hashedKey) &&
-       this.collection[hashedKey][key]) {
-      return this.collection[hashedKey][key];
+    if(this.collection.hasOwnProperty(hashedKey)) {
+      return findNode(key, this.collection[hashedKey]).value;
     } else {
-      return Null;
+      return null;
     };
   };
 };
 
 module.exports = HashTable;
-
-
-
-
-
-
-The remove method should accept a key as input and should remove the associated key value pair.
-
-Passed
-Items should be added using the hash function.
-
-The hash table should handle collisions.
