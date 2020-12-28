@@ -40,9 +40,39 @@ function LinkedList() {
     length++;
   };
 
-  // Only change code below this line
+  const insert = (targetIndex, currentIndex, linkedList, element) => {
 
-  // Only change code above this line
+    if(targetIndex === currentIndex) {
+      const followingNodes = linkedList;
+      const newNode = new Node(element);
+      head = newNode;
+      head.next = followingNodes
+      length++;
+      return true;
+    } else if (targetIndex === currentIndex + 1) {
+      const followingNodes = linkedList.next;
+      const newNode = new Node(element);
+
+      linkedList.next = newNode;
+      newNode.next = followingNodes;
+      length++;
+      return true;
+    } else {
+      currentIndex++;
+
+      insert(targetIndex, currentIndex, linkedList.next, element);
+    }
+    return false;
+  };
+
+  this.addAt = (targetIndex, element) => {
+    if (targetIndex < 0 || targetIndex > length) {
+      return false;
+    } else {
+      let index = 0;
+      insert(targetIndex, index, head, element);
+    };
+  };
 };
 
 module.exports = LinkedList;
