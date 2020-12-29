@@ -31,14 +31,14 @@ const DoublyLinkedList = function() {
       this.tail = element;
     } else {
       newNode = new Node(element, this.tail);
-
       let list = this.head;
 
-      while(list.next !== null && list.data !== element) {
+      while(list.next !== null) {
         list = list.next;
       };
+      newNode.prev = list;
       list.next = newNode;
-      this.tail = element;
+      this.tail = newNode;
     };
   };
 
@@ -55,8 +55,8 @@ const DoublyLinkedList = function() {
     } else {
       let list = this.head;
       while(list.next !== null && list.next.data !== element) {
-        list = list.next;
-      };
+      list = list.next;
+    };
       // Remove the element and adjust the prev/next properties if necessary.
       // if (list.next === null); element not found
       // if (followingNodes !== null); prev in the followingNodes need an update
@@ -66,11 +66,11 @@ const DoublyLinkedList = function() {
       } else {
         const followingNodes = list.next.next;
         if (followingNodes !== null) {
-          followingNodes.prev = list.data;
-        }
+          followingNodes.prev = list;
+        };
         list.next = followingNodes;
         if (list.next === null) {
-          this.tail = list.data;
+          this.tail = list;
         };
       };
     };
