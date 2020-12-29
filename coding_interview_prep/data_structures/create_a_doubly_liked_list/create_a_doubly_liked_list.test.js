@@ -1,10 +1,10 @@
-const { DoublyLinkedList, Node } = require('./index');
+const DoublyLinkedList = require('./index');
 const doublyLinkedListExample = new DoublyLinkedList();
 
 // check the length of the list
 const size = (list) => {
   let length = 0;
-  let linkedList = list.head();
+  let linkedList = list.head;
   while(linkedList !== null) {
     length++;
     linkedList = linkedList.next;
@@ -16,18 +16,10 @@ describe(`The DoublyLinkedList Class should be able to add and remove elements`,
           () => {
             test(`The DoublyLinkedList data structure should exist.`,
                   () => {
-                    jest.mock('./index');
-                    const mockDLinkedList = new DoublyLinkedList();
-
-                    expect(DoublyLinkedList)
-                    .toHaveBeenCalled(1);
-                    expect(mockDLinkedList)
-                    .toEqual({
-                      head: null,
-                      tail: null
-                    });
-
-                    jest.unmock('./index');
+                    expect(doublyLinkedListExample.head)
+                    .toBeNull();
+                    expect(doublyLinkedListExample.tail)
+                    .toBeNull();
                   });
 
             test(`The DoublyLinkedList should have a method called add.`,
@@ -67,10 +59,12 @@ describe(`The DoublyLinkedList Class should be able to add and remove elements`,
             test(`The add method should add items to the list.`,
                   () => {
                     doublyLinkedListExample.add('item1');
-                    const newNode = new Node('item1');
-
-                    expect(doublyLinkedListExample.head())
-                    .toEqual(newNode);
+                    expect(doublyLinkedListExample.head)
+                    .toEqual({
+                      data: 'item1',
+                      prev: null,
+                      next: null
+                    });
                   });
 
             test(`Each node should keep track of the previous node.`,
@@ -79,7 +73,7 @@ describe(`The DoublyLinkedList Class should be able to add and remove elements`,
                     doublyLinkedListExample.add('item3');
                     doublyLinkedListExample.add('item4');
 
-                    let linkedList = doublyLinkedListExample.head();
+                    let linkedList = doublyLinkedListExample.head;
                     let hasPropPrev = true;
                     let currentIndex = 0;
 

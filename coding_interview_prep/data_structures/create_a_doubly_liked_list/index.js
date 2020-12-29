@@ -10,18 +10,71 @@
 // an empty list should return null.
 //
 // https://www.freecodecamp.org/learn/coding-interview-prep/data-structures/create-a-doubly-linked-list
-module.exports = {
-  Node: function(data, prev) {
+
+
+
+const DoublyLinkedList = function() {
+  this.head = null;
+  this.tail = null;
+
+  const Node = function(data, prev) {
     this.data = data;
     this.prev = prev;
     this.next = null;
-  },
+  }
 
-  DoublyLinkedList: function() {
-    this.head = null;
-    this.tail = null;
-    // Only change code below this line
+  this.add = function(element) {
+    let newNode;
+    if (this.head === null) {
+      newNode = new Node(element, null);
+      this.head = newNode;
+      this.tail = element;
+    } else {
+      newNode = new Node(element, this.tail);
 
-    // Only change code above this line
+      let list = this.head;
+
+      while(list.next !== null && list.data !== element) {
+        list = list.next;
+      };
+      list.next = newNode;
+      this.tail = element;
+    };
+  };
+
+  this.remove = function(element) {
+    // Find the list item that matches the element
+    // if(this.head === null); list is empty
+    // if(this.head.data === element); remove the first element
+    // else; remove the second element or later
+    if(this.head === null) {
+      return null;
+    } else if(this.head.data === element) {
+      this.head = this.head.next;
+      this.head.prev = null;
+    } else {
+      let list = this.head;
+      while(list.next !== null && list.next.data !== element) {
+        list = list.next;
+      };
+      // Remove the element and adjust the prev/next properties if necessary.
+      // if (list.next === null); element not found
+      // if (followingNodes !== null); prev in the followingNodes need an update
+      // if (list.next === null); this.tail needs update
+      if (list.next === null) {
+        return null;
+      } else {
+        const followingNodes = list.next.next;
+        if (followingNodes !== null) {
+          followingNodes.prev = list.data;
+        }
+        list.next = followingNodes;
+        if (list.next === null) {
+          this.tail = list.data;
+        };
+      };
+    };
   };
 };
+
+module.exports = DoublyLinkedList;
