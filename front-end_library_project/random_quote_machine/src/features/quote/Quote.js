@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import { ... } from './quoteSlice';
+import { quotes } from '../../constants';
 import './Quote.css';
 
-export function Quote() {
+const selectId = state => state.id;
 
+export function Quote(props) {
+  const id_raw = useSelector(selectId);
+  const id = id_raw % quotes.length;
 
   return (
     <>
       <div id="text">
-        Here's a text
+        {quotes[id].text}
       </div>
       <div id="author">
-        and the authors
+        {quotes[id].author}
       </div>
     </>
 
