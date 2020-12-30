@@ -25,27 +25,20 @@ var DoublyLinkedList = function() {
       return null;
     };
 
-    let reversedList;
-    let refToTheCurrentHeadOfReversedList;
-    let workingList;
+    let reversedList = new Node(this.tail.data, null);
+    let refToTheCurrentHeadOfReversedList = reversedList;
+    let workingList = this.tail.prev;
 
     while(workingList !== null) {
-      if (reversedList === undefined) {
-        reversedList = new Node(this.tail.data, null);
-        refToTheCurrentHeadOfReversedList = reversedList;
-        workingList = this.tail.prev;
-      } else {
-        let newNode = new Node(workingList.data, refToTheCurrentHeadOfReversedList);
-        refToTheCurrentHeadOfReversedList.next = newNode;
-        refToTheCurrentHeadOfReversedList = refToTheCurrentHeadOfReversedList.next;
-        this.tail = refToTheCurrentHeadOfReversedList === null ?
-                    refToTheCurrentHeadOfReversedList.prev :
-                    refToTheCurrentHeadOfReversedList;
-        workingList = workingList.prev;
-      }
+      const newNode = new Node(workingList.data, refToTheCurrentHeadOfReversedList);
+      refToTheCurrentHeadOfReversedList.next = newNode;
+      refToTheCurrentHeadOfReversedList = refToTheCurrentHeadOfReversedList.next;
+      this.tail = refToTheCurrentHeadOfReversedList === null ?
+                  refToTheCurrentHeadOfReversedList.prev :
+                  refToTheCurrentHeadOfReversedList;
+      workingList = workingList.prev;
     };
     this.head = reversedList;
-
     return this;
   };
 
