@@ -19,7 +19,7 @@ var DoublyLinkedList = function() {
     this.prev = prev;
     this.next = null;
   };
-  // ==========================
+
   this.reverse = function(){
     if (this.head === null) {
       return null;
@@ -50,7 +50,7 @@ var DoublyLinkedList = function() {
 
     return this;
   };
-  // ==========================
+
 };
 
 module.exports = DoublyLinkedList;
