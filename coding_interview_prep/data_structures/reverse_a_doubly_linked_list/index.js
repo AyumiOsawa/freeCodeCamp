@@ -19,9 +19,38 @@ var DoublyLinkedList = function() {
     this.prev = prev;
     this.next = null;
   };
-  // Only change code below this line
+  // ==========================
+  this.reverse = function(){
+    if (this.head === null) {
+      return null;
+    };
 
-  // Only change code above this line
+    let reversedList;
+    let refToTheCurrentHeadOfReversedList;
+    let workingList;
+
+    while(workingList !== null) {
+      console.log('first j',reversedList === undefined);
+      if (reversedList === undefined) {
+        reversedList = new Node(this.tail.data, null);
+        refToTheCurrentHeadOfReversedList = reversedList;
+        workingList = this.tail.prev;
+      } else {
+        let newNode = new Node(workingList.data, refToTheCurrentHeadOfReversedList);
+        refToTheCurrentHeadOfReversedList.next = newNode;
+              console.log('new node to add', newNode);
+        refToTheCurrentHeadOfReversedList = refToTheCurrentHeadOfReversedList.next;
+        this.tail = refToTheCurrentHeadOfReversedList === null ?
+                    refToTheCurrentHeadOfReversedList.prev :
+                    refToTheCurrentHeadOfReversedList;
+        workingList = workingList.prev;
+      }
+    };
+    this.head = reversedList;
+
+    return this;
+  };
+  // ==========================
 };
 
 module.exports = DoublyLinkedList;
