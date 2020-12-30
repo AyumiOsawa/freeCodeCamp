@@ -30,7 +30,6 @@ var DoublyLinkedList = function() {
     let workingList;
 
     while(workingList !== null) {
-      console.log('first j',reversedList === undefined);
       if (reversedList === undefined) {
         reversedList = new Node(this.tail.data, null);
         refToTheCurrentHeadOfReversedList = reversedList;
@@ -38,7 +37,6 @@ var DoublyLinkedList = function() {
       } else {
         let newNode = new Node(workingList.data, refToTheCurrentHeadOfReversedList);
         refToTheCurrentHeadOfReversedList.next = newNode;
-              console.log('new node to add', newNode);
         refToTheCurrentHeadOfReversedList = refToTheCurrentHeadOfReversedList.next;
         this.tail = refToTheCurrentHeadOfReversedList === null ?
                     refToTheCurrentHeadOfReversedList.prev :
