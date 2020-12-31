@@ -1,0 +1,34 @@
+.counter__wrapper {
+  min-height: 100vh;
+  width: 100vw;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 0;
+}
+
+.counter__button {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #cccccc;
+  font-size: 6rem;
+  font-family: "Times New Roman";
+  height: 10rem;
+  width: 10rem;
+  border: 2px solid #cccccc;
+  border-radius: 50%;
+  opacity: 0.2;
+};
+
+.counter__button:focus {
+  outline-style: none;
+}
+
+.left:hover {
+  opacity: 1;
+}
+
+
+.right:hover {
+  opacity: 1;
+}

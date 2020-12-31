@@ -1,0 +1,18 @@
+.quote__area {
+  padding: 10vh 10vw;
+}
+
+.quote__wrapper {
+  border: 1px solid #cccccc;
+}
+
+.quote__text {
+  font-size: 5rem;
+  font-weight: bold;
+}
+
+.quote__author {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 2rem;
+}

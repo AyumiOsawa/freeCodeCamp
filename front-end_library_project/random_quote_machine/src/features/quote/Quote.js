@@ -12,14 +12,16 @@ export function Quote(props) {
   const id = ((id_raw % quotes.length) + quotes.length) % quotes.length;
 
   return (
-    <>
-      <div id="text">
-        {quotes[id].text}
+    <div className="quote__area">
+      <div className="quote__wrapper">
+        <div id="text" className="quote__text">
+          &quot;{quotes[id].text}&quot;
+        </div>
+        <div id="author" className="quote__author">
+          &mdash; {quotes[id].author}
+        </div>
       </div>
-      <div id="author">
-        {quotes[id].author}
-      </div>
-    </>
+    </div>
 
   );
 };
