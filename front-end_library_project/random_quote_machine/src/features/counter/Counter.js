@@ -9,7 +9,7 @@ export function Counter() {
   return (
     <div className="counter__wrapper">
       <button
-        id="btn__left"
+        id="new-quote"
         className="counter__button left"
         aria-label="Increment value"
         onClick={() => dispatch({type: 'prev'}) }

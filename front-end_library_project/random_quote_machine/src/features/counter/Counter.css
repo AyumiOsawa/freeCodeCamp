@@ -20,14 +20,9 @@
   opacity: 0.2;
 };
 
-.counter__button:focus {
-  outline-style: none;
-}
-
 .left:hover {
   opacity: 1;
 }
-
 
 .right:hover {
   opacity: 1;

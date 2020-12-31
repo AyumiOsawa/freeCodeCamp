@@ -6,7 +6,10 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App" id="quote-box">
+    <div
+      className="App"
+      id="quote-box"
+    >
       <Quote />
       <Counter />
     </div>
