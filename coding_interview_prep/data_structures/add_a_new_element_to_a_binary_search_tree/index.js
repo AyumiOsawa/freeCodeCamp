@@ -19,15 +19,56 @@
 
 var displayTree = tree => console.log(JSON.stringify(tree, null, 2));
 
-export function Node(value) {
-  this.value = value;
-  this.left = null;
-  this.right = null;
-};
-
-export function BinarySearchTree() {
+function BinarySearchTree() {
   this.root = null;
-  // Only change code below this line
 
-  // Only change code above this line
+  function Node(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  };
+
+  this.add = function(element) {
+    let isTheElementUnique = true;
+
+    const findLocationAndAdd = function(node) {
+      // 3 stop conditions in the recursion
+      //  1: if(node.value === element)
+      //      found duplicating node
+      //  2: if(node.value < element && node.right === null)
+      //      add element to the right of a leaf node
+      //  3: if(node.value > element && node.left === null)
+      //      add element to the left of a leaf node
+      if(node.value === element) {
+        console.log('hit the root val');
+        isTheElementUnique = false;
+        return null;
+      } else if (node.value < element &&
+                 node.right === null) {
+        node.right =  new Node(element);
+        return undefined;
+      } else if (node.value > element &&
+                 node.left === null) {
+        node.left = new Node(element);
+        return undefined;
+      } else if (node.value < element &&
+                 isTheElementUnique) {
+        node = node.right;
+        return findLocationAndAdd(node);
+      } else if (node.value > element &&
+                 isTheElementUnique) {
+        node = node.left;
+        return findLocationAndAdd(node);
+      };
+    };
+
+
+    if (this.root === null) {
+      this.root = new Node(element);
+    } else {
+      return findLocationAndAdd(this.root);
+    };
+  };
 };
+
+module.exports = BinarySearchTree;

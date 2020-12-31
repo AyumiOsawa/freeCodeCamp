@@ -1,5 +1,10 @@
-import { BinarySearchTree, Node } from './index';
+const BinarySearchTree = require('./index');
 const binarySearchTreeInstance = new BinarySearchTree();
+function Node(value) {
+  this.value = value;
+  this.left = null;
+  this.right = null;
+};
 
 describe(`The BinarySearchTree class should be capable of adding a new node`,
           () => {
@@ -22,6 +27,7 @@ describe(`The BinarySearchTree class should be capable of adding a new node`,
                     .toHaveBeenCalled();
                     expect(spyAddResult)
                     .toEqual('Added');
+                    spyAdd.mockRestore();
                   });
 
             test(`The add method should add elements according to the binary
@@ -36,23 +42,26 @@ describe(`The BinarySearchTree class should be capable of adding a new node`,
                     binarySearchTreeInstance.root = node1;
 
                     const newNode = new Node(6);
-                    binarySearchTreeInstance.add(newNode);
-
-                    expect(binarySearchTreeInstance.left.left)
+                    binarySearchTreeInstance.add(6);
+                    // console.log();
+                    expect(binarySearchTreeInstance.root.left.left)
                     .toBeNull();
-                    expect(binarySearchTreeInstance.left.right)
+                    expect(binarySearchTreeInstance.root.left.right)
                     .toEqual(newNode);
-                    expect(binarySearchTreeInstance.right.left)
+                    expect(binarySearchTreeInstance.root.right.left)
                     .toBeNull();
-                    expect(binarySearchTreeInstance.right.right)
+                    expect(binarySearchTreeInstance.root.right.right)
                     .toBeNull();
                   });
 
             test(`Adding an element that already exists should return null.`,
                   () => {
-                    expect(binarySearchTreeInstance.add(node1))
+                    // const node4 = new Node(8);
+                    // const newNode2 = new Node(6);
+                    console.log('last test, tree', binarySearchTreeInstance.root);
+                    expect(binarySearchTreeInstance.add(8))
                     .toBeNull();
-                    expect(binarySearchTreeInstance.add(newNode))
+                    expect(binarySearchTreeInstance.add(6))
                     .toBeNull();
                   });
           });
