@@ -1,0 +1,11 @@
+.input__box {
+  border: 1px solid #cccccc;
+}
+
+.input__textarea {
+  font-size: 1.3rem;
+  width: 70vw;
+  padding: 0.5rem;
+  margin: 1rem;
+  resize: none;
+}
