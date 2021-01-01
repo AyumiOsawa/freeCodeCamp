@@ -13,7 +13,7 @@ Enjoy!
 `;
 
 export const inputSlice = createSlice({
-  name: 'inputs',
+  name: 'input',
   initialState,
   reducers: {
     inputUpdate(state, action) {
@@ -27,3 +27,4 @@ export const inputSlice = createSlice({
 
 export const inputUpdate = inputSlice.actions;
 export default inputSlice.reducer
+export const selectInput = state => state.input;
