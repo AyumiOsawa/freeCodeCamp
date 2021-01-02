@@ -1,17 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = [
-  `# Mark Down Previewer\n
-  ## Edit This Or Test Your Own Text Here\n
-  ### Examples:\n
-  - **bold**\n
-  - _italic_\n
-  - List\n
-    - list item\n
-      - item in a list item\n
-  \n
+const initialState = `# Mark Down Previewer
+  ## Edit This Or Test Your Own Text Here
+  ### Examples:
+  - **bold**
+  - _italic_
+  - List
+    - list item
+      - item in a list item
+
+  [link](https://www.google.com)
+
+  Here is an \`inline code\`
+  \`\`\`
+  inline code block
+  \`\`\`
+
+  > Block Quote
+
+  image:
+  ![alt text](https://# "title")
+
   Enjoy!`
-];
 
 export const inputSlice = createSlice({
   name: 'input',

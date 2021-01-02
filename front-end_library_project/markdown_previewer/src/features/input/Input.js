@@ -16,6 +16,7 @@ export default function Input() {
       className="input__box"
     >
       <textarea
+        id="editor"
         className="input__textarea"
         rows="20"
         autoFocus="autofocus"
