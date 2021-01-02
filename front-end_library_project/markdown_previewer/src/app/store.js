@@ -3,7 +3,7 @@ import inputReducer from '../features/input/inputSlice';
 
 const store = configureStore({
   reducer: {
-    input: inputReducer,
+    input: inputReducer
   },
 });
 
