@@ -1,4 +1,9 @@
-const { Node, BinarySearchTree, isBinarySearchTree } = require('./index');
+const {
+        Node,
+        BinarySearchTree,
+        isBinarySearchTree,
+        flattenTree
+      } = require('./index');
 const exampleBinarySearchTree = new BinarySearchTree();
 
 describe(`isBinarySearchTree should be able to check if its imput is an

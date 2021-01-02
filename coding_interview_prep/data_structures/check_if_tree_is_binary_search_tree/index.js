@@ -15,15 +15,42 @@ function Node(value) {
 }
 function BinarySearchTree() {
   this.root = null;
-}
-function isBinarySearchTree(tree) {
-  // Only change code below this line
+};
 
-  // Only change code above this line
+const flattenTree = function(tree, nodes) {
+  if (tree === null) {
+    return true;
+  };
+  if (typeof tree === 'undefined') {
+    return;
+  };
+
+  nodes.push(tree);
+  if (tree.left !== null) {
+    flattenTree(tree.left, nodes);
+  };
+  if (tree.right !== null) {
+    flattenTree(tree.right, nodes);
+  };
+  return false;
+ };
+
+function isBinarySearchTree(tree) {
+  const isBST = tree instanceof BinarySearchTree;
+  const nodes = [];
+  const isImputEmpty = flattenTree(tree.root, nodes);
+  const areAllNodeInstances = nodes.every(node => {
+    return node instanceof Node;
+  });
+
+  return isImputEmpty ?
+         isBST :
+         isBST && areAllNodeInstances;
 }
 
 module.exports = {
   Node,
   BinarySearchTree,
-  isBinarySearchTree
+  isBinarySearchTree,
+  flattenTree
 };
