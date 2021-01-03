@@ -2,10 +2,10 @@ const {
         BinarySearchTree,
         Node,
         displayTree
-      } = require('index.js');
+      } = require('./index.js');
 const binarySearchTreeInstance = new BinarySearchTree();
 
-desctibe(`The BinarySearchTree should be able to return the maximum height and
+describe(`The BinarySearchTree should be able to return the maximum height and
           minimum height of a tree.`,
           () => {
             test(`The BinarySearchTree data structure should exist.`,
@@ -32,6 +32,7 @@ desctibe(`The BinarySearchTree should be able to return the maximum height and
                     .toHaveBeenCalled();
                     expect(spyFindMinHeightResult)
                     .toEqual('min height');
+                    spyFindMinHeight.mockRestore();
                   });
 
             test(`The binary search tree should have a method called
@@ -50,6 +51,7 @@ desctibe(`The BinarySearchTree should be able to return the maximum height and
                     .toHaveBeenCalled();
                     expect(spyFindMaxHeightResult)
                     .toEqual('max height');
+                    spyFindMaxHeight.mockRestore();
                   });
 
             test(`The binary search tree should have a method called
@@ -62,7 +64,7 @@ desctibe(`The BinarySearchTree should be able to return the maximum height and
                                                return 'check balance';
                                              });
                     const spyIsBalancedResult =
-                                      binarySearchTreeInstance.IsBalanced();
+                                      binarySearchTreeInstance.isBalanced();
 
                     expect(spyIsBalanced)
                     .toHaveBeenCalled();

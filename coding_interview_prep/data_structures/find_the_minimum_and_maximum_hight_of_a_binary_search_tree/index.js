@@ -17,8 +17,50 @@ function Node(value) {
 }
 function BinarySearchTree() {
   this.root = null;
-  // Only change code below this line
-  
+
+  const getAllHeights = function(tree) {
+    let heights = [];
+    let currentHeight = 0;
+    const trackMinHeight = function(tree, currentHeight) {
+      if(tree === null) {
+        heights.push(currentHeight);
+        return;
+      };
+      currentHeight += 1;
+      trackMinHeight(tree.right, currentHeight);
+      trackMinHeight(tree.left, currentHeight);
+    };
+    trackMinHeight(tree, currentHeight);
+    return heights;
+  };
+
+  this.findMinHeight = function() {
+    if (this.root === null) {
+      return -1;
+    };
+    const allHeights = getAllHeights(this.root);
+
+    return Math.min(...allHeights);
+  };
+
+  this.findMaxHeight = function() {
+    if (this.root === null) {
+      return -1;
+    };
+    const allHeights = getAllHeights(this.root);
+
+    return Math.max(...allHeights);
+  };
+
+  this.isBalanced = function() {
+    if (this.findMinHeight() === -1 ||
+        this.findMaxHeight() === -1) {
+          return false;
+    };
+    const diff = this.findMaxHeight() - this.findMinHeight();
+
+    return diff <= 1;
+  };
   // Only change code above this line
 }
 
