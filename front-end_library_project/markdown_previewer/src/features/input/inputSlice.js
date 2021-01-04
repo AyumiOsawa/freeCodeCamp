@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = `# Mark Down Previewer
+const initialState = `# Here is the preview
   ## Edit This Or Test Your Own Text Here
   ### Examples:
   - **bold**

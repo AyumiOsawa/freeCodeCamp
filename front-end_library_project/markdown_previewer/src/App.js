@@ -6,7 +6,7 @@ import Preview from './features/preview/Preview';
 function App() {
   return (
     <div className="App">
-      <h1>Simple Mark Down Previewer</h1>
+      <h1 className="App__title">Simple Mark Down Previewer</h1>
       <Input />
       <Preview />
     </div>

@@ -1,9 +1,10 @@
 .App {
   text-align: center;
   padding: 2rem;
+  width: 100vw;
 }
 
-h1 {
+.App__title {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 5rem;
   font-weight: 200;
