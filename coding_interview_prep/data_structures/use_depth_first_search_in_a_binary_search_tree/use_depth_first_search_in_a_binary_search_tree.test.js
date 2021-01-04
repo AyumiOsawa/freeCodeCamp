@@ -7,8 +7,8 @@ const binarySearchTreeInstance = new BinarySearchTree();
 const emptySearchTreeInstance = new BinarySearchTree();
 
 
-describe('The BinarySearchTree should be able to be able to tracerse the tree in
-          three different ways.',
+describe(`The BinarySearchTree should be able to be able to tracerse the tree in
+          three different ways.`,
           () => {
             test(`The BinarySearchTree data structure should exist.`,
                   () => {

@@ -26,9 +26,72 @@ function Node(value) {
 
 function BinarySearchTree() {
   this.root = null;
-  // Only change code below this line
+  
+  this.inorder = function() {
+    if(this.root === null) {
+      return null;
+    };
+    let nodeValueArray = [];
+    const collectNodeValuesInorder = function(node) {
+      if (node.rigth === null &&
+          node.left === null) {
+        nodeValueArray.push(node.value);
+        return;
+      };
+      if (node.left !== null) {
+        collectNodeValuesInorder(node.left);
+      };
+      nodeValueArray.push(node.value);
+      if (node.right !== null) {
+        collectNodeValuesInorder(node.right);
+      }
+      return;
+    };
+    collectNodeValuesInorder(this.root);
+    return nodeValueArray;
+  };
 
-  // Only change code above this line
+  this.preorder = function() {
+    if(this.root === null) {
+      return null;
+    };
+    let nodeValueArray = [];
+
+    const collectNodeValuesPreorder = function(node) {
+      if (node === null) {
+        return;
+      };
+      nodeValueArray.push(node.value);
+      collectNodeValuesPreorder(node.left);
+      collectNodeValuesPreorder(node.right);
+    };
+
+    collectNodeValuesPreorder(this.root);
+    return nodeValueArray;
+  };
+
+  this.postorder = function() {
+    if(this.root === null) {
+      return null;
+    };
+    let nodeValueArray = [];
+    const collectNodeValuesPostorder = function(node) {
+      if (node.rigth === null &&
+          node.left === null) {
+        nodeValueArray.push(node.value);
+        return;
+      };
+      if (node.left !== null) {
+        collectNodeValuesPostorder(node.left);
+      };
+      if (node.right !== null) {
+        collectNodeValuesPostorder(node.right);
+      };
+      nodeValueArray.push(node.value);
+    };
+    collectNodeValuesPostorder(this.root);
+    return nodeValueArray;
+  };
 }
 
 module.exports = {
