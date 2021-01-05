@@ -12,9 +12,9 @@ describe(`The BinarySearchTree class shouls be able to perform bredth first
           () => {
             test(`The BinarySearchTree data structure should exist.`,
                   () => {
-                    expect(binarySearchTreeInstance)
+                    expect(exampleBST)
                     .toBeInstanceOf(BinarySearchTree)
-                    expect(binarySearchTreeInstance.root)
+                    expect(exampleBST.root)
                     .toBeNull();
                   });
 

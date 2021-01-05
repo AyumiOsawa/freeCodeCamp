@@ -20,8 +20,120 @@ function Node(value) {
 
 function BinarySearchTree() {
   this.root = null;
-  // Only change code below this line
 
+  this.levelOrder = function() {
+    if (this.root === null) {
+      return null;
+    };
+    const maxHeight = this.findMaxHeight();
+    const shouldCheckLeftFirst = true; // Check child nodes from left to right
+    let currentHeight = 0;
+    let returnNodesArray = [];
+
+    while(currentHeight <= maxHeight) {
+      const nodesAtGivenDepth = findNodesAtGivenDepth(
+                                                        this.root,
+                                                        currentHeight,
+                                                        shouldCheckLeftFirst
+                                                      );
+      returnNodesArray.push(...nodesAtGivenDepth);
+      currentHeight++;
+    }
+    return returnNodesArray;
+  };
+
+  this.reverseLevelOrder = function() {
+    if (this.root === null) {
+      return null;
+    };
+    const maxHeight = this.findMaxHeight();
+    const shouldCheckLeftFirst = false; // Check child nodes from right to left
+    let currentHeight = 0;
+    let returnNodesArray = []
+
+    while(currentHeight <= maxHeight) {
+      const nodesAtGivenDepth = findNodesAtGivenDepth(
+                                                        this.root,
+                                                        currentHeight,
+                                                        shouldCheckLeftFirst
+                                                      );
+      returnNodesArray.push(...nodesAtGivenDepth);
+      currentHeight++;
+    }
+    return returnNodesArray;
+  };
+
+  // Return tha array of nodes only on the targetDepth
+  const findNodesAtGivenDepth = function(
+                                          tree,
+                                          targetDepth,
+                                          shouldCheckLeftFirst
+                                        ) {
+    const nodesAtGivenDepth = [];
+    let currentDepth = 1;
+
+    const checkDepthAndAdd = function(
+                                      tree,
+                                      nodesAtGivenDepth,
+                                      currentDepth,
+                                      targetDepth
+                                     ) {
+      if (tree === null) {
+        return;
+      };
+      if (currentDepth === targetDepth) {
+        nodesAtGivenDepth.push(tree.value);
+        return;
+      };
+
+      currentDepth++;
+      const branchToCheckFirst = shouldCheckLeftFirst ?
+                                    tree.left  :
+                                    tree.right;
+      const branchToCheckLast = shouldCheckLeftFirst ?
+                                    tree.right :
+                                    tree.left;
+
+      checkDepthAndAdd( branchToCheckFirst,
+                        nodesAtGivenDepth,
+                        currentDepth,
+                        targetDepth );
+
+      checkDepthAndAdd( branchToCheckLast,
+                        nodesAtGivenDepth,
+                        currentDepth,
+                        targetDepth );
+      return;
+    };
+
+    checkDepthAndAdd(tree, nodesAtGivenDepth, currentDepth, targetDepth);
+    return nodesAtGivenDepth;
+  };
+
+  // find out the maximum height of the tree
+  const getAllHeights = function(tree) {
+    let heights = [];
+    let currentHeight = 0;
+    const trackMinHeight = function(tree, currentHeight) {
+      if(tree === null) {
+        heights.push(currentHeight);
+        return;
+      };
+      currentHeight += 1;
+      trackMinHeight(tree.right, currentHeight);
+      trackMinHeight(tree.left, currentHeight);
+    };
+    trackMinHeight(tree, currentHeight);
+    return heights;
+  };
+
+  this.findMaxHeight = function() {
+    if (this.root === null) {
+      return -1;
+    };
+    const allHeights = getAllHeights(this.root);
+    return Math.max(...allHeights);
+  };
   // Only change code above this line
 };
 
