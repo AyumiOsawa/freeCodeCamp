@@ -134,7 +134,6 @@ function BinarySearchTree() {
     const allHeights = getAllHeights(this.root);
     return Math.max(...allHeights);
   };
-  // Only change code above this line
 };
 
 module.exports = {
