@@ -6,7 +6,6 @@ const {
 const exampleBST = new BinarySearchTree();
 const oneNodeBST = new BinarySearchTree();
 
-
 describe(`The BinarySearchTree class should be able to delet a leaf node from a
           tree.`,
           () => {
