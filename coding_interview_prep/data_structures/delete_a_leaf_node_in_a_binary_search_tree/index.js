@@ -23,7 +23,55 @@ function Node(value) {
 
 function BinarySearchTree() {
   this.root = null;
-  // Only change code below this line
+
+  this.remove = function(targetValue) {
+    if (this.root === null) {
+      console.log('root is emp')
+      return null;
+    };
+
+    // function that finds the target node
+    this.findAndDeleteLeaf = function(
+                                        node,
+                                        parentNode,
+                                        targetValue
+                                      ) {
+      if (node === null) {
+        return null;
+      };
+
+      if ( node.value === targetValue &&
+           node.right === null &&
+           node.left === null ) { // the target found
+
+        if (parentNode === null) { // deleting the top node
+          this.root = null;
+        } else if (parentNode.left === node) {
+          parentNode.left = null;
+        } else {
+          parentNode.right = null;
+        };
+        return true;
+      } else {      // continute searching the target
+        parentNode = node;
+        node = node.value < targetValue ?
+                node.right :
+                node.left;
+        return this.findAndDeleteLeaf(
+                                        node,
+                                        parentNode,
+                                        targetValue
+                                     );
+      };
+    };
+
+    return this.findAndDeleteLeaf(
+                                  /* node        =  */ this.root,
+                                  /* parentNode  =  */ null,
+                                  /* targetValue =  */ targetValue
+                                 );
+
+  };
 }
 
 module.exports = {
