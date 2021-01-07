@@ -99,7 +99,6 @@ describe(`The BinarySearchTree class should be able to delete nodes with one
             test(`Removing the root in a tree with two nodes should set the
                   second to be the root.`,
                   () => {
-                    console.log('===========')
                     exampleBST.remove(8);
 
                     expect(exampleBST.root.value)

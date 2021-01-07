@@ -45,7 +45,6 @@ function BinarySearchTree() {
         return;
       }
     }.bind(this)());
-    console.log('found tg',target + ' for input ' + value)
     if (target === null) {
       return null;
     };
@@ -66,11 +65,8 @@ function BinarySearchTree() {
     } else {  // Case 2: Target has one child
       const childLeft = target.left;
       const childRight = target.right;
-      console.log('tg l', childLeft);
-      console.log('tg r', childRight);
 
       if (target === this.root) {
-        console.log('tg in root');
         this.root = childRight === null ?
                     childLeft :
                     childRight;
