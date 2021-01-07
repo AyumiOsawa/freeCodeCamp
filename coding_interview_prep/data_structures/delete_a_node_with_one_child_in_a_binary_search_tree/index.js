@@ -35,22 +35,25 @@ function BinarySearchTree() {
         parent = node;
         return findValue(node.left);
       } else if (value < node.value && node.left === null) {
-        return null;
+        target = null;
+        return;
       } else if (value > node.value && node.right !== null) {
         parent = node;
         return findValue(node.right);
       } else {
-        return null;
+        target = null;
+        return;
       }
     }.bind(this)());
+    console.log('found tg',target + ' for input ' + value)
     if (target === null) {
       return null;
-    }
+    };
     // Count the children of the target to delete
     var children =
       (target.left !== null ? 1 : 0) + (target.right !== null ? 1 : 0);
-    // Case 1: Target has no children
-    if (children === 0) {
+
+    if (children === 0) {  // Case 1: Target has no children
       if (target == this.root) {
         this.root = null;
       } else {
@@ -60,9 +63,29 @@ function BinarySearchTree() {
           parent.right = null;
         }
       }
-    }
-    // Case 2: Target has one child
-    // Only change code below this line
+    } else {  // Case 2: Target has one child
+      const childLeft = target.left;
+      const childRight = target.right;
+      console.log('tg l', childLeft);
+      console.log('tg r', childRight);
+
+      if (target === this.root) {
+        console.log('tg in root');
+        this.root = childRight === null ?
+                    childLeft :
+                    childRight;
+      } else {
+        if (parent.left == target) {
+          parent.left = childLeft === null ?
+                        childRight :
+                        childLeft;
+        } else {
+          parent.right = childLeft === null ?
+                        childRight :
+                        childLeft;
+        };
+      };
+    };
   };
 };
 
