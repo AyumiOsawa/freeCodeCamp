@@ -5,10 +5,12 @@ const {
 } = require('./index');
 const exampleBST = new BinarySearchTree();
 const oneNodeBST = new BinarySearchTree();
+const twoNodeBST = new BinarySearchTree();
 const threeNodesBST = new BinarySearchTree();
+const emptyBST = new BinarySearchTree();
 
-describe(`The BinarySearchTree class should be able to delete nodes with one
-          child.`,
+describe(`The BinarySearchTree class should be able to delete nodes with two
+          children.`,
           () => {
             beforeEach(() => {
               const node1 = new Node(8);
@@ -34,9 +36,9 @@ describe(`The BinarySearchTree class should be able to delete nodes with one
 
             test(`The BinarySearchTree data structure should exist.`,
                   () => {
-                    expect(exampleBST)
+                    expect(emptyBST)
                     .toBeInstanceOf(BinarySearchTree)
-                    expect(exampleBST.root)
+                    expect(emptyBST.root)
                     .toBeNull();
                   });
 
@@ -60,7 +62,7 @@ describe(`The BinarySearchTree class should be able to delete nodes with one
             test(`Trying to remove an element that does not exist should return
                   null.`,
                   () => {
-                    expect(exampleBST.remove(2))
+                    expect(exampleBST.remove(100))
                     .toBeNull();
                   });
 
@@ -97,18 +99,24 @@ describe(`The BinarySearchTree class should be able to delete nodes with one
             test(`Removing the root in a tree with two nodes should set the
                   second to be the root.`,
                   () => {
-                    exampleBST.remove(8);
+                    const node11 = new Node(11);
+                    const node12 = new Node(12);
+                    node12.left = node11;
+                    twoNodeBST.root = node12;
+                    twoNodeBST.remove(12);
 
-                    expect(exampleBST.root.value)
-                    .toEqual(10);
+                    expect(twoNodeBST.root.value)
+                    .toEqual(11);
                   });
 
             test(`The remove method should remove nodes with two children while
                   maintaining the binary search tree structure.`,
                   () => {
+                    console.log('be4', exampleBST.root)
                     exampleBST.remove(3);
+                    console.log('aft', exampleBST.root)
 
-                    expect(exampleBST.root.left)
+                    expect(exampleBST.root.left.value)
                     .toEqual(4)
                   });
 

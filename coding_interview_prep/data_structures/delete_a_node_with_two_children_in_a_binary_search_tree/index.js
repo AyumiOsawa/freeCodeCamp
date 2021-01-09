@@ -32,12 +32,14 @@ function BinarySearchTree() {
         parent = node;
         return findValue(node.left);
       } else if (value < node.value && node.left === null) {
-        return null;
+        target = null;
+        return;
       } else if (value > node.value && node.right !== null) {
         parent = node;
         return findValue(node.right);
       } else {
-        return null;
+        target = null;
+        return;
       }
     }.bind(this)());
     if (target === null) {
@@ -74,7 +76,63 @@ function BinarySearchTree() {
     }
     // Case 3: Target has two children
     // Only change code below this line
+    else {
+     // find the smallest value in the right subtree
+     const subtree = target.right;
+     let currentSmallest = new Node(+Infinity);
+     let parentOfTheCurrentSmallest;
+     const [
+       smallestNode,
+       parentOfTheSmallest
+      ] = findTheMin(subtree, parentOfTheCurrentSmallest, currentSmallest);
+
+     // replace the target node with the smallest value
+     // 1) set the 2 subtrees of the target aside
+     const targetRightSubtree = target.right;
+     const targetLeftSubtree = target.left;
+
+     // 2) set the 2 children of the smallest to the original children
+     smallestNode.right = smallestNode !== targetRightSubtree ?
+                          targetRightSubtree :
+                          targetRightSubtree.right;
+     smallestNode.left = targetLeftSubtree;
+
+     // 3) replace the target with the smallest
+     if (target === this.root) {
+       this.root = smallestNode;
+     } else if (parent.right.value === target.value) {
+       parent.right = smallestNode;
+     } else if (parent.left.value === target.value) {
+       parent.left = smallestNode;
+     };
+
+     // 4) set the original position of the smallest value to null
+     if (parentOfTheSmallest === null) {
+       // the root of the subtree is the smallest
+       smallestNode.right = null;
+     } else {
+       parentOfTheSmallest.left = null;
+     };
+   };
   };
+
+  const findTheMin = function(tree, parent, currentSmallestNode) {
+   if (tree === null) {
+     return [currentSmallestNode, parent];
+   } else if (tree.value < currentSmallestNode.value) {
+     // the smallest node found at the root of the subtree
+     parent = null;
+     currentSmallestNode = tree;
+     return findTheMin(tree.left, parent, currentSmallestNode);
+   } else if (tree.left.value > currentSmallestNode.value) {
+     return findTheMin(tree.left, parent, currentSmallestNode);
+   } else if (tree.left.value < currentSmallestNode.value) {
+     parent = tree;
+     currentSmallestNode = tree.left;
+     return findTheMin(tree.left, parent, currentSmallestNode);
+   };
+  };
+
 };
 
 module.exports = {
