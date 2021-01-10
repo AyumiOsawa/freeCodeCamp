@@ -19,10 +19,36 @@ function Node(value) {
 }
 function BinarySearchTree() {
   this.root = null;
-  // Only change code below this line
 
-  // Only change code above this line
-}
+  // flip left and right
+  const hasChild = function(node) {
+    return !(node.right === null &&
+              node.left === null);
+  };
+
+  const flipLeftAndRight = function(tree) {
+    if(hasChild(tree)) {
+      const rightSubtree = tree.right;
+      const leftSubtree = tree.left;
+      tree.right = leftSubtree;
+      tree.left = rightSubtree;
+    };
+    if(tree.right !== null) {
+      flipLeftAndRight(tree.right);
+    };
+    if(tree.left !== null) {
+      flipLeftAndRight(tree.left);
+    };
+  };
+
+  this.invert = function() {
+    if (this.root === null) {
+      return null;
+    } else {
+      flipLeftAndRight(this.root);
+    };
+  };
+};
 
 module.exports = {
   displayTree,

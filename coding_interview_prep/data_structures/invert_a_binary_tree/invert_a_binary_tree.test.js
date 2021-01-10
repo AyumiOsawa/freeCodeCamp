@@ -51,6 +51,7 @@ describe(`The BinarySearchTree class should be able to delete nodes with two
                       node5.right = node6;
                       node5.left = node4;
                       exampleBST.root = node3;
+                      exampleBST.invert();
 
                       expect(exampleBST.root.value)
                       .toEqual(node3.value);
@@ -58,7 +59,7 @@ describe(`The BinarySearchTree class should be able to delete nodes with two
                       .toEqual(node1.value);
                       expect(exampleBST.root.right.left.value)
                       .toEqual(node2.value);
-                      expect(exampleBST.root.right.right.value)
+                      expect(exampleBST.root.right.right)
                       .toBeNull();
                       expect(exampleBST.root.left.value)
                       .toEqual(node5.value);
@@ -70,7 +71,7 @@ describe(`The BinarySearchTree class should be able to delete nodes with two
 
               test(`Inverting an empty tree should return null.`,
                     () => {
-                      expect(emptyBST.invert)
+                      expect(emptyBST.invert())
                       .toBeNull();
                     });
           });
