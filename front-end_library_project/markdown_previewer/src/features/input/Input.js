@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  inputUpdate,
+  actions,
   selectInput
 } from '../input/inputSlice';
 
@@ -10,6 +10,9 @@ import './Input.css';
 export default function Input() {
   const input = useSelector(selectInput);
   const dispatch = useDispatch();
+  const onSetInput = (text) => {
+    dispatch(actions.update(text))
+  };
 
   return(
     <div
@@ -22,7 +25,7 @@ export default function Input() {
         autoFocus="autofocus"
         wrap="hard"
         value={input}
-        onChange={event => dispatch(inputUpdate(event.target.value))}
+        onChange={event => onSetInput(event.target.value)}
       >
       </textarea>
     </div>

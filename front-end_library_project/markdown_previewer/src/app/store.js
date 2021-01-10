@@ -1,10 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import inputReducer from '../features/input/inputSlice';
+import { reducer } from '../features/input/inputSlice';
 
-const store = configureStore({
-  reducer: {
-    input: inputReducer
-  },
-});
+const store = configureStore({ reducer });
 
 export default store;

@@ -27,12 +27,11 @@ export const inputSlice = createSlice({
   name: 'input',
   initialState,
   reducers: {
-    inputUpdate(state, action) {
+    update(state, action) {
       return action.payload;
     }
   }
 });
 
-export const { inputUpdate } = inputSlice.actions;
-export default inputSlice.reducer
-export const selectInput = state => state.input;
+export const { actions, reducer } = inputSlice;
+export const selectInput = state => state
