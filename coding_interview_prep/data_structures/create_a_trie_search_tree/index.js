@@ -30,23 +30,22 @@ var Trie = function() {
 
   this.add = function(newWord) {
     const addLetter = (letter, currentNode, letters, index) => {
-      // console.log('letter',letter);
       const lastLetter = letters[letters.length - 1];
       const isLastLetter = index + 1 === letters.length;
-      console.log('is last?', isLastLetter);
-      // console.log('currentNode',currentNode);
-      // const newNode = new Node();
-      // currentNode.keys.set(letter, newNode);
 
       if(isLastLetter &&                            // the last letter
          currentNode.keys.has(letter)) {            // the letter exists
-        // console.log(letter, 'is the last letter');
+        // const lastNode = currentNode.keys.get(letter);
+        // console.log('1, add the last marker to', letter);
         const lastNode = currentNode.keys.get(letter);
         lastNode.setEnd();
       } else if (isLastLetter &&                    // the last letter
                  !currentNode.keys.has(letter)) {   // the letter does NOT exist
-        currentNode.keys.set(letter, null);
-        currentNode.setEnd();
+        const newNode = new Node();
+        currentNode.keys.set(letter, newNode);
+        const lastNode = currentNode.keys.get(letter);
+        // console.log('2, add the last marker to', letter);
+        lastNode.setEnd();
       } else if (!isLastLetter &&                   // NOT the last letter
                  !currentNode.keys.has(letter)) {   // the letter does NOT exist
         const newNode = new Node();
@@ -66,22 +65,46 @@ var Trie = function() {
   this.print = function() {
     const allWords = [];
 
-    const retrieveWord = (tree = this.root, currentWord = '') => {
-      tree.keys.forEach((node, letter) => {
+    const retrieveWord = (node = this.root, currentWord = '') => {
+      node.keys.forEach((childNode, letter) => {
+        console.log('currentWord',currentWord);
+        if (node === this.root) {
+          currentWord = '';  // reset
+        };
         currentWord += letter;
-        if(node === null) {
-          return;
-        };
-        if(node.isEnd()) {
+        if(node.isEnd()) {   // the last letter
+          console.log('letter', letter, 'is the last letter');
           allWords.push(currentWord);
+          console.log('list updated', allWords);
         };
-        if(node.keys.size === 0) {
-          return;
+        // console.log('node.keys.size',node.keys.size,'at',letter);
+        // console.log('childNode',childNodes);
+        if(childNode !== null) {
+          retrieveWord(childNode, currentWord);
         };
-        retrieveWord(node, currentWord);
       });
     };
+    retrieveWord.bind(this);
 
+
+
+
+    // const retrieveWord = (tree = this.root, currentWord = '') => {
+    //   tree.keys.forEach((node, letter) => {
+    //     currentWord += letter;
+    //     if(node === null) {
+    //       return;
+    //     };
+    //     if(node.isEnd()) {
+    //       allWords.push(currentWord);
+    //     };
+    //     if(node.keys.size === 0) {
+    //       return;
+    //     };
+    //     retrieveWord(node, currentWord);
+    //   });
+    // };
+    //
     retrieveWord();
     console.log('result:',allWords);
     return;
@@ -90,9 +113,11 @@ var Trie = function() {
 
 const t = new Trie();
 t.add('ops')
-t.add('oops')
+t.add('option')
 t.add('weehee')
-// console.log(t.root.keys.get('o').keys.get('o'));
+console.log(t.root.keys.get('o').keys.get('p'));
+
+console.log(t.root.keys.get('o').keys.get('p').isEnd());
 t.print();
 
 // module.exports = {
