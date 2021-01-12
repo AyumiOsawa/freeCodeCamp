@@ -26,13 +26,77 @@ var Node = function() {
   };
 };
 var Trie = function() {
-  // Only change code below this line
+  this.root = new Node();
 
-  // Only change code above this line
+  this.add = function(newWord) {
+    const addLetter = (letter, currentNode, letters, index) => {
+      // console.log('letter',letter);
+      const lastLetter = letters[letters.length - 1];
+      const isLastLetter = index + 1 === letters.length;
+      console.log('is last?', isLastLetter);
+      // console.log('currentNode',currentNode);
+      // const newNode = new Node();
+      // currentNode.keys.set(letter, newNode);
+
+      if(isLastLetter &&                            // the last letter
+         currentNode.keys.has(letter)) {            // the letter exists
+        // console.log(letter, 'is the last letter');
+        const lastNode = currentNode.keys.get(letter);
+        lastNode.setEnd();
+      } else if (isLastLetter &&                    // the last letter
+                 !currentNode.keys.has(letter)) {   // the letter does NOT exist
+        currentNode.keys.set(letter, null);
+        currentNode.setEnd();
+      } else if (!isLastLetter &&                   // NOT the last letter
+                 !currentNode.keys.has(letter)) {   // the letter does NOT exist
+        const newNode = new Node();
+        currentNode.keys.set(letter, newNode);
+      };
+    };
+    addLetter.bind(this);
+    const letters = newWord.split('');
+    let currentNode = this.root;
+
+    letters.forEach((letter, index, letters) => {
+      addLetter(letter, currentNode, letters, index);
+      currentNode = currentNode.keys.get(letter) ;
+    });
+  };
+
+  this.print = function() {
+    const allWords = [];
+
+    const retrieveWord = (tree = this.root, currentWord = '') => {
+      tree.keys.forEach((node, letter) => {
+        currentWord += letter;
+        if(node === null) {
+          return;
+        };
+        if(node.isEnd()) {
+          allWords.push(currentWord);
+        };
+        if(node.keys.size === 0) {
+          return;
+        };
+        retrieveWord(node, currentWord);
+      });
+    };
+
+    retrieveWord();
+    console.log('result:',allWords);
+    return;
+  };
 };
 
-module.exports = {
-  displayTree,
-  Node,
-  Trie
-};
+const t = new Trie();
+t.add('ops')
+t.add('oops')
+t.add('weehee')
+// console.log(t.root.keys.get('o').keys.get('o'));
+t.print();
+
+// module.exports = {
+//   displayTree,
+//   Node,
+//   Trie
+// };
