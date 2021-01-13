@@ -74,21 +74,17 @@ var Trie = function() {
     const node = this.root;
     let currentWord = '';
     retrieveWord(node, currentWord);
-    console.log('result:',allWords);
     return allWords;
   };
 
   this.isWord = function(testWord) {
     const letters = testWord.split('');
-    console.log('letters',letters);
 
     const checkIfLetterExist = (node, index = 0) => {
       const letter = letters[index];
-      console.log('letter',letter);
-      console.log('index', index);
       if (node.keys.has(letter) &&
-          node.keys.get(letter).isEnd()) { // leaf node in the tree
-        console.log('the word exist!');
+          node.keys.get(letter).isEnd() &&   // leaf node in the tree
+          index + 1 === letters.length) {    // last letter
         return true;
       } else if (node.keys.has(letter)) {
         index++;
@@ -100,6 +96,7 @@ var Trie = function() {
     return checkIfLetterExist(this.root);
   };
 };
+
 function print(trie) {
   function toHash(node) {
     let ret = {};
@@ -111,23 +108,6 @@ function print(trie) {
   }
   console.log(JSON.stringify(toHash(trie.root)));
 }
-
-// const t = new Trie();
-// t.add('ops')
-// t.add('opaque')
-// t.add('option')
-// t.add('operation')
-// t.add('weehee')
-// console.log(t.isWord('ops'));
-
-// let a = new Map();
-// a.set("t", 5);
-// print(t);
-// const last = t.root.keys.get('o').keys.get('p');
-// console.log(t.root.keys.get('o').keys.get('p'));
-// console.log(t.root.keys.get('o').keys.get('p').isEnd());
-// console.log('==== print ====');
-// t.print();
 
 module.exports = {
   displayTree,
