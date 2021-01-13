@@ -32,27 +32,21 @@ var Trie = function() {
     const addLetter = (letter, currentNode, letters, index) => {
       const lastLetter = letters[letters.length - 1];
       const isLastLetter = index + 1 === letters.length;
-
       if(isLastLetter &&                            // the last letter
          currentNode.keys.has(letter)) {            // the letter exists
-        // const lastNode = currentNode.keys.get(letter);
-        // console.log('1, add the last marker to', letter);
         const lastNode = currentNode.keys.get(letter);
         lastNode.setEnd();
       } else if (isLastLetter &&                    // the last letter
                  !currentNode.keys.has(letter)) {   // the letter does NOT exist
-        const newNode = new Node();
-        currentNode.keys.set(letter, newNode);
+        currentNode.keys.set(letter, new Node());
         const lastNode = currentNode.keys.get(letter);
-        // console.log('2, add the last marker to', letter);
         lastNode.setEnd();
       } else if (!isLastLetter &&                   // NOT the last letter
                  !currentNode.keys.has(letter)) {   // the letter does NOT exist
-        const newNode = new Node();
-        currentNode.keys.set(letter, newNode);
+        currentNode.keys.set(letter, new Node());
       };
     };
-    addLetter.bind(this);
+
     const letters = newWord.split('');
     let currentNode = this.root;
 
@@ -64,48 +58,23 @@ var Trie = function() {
 
   this.print = function() {
     const allWords = [];
-
-    const retrieveWord = (node = this.root, currentWord = '') => {
+    const retrieveWord = (node, currentWord) => {
       node.keys.forEach((childNode, letter) => {
-        console.log('currentWord',currentWord);
-        if (node === this.root) {
-          currentWord = '';  // reset
+        if (node === this.root) {  // comes back to the root node
+          currentWord = '';
         };
-        currentWord += letter;
-        if(node.isEnd()) {   // the last letter
-          console.log('letter', letter, 'is the last letter');
-          allWords.push(currentWord);
-          console.log('list updated', allWords);
+        if(childNode.isEnd()) {   // the last letter
+          allWords.push(currentWord + letter);
         };
-        // console.log('node.keys.size',node.keys.size,'at',letter);
-        // console.log('childNode',childNodes);
-        if(childNode !== null) {
-          retrieveWord(childNode, currentWord);
+        if(childNode.keys.size > 0) {
+          retrieveWord(childNode, currentWord + letter);
         };
       });
     };
-    retrieveWord.bind(this);
+    const node = this.root;
+    let currentWord = '';
+    retrieveWord(node, currentWord);
 
-
-
-
-    // const retrieveWord = (tree = this.root, currentWord = '') => {
-    //   tree.keys.forEach((node, letter) => {
-    //     currentWord += letter;
-    //     if(node === null) {
-    //       return;
-    //     };
-    //     if(node.isEnd()) {
-    //       allWords.push(currentWord);
-    //     };
-    //     if(node.keys.size === 0) {
-    //       return;
-    //     };
-    //     retrieveWord(node, currentWord);
-    //   });
-    // };
-    //
-    retrieveWord();
     console.log('result:',allWords);
     return;
   };
@@ -113,11 +82,14 @@ var Trie = function() {
 
 const t = new Trie();
 t.add('ops')
+t.add('opaque')
 t.add('option')
+t.add('operation')
 t.add('weehee')
+const last = t.root.keys.get('o').keys.get('p');
 console.log(t.root.keys.get('o').keys.get('p'));
-
 console.log(t.root.keys.get('o').keys.get('p').isEnd());
+console.log('==== print ====');
 t.print();
 
 // module.exports = {
