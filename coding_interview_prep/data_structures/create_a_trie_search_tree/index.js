@@ -87,8 +87,7 @@ var Trie = function() {
       console.log('letter',letter);
       console.log('index', index);
       if (node.keys.has(letter) &&
-          node.keys.get(letter).isEnd() &&     // leaf node in the tree
-          index === letters.length ) {         // index === the length of the word + end node
+          node.keys.get(letter).isEnd()) { // leaf node in the tree
         console.log('the word exist!');
         return true;
       } else if (node.keys.has(letter)) {
@@ -96,31 +95,42 @@ var Trie = function() {
         return checkIfLetterExist(node.keys.get(letter), index);
       } else {
         return false;
-      }
+      };
     };
-
     return checkIfLetterExist(this.root);
   };
-
-
-
 };
+function print(trie) {
+  function toHash(node) {
+    let ret = {};
+    ret["end"] = node.end;
+    for (let key of node.keys.keys()) {
+      ret[key] = toHash(node.keys.get(key));
+    }
+    return ret;
+  }
+  console.log(JSON.stringify(toHash(trie.root)));
+}
 
-const t = new Trie();
-t.add('ops')
-t.add('opaque')
-t.add('option')
-t.add('operation')
-t.add('weehee')
-console.log(t.isWord('ops'));
+// const t = new Trie();
+// t.add('ops')
+// t.add('opaque')
+// t.add('option')
+// t.add('operation')
+// t.add('weehee')
+// console.log(t.isWord('ops'));
+
+// let a = new Map();
+// a.set("t", 5);
+// print(t);
 // const last = t.root.keys.get('o').keys.get('p');
 // console.log(t.root.keys.get('o').keys.get('p'));
 // console.log(t.root.keys.get('o').keys.get('p').isEnd());
 // console.log('==== print ====');
 // t.print();
 
-// module.exports = {
-//   displayTree,
-//   Node,
-//   Trie
-// };
+module.exports = {
+  displayTree,
+  Node,
+  Trie
+};

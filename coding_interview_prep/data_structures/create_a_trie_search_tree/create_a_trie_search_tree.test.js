@@ -53,7 +53,7 @@ describe(`The Trie class should be able to create a new Trie instance and be
                     expect(spyIsWord)
                     .toHaveBeenCalled();
                     expect(spyIsWordResult)
-                    .toEqual('isWord');
+                    .toEqual('Yes/No');
                     spyIsWord.mockRestore();
                   });
 
@@ -72,7 +72,7 @@ describe(`The Trie class should be able to create a new Trie instance and be
                   the trie and false for all other words.`,
                   () => {
                     expect(exampleTrie.isWord('cat'))
-                    .toBeTruhty();
+                    .toBeTruthy();
                     expect(exampleTrie.isWord('wolf'))
                     .toBeFalsy();
                   });
