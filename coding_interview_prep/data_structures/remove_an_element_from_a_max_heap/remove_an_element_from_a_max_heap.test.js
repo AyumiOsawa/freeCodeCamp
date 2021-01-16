@@ -2,7 +2,7 @@ const MaxHeap = require('./index');
 const exampleMH1 = new MaxHeap();
 const exampleMH2 = new MaxHeap();
 const checkHeapProp = (tree) => {
-  const nodes = tree.root;
+  const nodes = tree.heap;
   let index = 1;    // skip the first value
   while(index * 2 + 1 < nodes.length) {
     const youngerChildIndex = index * 2 + 1;
@@ -25,10 +25,10 @@ describe(`The MaxHeap class should be able to remove an element from the heap.`,
           () => {
             test(`The MaxHeap data structure should exist.`,
                   () => {
-                    exampleMH1.root = [null, 6, 5, 5, 4, 3, 2, 1];
-                    exampleMH2.root = [null, 2, 4, 1, 0, 6];
+                    exampleMH1.heap = [null, 6, 5, 5, 4, 3, 2, 1];
+                    exampleMH2.heap = [null, 2, 4, 1, 0, 6];
 
-                    expect(exampleMH1.root[0])
+                    expect(exampleMH1.heap[0])
                     .toBeNull();
 
                     expect(checkHeapProp(exampleMH1))
@@ -88,26 +88,17 @@ describe(`The MaxHeap class should be able to remove an element from the heap.`,
             test(`The remove method should remove the greatest element from the
                   max heap while maintaining the max heap property.`,
                   () => {
-                    exampleMH1.insert(6);
-                    exampleMH1.insert(5);
-                    exampleMH1.insert(4);
-                    exampleMH1.insert(2);
-                    exampleMH1.insert(5);
-                    exampleMH1.insert(5);
-
+                    exampleMH1.heap = [null, 6, 5, 4, 5, 5, 2];
 
                     expect(exampleMH1.remove())
                     .toEqual(6);
-                    exampleMH1.remove();
-                    expect(exampleMH1.root)
+                    expect(exampleMH1.heap)
                     .toEqual([null, 5, 5, 4, 2, 5]);
 
-                    exampleMH2.add(4)
-                    exampleMH2.add(2)
-                    exampleMH2.add(3)
+                    exampleMH2.heap = [null, 4, 2, 3];
+                    exampleMH2.remove()
 
-                    exampleMH2.remove(4)
-                    expect(exampleMH2.root)
+                    expect(exampleMH2.heap)
                     .toEqual([null, 3, 2]);
                   });
           })
