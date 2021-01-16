@@ -1,6 +1,25 @@
 const MaxHeap = require('./index');
 const exampleMH1 = new MaxHeap();
 const exampleMH2 = new MaxHeap();
+const checkHeapProp = (tree) => {
+  const nodes = tree.root;
+  let index = 1;    // skip the first value
+  while(index * 2 + 1 < nodes.length) {
+    const youngerChildIndex = index * 2 + 1;
+    const elderChildIndex = index * 2 + 2 === nodes.length ?
+                            index * 2 + 2 :
+                            null;
+    if (nodes[index] < nodes[youngerChildIndex]) {
+      return false;
+    };
+    if (elderChildIndex &&
+        nodes[index] < nodes[elderChildIndex]) {
+      return false;
+    };
+    index++;
+  };
+  return true;
+};
 
 describe(`The MaxHeap class should be able to remove an element from the heap.`,
           () => {
@@ -76,10 +95,12 @@ describe(`The MaxHeap class should be able to remove an element from the heap.`,
                     exampleMH1.insert(5);
                     exampleMH1.insert(5);
 
-                    exampleMH1.remove(6);
 
+                    expect(exampleMH1.remove())
+                    .toEqual(6);
+                    exampleMH1.remove();
                     expect(exampleMH1.root)
-                    .toEqual([null, 5, 4, 2, 5, 5]);
+                    .toEqual([null, 5, 5, 4, 2, 5]);
 
                     exampleMH2.add(4)
                     exampleMH2.add(2)
