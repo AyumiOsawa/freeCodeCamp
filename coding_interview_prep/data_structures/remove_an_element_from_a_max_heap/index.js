@@ -75,9 +75,9 @@ var MaxHeap = function() {
     let startIndex = 1;
     const updatedHeap = rearrangeNode(startIndex, arr);
     this.heap = updatedHeap;
-    
+
     return nodeToRemove;
-  };
+  }
 }
 
 module.exports = MaxHeap;
