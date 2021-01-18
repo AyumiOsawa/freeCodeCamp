@@ -2,6 +2,26 @@ const MinHeap = require('./index');
 const exampleMH1 = new MinHeap();
 const exampleMH2 = new MinHeap();
 
+const checkHeapProp = (tree) => {
+  const nodes = tree.heap;
+  let index = 1;    // skip the first value
+  while(index * 2 < nodes.length) {
+    const youngerChildIndex = index * 2;
+    const elderChildIndex = index * 2 + 1 === nodes.length ?
+                            index * 2 + 1 :
+                            null;
+    if (nodes[index] > nodes[youngerChildIndex]) {
+      return false;
+    };
+    if (elderChildIndex &&
+        nodes[index] > nodes[elderChildIndex]) {
+      return false;
+    };
+    index++;
+  };
+  return true;
+};
+
 describe(`The MinHeap class should be able to insert, remove, and sort the
           nodes.`,
         () => {
@@ -73,12 +93,9 @@ describe(`The MinHeap class should be able to insert, remove, and sort the
                   exampleMH2.insert(1);
 
                   expect(exampleMH2.heap)
-                  .toEqual([null, 1, 3, 6, 1, 8]);
-
-                  exampleMH2.sort();
-                  
-                  expect(exampleMH2.heap)
-                  .toEqual([null, 1, 1, 3, 6, 8]);
+                  .toEqual([null, 1, 1, 3, 8, 6]);
+                  expect(exampleMH2.sort())
+                  .toEqual([1, 1, 3, 6, 8]);
                 });
 
         });
