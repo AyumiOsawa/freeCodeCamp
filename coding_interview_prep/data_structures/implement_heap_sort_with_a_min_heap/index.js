@@ -100,7 +100,6 @@ var MinHeap = function() {
 
     this.heap = sortedArray;
     const returnArr = sortedArray.splice(1);
-    console.log('sort ret', returnArr)
     return returnArr;
   }
 }
