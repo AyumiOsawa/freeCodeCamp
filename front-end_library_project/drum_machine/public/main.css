@@ -47,6 +47,18 @@ body {
   width: 150px;
   background-color: white;
   border: 2px solid #333;
+  border-radius: 10%;
+  box-shadow: 3px 5px 2px #333;
+  cursor: pointer;
+}
+
+.drum-pad:hover {
+  background-color: #cccccc;
+}
+
+.drum-pad:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
 }
 
 .drum-pad:nth-child(0) {
