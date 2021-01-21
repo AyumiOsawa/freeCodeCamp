@@ -11,8 +11,12 @@
 //
 // https://www.freecodecamp.org/learn/coding-interview-prep/data-structures/incidence-matrix
 
-const incMatUndirected = [
-
+var incMatUndirected = [
+    [1, 0, 0, 0],
+    [1, 1, 0, 1],
+    [0, 1, 1, 0],
+    [0, 0, 0, 1],
+    [0, 0, 1, 0]
 ];
 
 module.exports = incMatUndirected;

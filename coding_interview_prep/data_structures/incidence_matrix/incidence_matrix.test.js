@@ -21,7 +21,7 @@ describe(`An undirected graph of 5 nodes iwth 4 edges should be represented
             test(`There should be a second edge between the second and third
                   node.`,
                   () => {
-                    expect(incMatUndirected[1][1]])
+                    expect(incMatUndirected[1][1])
                     .toEqual(1);
                     expect(incMatUndirected[2][1])
                     .toEqual(1);
