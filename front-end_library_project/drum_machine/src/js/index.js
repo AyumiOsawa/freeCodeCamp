@@ -1,6 +1,6 @@
 const drumPadNames = ['q', 'w', 'e', 'a', 's', 'd', 'z', 'x', 'c'];
 const audioFiles = {
-  q: 'https://a.pomf.cat/bgfgzw.wav',
+  q: 'https://a.pomf.cat/jcgflk.wav',
   w: 'https://a.pomf.cat/maiyvy.wav',
   e: 'https://a.pomf.cat/pcllms.wav',
   a: 'https://a.pomf.cat/esbjyd.wav',
@@ -12,28 +12,36 @@ const audioFiles = {
 };
 const createDrumPadElement = (elementName, display) => {
   // prepare audio
+  // const audio = document.createElement('AUDIO');
+  // const source = document.createElement('SOURCE');
+  // source.type = 'audio/wav';
+  // source.src = audioFiles[elementName];
+  // audio.appendChild(source);
   const audio = document.createElement('AUDIO');
-  const source = document.createElement('SOURCE');
-  source.type = 'audio/wav';
-  source.src = audioFiles[elementName];
-  audio.appendChild(source);
+  audio.id = elementName.toUpperCase();
+  audio.classList = 'clip';
+  audio.src = audioFiles[elementName];
+  audio.type = 'audio/wav';
 
   // create a drump pad
   const domElement = document.createElement('DIV');
   domElement.classList.add('drum-pad');
-  domElement.id = elementName;
+  domElement.id = elementName.toUpperCase();
   domElement.textContent = elementName.toUpperCase();
   domElement.appendChild(audio);
-
-  // create a display
-  // const display = document.createElement('DIV');
-  // display.id = 'display';
-  // display.innerText = 'Ready';
 
   // event --- click to start the audio & change display
   domElement.addEventListener('click', () => {
     audio.play();
     display.innerHTML = 'Playing: ' + elementName.toUpperCase();
+  });
+
+  // event -- press a key to start the audio & change display
+  document.addEventListener('keydown', event => {
+    if(event.key === elementName) {
+      const event = new Event('click');
+      domElement.dispatchEvent(event);
+    }
   });
 
   // event --- reset the display when the sounds end
