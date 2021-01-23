@@ -11,6 +11,7 @@
 .display {
   font-size: 3rem;
   font-family: monospace;
+  font-weight: bold;
   text-align: right;
   line-height: 10vh;
   height: 10vh;
@@ -31,23 +32,4 @@
   border: 3px solid pink;
   display: flex;
   flex-flow: row;
-}
-
-.key__number {
-  border: 1px solid red;
-}
-
-.colmn__numbers {
-  width: 50vw;
-  display: grid;
-  grid-template-columns: 33% auto 33%;
-  grid-template-rows: 25% 25% 25% 25%
-}
-
-.column__side {
-  width: 20vw;
-}
-
-.key__control {
-  border: 1px solid blue;
 }
