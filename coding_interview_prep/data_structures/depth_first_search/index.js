@@ -9,7 +9,25 @@
 //
 // https://www.freecodecamp.org/learn/coding-interview-prep/data-structures/depth-first-search
 function dfs(graph, root) {
+  let visited = [];
 
+  const visitNodes = (startPoint, visited) => {
+    visited.push(startPoint);
+    let stack = [];
+    graph[startPoint].forEach((node, index) => {
+      if (node === 1) {
+        stack.unshift(index);
+      }
+    });
+    stack.forEach(nextNodeIndex => {
+      if (!visited.includes(nextNodeIndex)) {
+        return visitNodes(nextNodeIndex, visited);
+      }
+    })
+  };
+
+  visitNodes(root, visited);
+  return visited;
 }
 
 module.exports = dfs;

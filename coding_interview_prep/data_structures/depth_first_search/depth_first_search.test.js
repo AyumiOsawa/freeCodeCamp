@@ -10,8 +10,8 @@ describe(`The function dfs should be able to perform depth first search.`,
                       [0, 1, 0, 0],
                       [1, 0, 1, 0],
                       [0, 1, 0, 1],
-                      [0, 0, 1, 0]], 1))
-                    .toEqual([0, 1, 2, 3]);
+                      [0, 0, 1, 0]], 1).sort())
+                    .toEqual([0, 1, 2, 3])
                   });
 
             test(`The input graph [[0, 1, 0, 0], [1, 0, 1, 0], [0, 1, 0, 1],
@@ -30,11 +30,11 @@ describe(`The function dfs should be able to perform depth first search.`,
                   [0, 0, 0, 0]] with a start node of 3 should return an array
                   with 3.`,
                   () => {
-                    exoect(dfs([
+                    expect(dfs([
                       [0, 1, 0, 0],
                       [1, 0, 1, 0],
                       [0, 1, 0, 0],
-                      [0, 0, 0, 0]], 3))
+                      [0, 0, 0, 0]], 3).sort())
                     .toEqual([3]);
                   });
 
@@ -42,12 +42,12 @@ describe(`The function dfs should be able to perform depth first search.`,
                   [0, 0, 0, 0]] with a start node of 3 should return an array
                   with one element.`,
                   () => {
-                    exoect(dfs([
+                    expect(dfs([
                       [0, 1, 0, 0],
                       [1, 0, 1, 0],
                       [0, 1, 0, 0],
                       [0, 0, 0, 0]], 3))
-                    .toHaveLength([1]);
+                    .toHaveLength(1);
                   });
 
             test(`The input graph [[0, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 1],
@@ -58,7 +58,7 @@ describe(`The function dfs should be able to perform depth first search.`,
                       [0, 1, 0, 0],
                       [1, 0, 0, 0],
                       [0, 0, 0, 1],
-                      [0, 0, 1, 0]], 3))
+                      [0, 0, 1, 0]], 3).sort())
                     .toEqual([2, 3]);
                   });
 
@@ -71,7 +71,7 @@ describe(`The function dfs should be able to perform depth first search.`,
                       [1, 0, 0, 0],
                       [0, 0, 0, 1],
                       [0, 0, 1, 0]], 3))
-                    .toHaveLength(1);
+                    .toHaveLength(2);
                   });
 
             test(`The input graph [[0, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 1],
@@ -82,7 +82,7 @@ describe(`The function dfs should be able to perform depth first search.`,
                       [0, 1, 0, 0],
                       [1, 0, 0, 0],
                       [0, 0, 0, 1],
-                      [0, 0, 1, 0]], 0))
+                      [0, 0, 1, 0]], 0).sort())
                     .toEqual([0, 1]);
                   });
 
