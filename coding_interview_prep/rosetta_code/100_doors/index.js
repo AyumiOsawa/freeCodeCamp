@@ -14,20 +14,48 @@
 // https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/100-doors
 
 function getFinalOpenedDoors(numDoors) {
+    const doors = {}
+    let currentDoor = 1;
+    while(currentDoor <= numDoors) {
+        let numOfDivisibles = 1;
+        let divisible = 2;
+        while (currentDoor >= divisible) {
+            let divisionResult = Math.floor(currentDoor / divisible);
+            if(currentDoor % divisible === 0) {
+                numOfDivisibles++;
+            }
+            if(Object.keys(doors).includes(divisionResult)) {
+                numOfDivisibles += doors[divisionResult];
+                break;
+            }
+            divisible++;
+        }
+        doors[currentDoor] = numOfDivisibles;
+        currentDoor++;
+    }
 
-}
+    let openDoors = [];
+    currentDoor = 1;
+    while (currentDoor <= numDoors) {
+        if(doors[currentDoor] % 2 !== 0) {
+            openDoors.push(currentDoor);
+        }
+        currentDoor++;
+    }
+    return openDoors;
+};
 
 module.exports = getFinalOpenedDoors;
 
 
-memo:
-- initial state: all CLOSED
-- visit odd number: OPEN
-- visit even number: CLOSED
-- stop: being devisible by t (t < 100)
-- whether door #n is open or not: whether n has odd number of divisible or not
-
--> Get number n and count how many divisibles n has
--> if the num of divisible is odd, thee door is OPEN
-
-! all the primary num is CLOSED (divisible by 1 and itself)
+// memo:
+// - initial state: all CLOSED
+// - visit odd number: OPEN
+// - visit even number: CLOSED
+// - stop: being devisible by t (t < 100)
+// - whether door #n is open or not: whether n has odd number of divisible or not
+//
+// -> Get number n and count how many divisibles n has
+// -> if the num of divisible is odd, thee door is OPEN
+//
+// ! all the primary num is CLOSED (divisible by 1 and itself)
