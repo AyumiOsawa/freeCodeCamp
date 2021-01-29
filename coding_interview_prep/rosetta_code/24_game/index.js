@@ -30,16 +30,6 @@
 function solve24 (numStr) {
 
 
-  const peremutateNumbers = (inputArr) => {
-    let workingArr = [];
-    // while (inputArr.length > 0) {
-    //   workingArr
-    // }
-
-  };
-
-
-
 
   return true;
 }
@@ -47,21 +37,21 @@ function solve24 (numStr) {
 // Take one working array and possible numbers to add, and add each one of the
 // numbers to the working array and return
 let allArrays = [];
-const addOneNumber = function(remainingNum, arrayToAddTo = []) {
+const addOneNumber = (remainingNum, arrayToAddTo = []) => {
   if (remainingNum.length === 0) {
     allArrays.push(arrayToAddTo);
     return;
   }
   let updatedArrays = [];
   for (let i = 0; i < remainingNum.length; i++) {
-    let added = [...arrayToAddTo];
-    added.push(remainingNum[i]);
+    let updatedArray = [...arrayToAddTo];
+    updatedArray.push(remainingNum[i]);
     let updatedRemainings = [...remainingNum];
     updatedRemainings.splice(i, 1);
     let newArr = {
-                    remaining: updatedRemainings,
-                    array: added
-                };
+                    remaining : updatedRemainings,
+                    array     : updatedArray
+                 };
     updatedArrays.push(newArr);
   }
 
@@ -70,8 +60,84 @@ const addOneNumber = function(remainingNum, arrayToAddTo = []) {
   });
 };
 
-addOneNumber([1, 2, 3, 4]);
-console.log('result:', allArrays.length);
+// addOneNumber([1, 2, 3, 4]);
+// console.log('result:', allArrays);
+// =====================================================
+
+const operands = ['+', '->', '-<', '*', '/>', '/<'];
+let calculations = [];
+const calculateTwoNumbers = (numArray, formulaString) => {
+  if (numArray.length === 1) {
+    calculations.push({
+                        sum     : numArray[0],
+                        formula : formulaString
+                      });
+    return;
+  }
+  let updatedNumArray, updatedFormulaString;
+  operands.forEach(operand => {
+    updatedNumArray = [...numArray];
+    updatedNumArray.splice(0,2);
+    const num1 = numArray[0];
+    const num2 = numArray[1];
+    let newElm;
+
+    switch (operand) {
+      case '+':
+        newElm = num1 + num2;
+        updatedNumArray.unshift(newElm);
+        updatedFormulaString = formulaString === '' ?
+                               num1 + '+' + num2 :
+                               formulaString  + '+' + num2;
+        break;
+      case '*':
+        newElm = num1 * num2;
+        updatedNumArray.unshift(newElm);
+        updatedFormulaString = formulaString === '' ?
+                               num1 + '*' + num2 :
+                               formulaString  + '*' + num2;
+        break;
+      case '->':
+        newElm = num1 - num2;
+        updatedNumArray.unshift(newElm);
+        updatedFormulaString = formulaString === '' ?
+                               num1 + '-' + num2 :
+                               formulaString  + '-' + num2;
+        break;
+      case '-<':
+        newElm = num2 - num1;
+        updatedNumArray.unshift(newElm);
+        updatedFormulaString = formulaString === '' ?
+                               num2 + '-' + num1 :
+                               num2 + '-(' + formulaString + ')';
+        break;
+      case '/>':
+        newElm = num1 / num2;
+        updatedNumArray.unshift(newElm);
+        updatedFormulaString = formulaString === '' ?
+                               num1 + '/' + num2 :
+                               formulaString  + '/' + num2;
+        break;
+      case '/<':
+        newElm = num2 / num1;
+        updatedNumArray.unshift(newElm);
+        updatedFormulaString = formulaString === '' ?
+                               num2 + '/' + num1 :
+                               num2 + '/(' + formulaString + ')';
+        break;
+      default:
+        break;
+    }
+      return calculateTwoNumbers(updatedNumArray, updatedFormulaString);
+  });
+};
+
+// calculateTwoNumbers(
+// /* numArray = */       [1, 2, 3, 4],
+// /* formulaString = */  ''
+//                     );
+// console.log('calc result', calculations);
+
 
 // module.exports = solve24;
 //
@@ -81,6 +147,6 @@ console.log('result:', allArrays.length);
 //
 // - look up backtracking
 // - write a function that permutate the 4 input numbers.
-// - write a function that permutate binary tree for 4 leaf nodes.
+// - write a function that permutate binary tree for 4 leaf nodes?
 // - write a function that calculate all the possible combination of oprands on one fixed order of numbers.
 // - write a function that generate an answer.
