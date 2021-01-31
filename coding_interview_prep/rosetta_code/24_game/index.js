@@ -64,17 +64,19 @@ const addOneNumber = (remainingNum, arrayToAddTo = []) => {
 // console.log('result:', allArrays);
 // =====================================================
 
-const operands = ['+', '->', '-<', '*', '/>', '/<'];
+const operands = ['+', '-', '*', '/'];
 let calculations = [];
-const calculateTwoNumbers = (numArray, formulaString) => {
+const calculateTwoNumbers = (numArray, formula) => {
   if (numArray.length === 1) {
     calculations.push({
                         sum     : numArray[0],
-                        formula : formulaString
+                        formula : formula
                       });
     return;
   }
-  let updatedNumArray, updatedFormulaString;
+  let updatedNumArray = [];
+  let updatedFormula = [];
+  console.log('formula type', typeof formula);
   operands.forEach(operand => {
     updatedNumArray = [...numArray];
     updatedNumArray.splice(0,2);
@@ -86,57 +88,44 @@ const calculateTwoNumbers = (numArray, formulaString) => {
       case '+':
         newElm = num1 + num2;
         updatedNumArray.unshift(newElm);
-        updatedFormulaString = formulaString === '' ?
-                               num1 + '+' + num2 :
-                               formulaString  + '+' + num2;
+        updatedFormula = formula.length === 0 ?
+                         formula.concat([num1.toString(), '+', num2.toString()]) :
+                         formula.concat(['+', num2.toString()]);
         break;
       case '*':
         newElm = num1 * num2;
         updatedNumArray.unshift(newElm);
-        updatedFormulaString = formulaString === '' ?
-                               num1 + '*' + num2 :
-                               formulaString  + '*' + num2;
+        updatedFormula = formula.length === 0 ?
+                         formula.concat([num1.toString(), '*', num2.toString()]) :
+                         formula.concat(['*', num2.toString()]);
         break;
-      case '->':
+      case '-':
         newElm = num1 - num2;
         updatedNumArray.unshift(newElm);
-        updatedFormulaString = formulaString === '' ?
-                               num1 + '-' + num2 :
-                               formulaString  + '-' + num2;
+        updatedFormula = formula.length === 0 ?
+                         formula.concat([num1.toString(), '-', num2.toString()]) :
+                         formula.concat(['-', num2.toString()]);
         break;
-      case '-<':
-        newElm = num2 - num1;
-        updatedNumArray.unshift(newElm);
-        updatedFormulaString = formulaString === '' ?
-                               num2 + '-' + num1 :
-                               num2 + '-(' + formulaString + ')';
-        break;
-      case '/>':
+      case '/':
         newElm = num1 / num2;
         updatedNumArray.unshift(newElm);
-        updatedFormulaString = formulaString === '' ?
-                               num1 + '/' + num2 :
-                               formulaString  + '/' + num2;
-        break;
-      case '/<':
-        newElm = num2 / num1;
-        updatedNumArray.unshift(newElm);
-        updatedFormulaString = formulaString === '' ?
-                               num2 + '/' + num1 :
-                               num2 + '/(' + formulaString + ')';
+        updatedFormula = formula.length === 0 ?
+                         formula.concat([num1.toString(), '/', num2.toString()]) :
+                         formula.concat(['/', num2.toString()]);
         break;
       default:
         break;
     }
-      return calculateTwoNumbers(updatedNumArray, updatedFormulaString);
+
+      return calculateTwoNumbers(updatedNumArray, updatedFormula);
   });
 };
 
-// calculateTwoNumbers(
-// /* numArray = */       [1, 2, 3, 4],
-// /* formulaString = */  ''
-//                     );
-// console.log('calc result', calculations);
+calculateTwoNumbers(
+/* numArray = */       [1, 2, 3, 4],
+/* formula = */        []
+                    );
+console.log('calc result', calculations);
 
 
 // module.exports = solve24;
