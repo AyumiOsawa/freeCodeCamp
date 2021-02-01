@@ -59,6 +59,68 @@ function solve24 (numStr) {
   generateArrayPermutation(inputArr);
 
   // =====================================================
+  // Take an array of numbers and generate all the possible order of
+  // the calculations
+
+  const Tree = () => {
+    this.root = null;
+  };
+
+  const Node (element) => {
+    this.value = element;
+    this.left = null;
+    this.right = null;
+  };
+
+  const permutateTrees = (formulaArr) => {
+    // create permutation of tree based on the given array of formula (fixed
+    // order of the numbers and the operands) 
+
+
+
+
+    // const nodes = [];
+    // formulaArr.forEach(item => {
+    //   const newNode = new Node(item);
+    //   nodes.push(newNode);
+    // });
+    //
+    // const rootBranching = [
+    //                         ['node', null],
+    //                         [null, 'node'],
+    //                         ['node', 'node']
+    //                       ];
+    // const branching = [
+    //                     ['node', null],
+    //                     [null, 'node'],
+    //                     [null, null]
+    //                   ];
+    // const operands = [ nodes[1], nodes[3], nodes[5] ];
+    // const numbers = [ nodes[0], nodes[2], nodes[4], nodes[6] ];
+    //
+    // let trees = [];
+    //
+    // const newTree = new Tree();
+    // operands.forEach = (operand => {
+    //   const newNode = new Node();
+    //   if (newTree.root === null) {
+    //     /
+    //   }
+    // })
+
+
+
+  }
+
+
+
+
+
+
+
+
+
+  // =====================================================
   // Take an array of numbers and array of formula (numbers and operators).
   // Output all combination of operands and their results in an array.
   const operands = ['+', '-', '*', '/'];
@@ -117,6 +179,7 @@ function solve24 (numStr) {
     });
   };
 
+
   // =====================================================
   // Add () in the appropriate positions based on the input array.
   const constructFormulaStr = (calculationResultObj) => {
@@ -144,7 +207,6 @@ function solve24 (numStr) {
   for (let i = 0; i < allPermutations.length; i++) {
     sumAndFormula = [];
     calculateTwoNumbers(allPermutations[i], []);
-    console.log('at perm position', i, ':', sumAndFormula);
     const resultObj24 = sumAndFormula.find(calculationResultObj => {
       return calculationResultObj.sum === 24;
     });
