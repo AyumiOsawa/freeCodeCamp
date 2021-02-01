@@ -28,105 +28,139 @@
 // https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/24-game
 
 function solve24 (numStr) {
+  const inputArr = numStr.split('');
 
-
-
-  return true;
-}
-
-// Take one working array and possible numbers to add, and add each one of the
-// numbers to the working array and return
-let allArrays = [];
-const addOneNumber = (remainingNum, arrayToAddTo = []) => {
-  if (remainingNum.length === 0) {
-    allArrays.push(arrayToAddTo);
-    return;
-  }
-  let updatedArrays = [];
-  for (let i = 0; i < remainingNum.length; i++) {
-    let updatedArray = [...arrayToAddTo];
-    updatedArray.push(remainingNum[i]);
-    let updatedRemainings = [...remainingNum];
-    updatedRemainings.splice(i, 1);
-    let newArr = {
-                    remaining : updatedRemainings,
-                    array     : updatedArray
-                 };
-    updatedArrays.push(newArr);
-  }
-
-  return updatedArrays.forEach(arrObj => {
-    return addOneNumber(arrObj.remaining, arrObj.array);
-  });
-};
-
-// addOneNumber([1, 2, 3, 4]);
-// console.log('result:', allArrays);
-// =====================================================
-
-const operands = ['+', '-', '*', '/'];
-let calculations = [];
-const calculateTwoNumbers = (numArray, formula) => {
-  if (numArray.length === 1) {
-    calculations.push({
-                        sum     : numArray[0],
-                        formula : formula
-                      });
-    return;
-  }
-  let updatedNumArray = [];
-  let updatedFormula = [];
-  console.log('formula type', typeof formula);
-  operands.forEach(operand => {
-    updatedNumArray = [...numArray];
-    updatedNumArray.splice(0,2);
-    const num1 = numArray[0];
-    const num2 = numArray[1];
-    let newElm;
-
-    switch (operand) {
-      case '+':
-        newElm = num1 + num2;
-        updatedNumArray.unshift(newElm);
-        updatedFormula = formula.length === 0 ?
-                         formula.concat([num1.toString(), '+', num2.toString()]) :
-                         formula.concat(['+', num2.toString()]);
-        break;
-      case '*':
-        newElm = num1 * num2;
-        updatedNumArray.unshift(newElm);
-        updatedFormula = formula.length === 0 ?
-                         formula.concat([num1.toString(), '*', num2.toString()]) :
-                         formula.concat(['*', num2.toString()]);
-        break;
-      case '-':
-        newElm = num1 - num2;
-        updatedNumArray.unshift(newElm);
-        updatedFormula = formula.length === 0 ?
-                         formula.concat([num1.toString(), '-', num2.toString()]) :
-                         formula.concat(['-', num2.toString()]);
-        break;
-      case '/':
-        newElm = num1 / num2;
-        updatedNumArray.unshift(newElm);
-        updatedFormula = formula.length === 0 ?
-                         formula.concat([num1.toString(), '/', num2.toString()]) :
-                         formula.concat(['/', num2.toString()]);
-        break;
-      default:
-        break;
+  // Take the array of possible numbers to add one accumulator array, and
+  // generate all permunations of the numbers in the array
+  let allPermutations = [];
+  const generateArrayPermutation = (remainingNum, arrayToAddTo = []) => {
+    if (remainingNum.length === 0) {
+      allPermutations.push(arrayToAddTo);
+      return;
+    }
+    let updatedArrays = [];
+    for (let i = 0; i < remainingNum.length; i++) {
+      let updatedArray = [...arrayToAddTo];
+      updatedArray.push(remainingNum[i]);
+      let updatedRemainings = [...remainingNum];
+      updatedRemainings.splice(i, 1);
+      let newArr = {
+                      remaining : updatedRemainings,
+                      array     : updatedArray
+                   };
+      updatedArrays.push(newArr);
     }
 
-      return calculateTwoNumbers(updatedNumArray, updatedFormula);
-  });
+    return updatedArrays.forEach(arrObj => {
+      return generateArrayPermutation(arrObj.remaining, arrObj.array);
+    });
+  };
+
+  generateArrayPermutation(inputArr);
+
+  // =====================================================
+  // Take an array of numbers and array of formula (numbers and operators).
+  // Output all combination of operands and their results in an array.
+  const operands = ['+', '-', '*', '/'];
+  let sumAndFormula = [];
+  const calculateTwoNumbers = (numArray, formula) => {
+    if (numArray.length === 1) {
+      sumAndFormula.push({
+                          sum     : numArray[0],
+                          formula : formula
+                        });
+      return;
+    }
+    let updatedNumArray = [];
+    let updatedFormula = [];
+    operands.forEach(operand => {
+      updatedNumArray = [...numArray];
+      const num1 = updatedNumArray[0];
+      const num2 = updatedNumArray[1];
+      updatedNumArray.splice(0,2);
+      let newElm;
+
+      switch (operand) {
+        case '+':
+          newElm = parseInt(num1) + parseInt(num2);
+          updatedNumArray.unshift(newElm);
+          updatedFormula = formula.length === 0 ?
+                           formula.concat([num1.toString(), '+', num2.toString()]) :
+                           formula.concat(['+', num2.toString()]);
+          break;
+        case '*':
+          newElm = parseInt(num1) * parseInt(num2);
+          updatedNumArray.unshift(newElm);
+          updatedFormula = formula.length === 0 ?
+                           formula.concat([num1.toString(), '*', num2.toString()]) :
+                           formula.concat(['*', num2.toString()]);
+          break;
+        case '-':
+          newElm = parseInt(num1) - parseInt(num2);
+          updatedNumArray.unshift(newElm);
+          updatedFormula = formula.length === 0 ?
+                           formula.concat([num1.toString(), '-', num2.toString()]) :
+                           formula.concat(['-', num2.toString()]);
+          break;
+        case '/':
+          newElm = parseInt(num1) / parseInt(num2);
+          updatedNumArray.unshift(newElm);
+          updatedFormula = formula.length === 0 ?
+                           formula.concat([num1.toString(), '/', num2.toString()]) :
+                           formula.concat(['/', num2.toString()]);
+          break;
+        default:
+          break;
+      }
+
+        return calculateTwoNumbers(updatedNumArray, updatedFormula);
+    });
+  };
+
+  // =====================================================
+  // Add () in the appropriate positions based on the input array.
+  const constructFormulaStr = (calculationResultObj) => {
+    const {sum, formula} = calculationResultObj;
+    let formulaStr = '';
+    const operand1 = formula[1];
+    const operand2 = formula[3];
+    const operand3 = formula[5];
+    const isOperand1Weak = operand1 === '+' || operand1 === '-';
+    const isOperand2Weak = operand2 === '+' || operand2 === '-';
+    const isOperand3Weak = operand3 === '+' || operand3 === '-';
+
+    if (isOperand2Weak && !isOperand3Weak) {
+      formula.splice(0, 0, '(');
+      formula.splice(-2, 0, ')');
+    } else if (isOperand1Weak && !isOperand2Weak) {
+      formula.splice(0, 0, '(');
+      formula.splice(4, 0, ')');
+    }
+
+    return formula.reduce((accum, currentVal) => accum+currentVal);
+  };
+
+  let formulaStr;
+  for (let i = 0; i < allPermutations.length; i++) {
+    sumAndFormula = [];
+    calculateTwoNumbers(allPermutations[i], []);
+    console.log('at perm position', i, ':', sumAndFormula);
+    const resultObj24 = sumAndFormula.find(calculationResultObj => {
+      return calculationResultObj.sum === 24;
+    });
+
+    if (resultObj24) {
+      formulaStr = constructFormulaStr(resultObj24);
+      break;
+    };
+  }
+
+  return typeof formulaStr === 'undefined' ?
+         'no solution exists' :
+         formulaStr;
 };
 
-calculateTwoNumbers(
-/* numArray = */       [1, 2, 3, 4],
-/* formula = */        []
-                    );
-console.log('calc result', calculations);
-
+console.log(solve24('6789'));
 
 // module.exports = solve24;
 //
