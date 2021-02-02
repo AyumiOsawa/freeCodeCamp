@@ -74,7 +74,10 @@ function solve24 (numStr) {
 
   const permutateTrees = (formulaArr) => {
     // create permutation of tree based on the given array of formula (fixed
-    // order of the numbers and the operands) 
+    // order of the numbers and the operands)
+    const numOfLeafNode = numStr.length;
+    const numOfBranchNode = numOfLeafNode - 1;
+    const numOfNode = numOfLeafNode + numOfBranchNode;
 
 
 
@@ -222,7 +225,77 @@ function solve24 (numStr) {
          formulaStr;
 };
 
-console.log(solve24('6789'));
+// console.log(solve24('6789'));
+
+const permutateTrees = (formulaArr) => {
+  // create permutation of tree based on the given array of formula (fixed
+  // order of the numbers and the operands)
+  const numOfLeafNode = numStr.length;
+  const numOfBranchNode = numOfLeafNode - 1;
+  const numOfNode = numOfLeafNode + numOfBranchNode;
+  const Tree = () => {
+    this.root = null;
+  };
+  const Node (element) => {
+    this.value = element;
+    this.left = null;
+    this.right = null;
+  };
+  const nodes = [];
+  let countLeafNodes = 0;
+  for (let i = 0 ; i < numOfNode; i++) {
+    let newNode;
+    if (i < numOfLeafNode) {
+      newNode = new Node(numStr[i]);
+    } else {
+      newNode = new Node(null);
+    }
+
+    // do permutation here
+    newNode.right = ;
+    newNode.left = ;
+    nodes.push(newNode);
+
+    // update countLeafNodes if necessary
+  }
+  // const nodes = [];
+  // formulaArr.forEach(item => {
+  //   const newNode = new Node(item);
+  //   nodes.push(newNode);
+  // });
+  //
+  // const rootBranching = [
+  //                         ['node', null],
+  //                         [null, 'node'],
+  //                         ['node', 'node']
+  //                       ];
+  // const branching = [
+  //                     ['node', null],
+  //                     [null, 'node'],
+  //                     [null, null]
+  //                   ];
+  // const operands = [ nodes[1], nodes[3], nodes[5] ];
+  // const numbers = [ nodes[0], nodes[2], nodes[4], nodes[6] ];
+  //
+  // let trees = [];
+  //
+  // const newTree = new Tree();
+  // operands.forEach = (operand => {
+  //   const newNode = new Node();
+  //   if (newTree.root === null) {
+  //     /
+  //   }
+  // })
+
+
+
+}
+
+
+
+
+
+
 
 // module.exports = solve24;
 //
