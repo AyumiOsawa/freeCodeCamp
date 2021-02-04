@@ -32,95 +32,49 @@ function solve24 (numStr) {
 
   // Take the array of possible numbers to add one accumulator array, and
   // generate all permunations of the numbers in the array
-  let allPermutations = [];
-  const generateArrayPermutation = (remainingNum, arrayToAddTo = []) => {
-    if (remainingNum.length === 0) {
-      allPermutations.push(arrayToAddTo);
-      return;
-    }
-    let updatedArrays = [];
-    for (let i = 0; i < remainingNum.length; i++) {
-      let updatedArray = [...arrayToAddTo];
-      updatedArray.push(remainingNum[i]);
-      let updatedRemainings = [...remainingNum];
-      updatedRemainings.splice(i, 1);
-      let newArr = {
-                      remaining : updatedRemainings,
-                      array     : updatedArray
-                   };
-      updatedArrays.push(newArr);
-    }
+  const generateArrayPermutation = (remainingNum) => {
+    let permutations = [];
+    const permutate = (remainingNum, arrayToAddTo = []) => {
+      if (remainingNum.length === 0) {
+        permutations.push(arrayToAddTo);
+        return;
+      }
 
-    return updatedArrays.forEach(arrObj => {
-      return generateArrayPermutation(arrObj.remaining, arrObj.array);
-    });
+      let updatedArrays = [];
+      for (let i = 0; i < remainingNum.length; i++) {
+        let updatedArray = [...arrayToAddTo];
+        updatedArray.push(remainingNum[i]);
+        let updatedRemainings = [...remainingNum];
+        updatedRemainings.splice(i, 1);
+        let newArr = {
+                        remaining : updatedRemainings,
+                        array     : updatedArray
+                     };
+        updatedArrays.push(newArr);
+
+      }
+
+      updatedArrays.forEach(arrObj => {
+        return permutate(arrObj.remaining, arrObj.array);
+      });
+    };
+
+    permutate(remainingNum);
+    return permutations;
   };
 
-  generateArrayPermutation(inputArr);
+  const permInputNums = generateArrayPermutation(inputArr);
 
-  // =====================================================
-  // Take an array of numbers and generate all the possible order of
-  // the calculations
+  console.log('input num perm', permInputNums);
 
-  const Tree = () => {
-    this.root = null;
-  };
-
-  const Node (element) => {
-    this.value = element;
-    this.left = null;
-    this.right = null;
-  };
-
-  const permutateTrees = (formulaArr) => {
-    // create permutation of tree based on the given array of formula (fixed
-    // order of the numbers and the operands)
-    const numOfLeafNode = numStr.length;
-    const numOfBranchNode = numOfLeafNode - 1;
-    const numOfNode = numOfLeafNode + numOfBranchNode;
-
-
-
-
-    // const nodes = [];
-    // formulaArr.forEach(item => {
-    //   const newNode = new Node(item);
-    //   nodes.push(newNode);
-    // });
-    //
-    // const rootBranching = [
-    //                         ['node', null],
-    //                         [null, 'node'],
-    //                         ['node', 'node']
-    //                       ];
-    // const branching = [
-    //                     ['node', null],
-    //                     [null, 'node'],
-    //                     [null, null]
-    //                   ];
-    // const operands = [ nodes[1], nodes[3], nodes[5] ];
-    // const numbers = [ nodes[0], nodes[2], nodes[4], nodes[6] ];
-    //
-    // let trees = [];
-    //
-    // const newTree = new Tree();
-    // operands.forEach = (operand => {
-    //   const newNode = new Node();
-    //   if (newTree.root === null) {
-    //     /
-    //   }
-    // })
-
-
-
+  // using the generateArrayPermutation, generate the order of the calculation
+  const numOfCalcs = inputArr.length - 1;
+  let calcArr = [];
+  for (let i = 0; i < numOfCalcs; i ++) {
+    calcArr.push(i);
   }
-
-
-
-
-
-
-
+  const permCalcOrder = generateArrayPermutation(calcArr);
+  console.log('permCalcOrder',permCalcOrder);
 
 
   // =====================================================
@@ -207,9 +161,9 @@ function solve24 (numStr) {
   };
 
   let formulaStr;
-  for (let i = 0; i < allPermutations.length; i++) {
+  for (let i = 0; i < permInputNums.length; i++) {
     sumAndFormula = [];
-    calculateTwoNumbers(allPermutations[i], []);
+    calculateTwoNumbers(permInputNums[i], []);
     const resultObj24 = sumAndFormula.find(calculationResultObj => {
       return calculationResultObj.sum === 24;
     });
@@ -225,77 +179,7 @@ function solve24 (numStr) {
          formulaStr;
 };
 
-// console.log(solve24('6789'));
-
-const permutateTrees = (formulaArr) => {
-  // create permutation of tree based on the given array of formula (fixed
-  // order of the numbers and the operands)
-  const numOfLeafNode = numStr.length;
-  const numOfBranchNode = numOfLeafNode - 1;
-  const numOfNode = numOfLeafNode + numOfBranchNode;
-  const Tree = () => {
-    this.root = null;
-  };
-  const Node (element) => {
-    this.value = element;
-    this.left = null;
-    this.right = null;
-  };
-  const nodes = [];
-  let countLeafNodes = 0;
-  for (let i = 0 ; i < numOfNode; i++) {
-    let newNode;
-    if (i < numOfLeafNode) {
-      newNode = new Node(numStr[i]);
-    } else {
-      newNode = new Node(null);
-    }
-
-    // do permutation here
-    newNode.right = ;
-    newNode.left = ;
-    nodes.push(newNode);
-
-    // update countLeafNodes if necessary
-  }
-  // const nodes = [];
-  // formulaArr.forEach(item => {
-  //   const newNode = new Node(item);
-  //   nodes.push(newNode);
-  // });
-  //
-  // const rootBranching = [
-  //                         ['node', null],
-  //                         [null, 'node'],
-  //                         ['node', 'node']
-  //                       ];
-  // const branching = [
-  //                     ['node', null],
-  //                     [null, 'node'],
-  //                     [null, null]
-  //                   ];
-  // const operands = [ nodes[1], nodes[3], nodes[5] ];
-  // const numbers = [ nodes[0], nodes[2], nodes[4], nodes[6] ];
-  //
-  // let trees = [];
-  //
-  // const newTree = new Tree();
-  // operands.forEach = (operand => {
-  //   const newNode = new Node();
-  //   if (newTree.root === null) {
-  //     /
-  //   }
-  // })
-
-
-
-}
-
-
-
-
-
-
+console.log(solve24('6789'));
 
 // module.exports = solve24;
 //
