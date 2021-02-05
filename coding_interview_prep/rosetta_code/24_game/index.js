@@ -64,79 +64,67 @@ function solve24 (numStr) {
   };
 
   const permInputNums = generateArrayPermutation(inputArr);
-
-  console.log('input num perm', permInputNums);
-
-  // using the generateArrayPermutation, generate the order of the calculation
+  // Generate the order of the calculation.
   const numOfCalcs = inputArr.length - 1;
   let calcArr = [];
   for (let i = 0; i < numOfCalcs; i ++) {
     calcArr.push(i);
   }
   const permCalcOrder = generateArrayPermutation(calcArr);
-  console.log('permCalcOrder',permCalcOrder);
-
 
   // =====================================================
   // Take an array of numbers and array of formula (numbers and operators).
   // Output all combination of operands and their results in an array.
-  const operands = ['+', '-', '*', '/'];
-  let sumAndFormula = [];
-  const calculateTwoNumbers = (numArray, formula) => {
-    if (numArray.length === 1) {
-      sumAndFormula.push({
-                          sum     : numArray[0],
-                          formula : formula
-                        });
-      return;
-    }
-    let updatedNumArray = [];
-    let updatedFormula = [];
-    operands.forEach(operand => {
-      updatedNumArray = [...numArray];
-      const num1 = updatedNumArray[0];
-      const num2 = updatedNumArray[1];
-      updatedNumArray.splice(0,2);
-      let newElm;
-
-      switch (operand) {
-        case '+':
-          newElm = parseInt(num1) + parseInt(num2);
-          updatedNumArray.unshift(newElm);
-          updatedFormula = formula.length === 0 ?
-                           formula.concat([num1.toString(), '+', num2.toString()]) :
-                           formula.concat(['+', num2.toString()]);
-          break;
-        case '*':
-          newElm = parseInt(num1) * parseInt(num2);
-          updatedNumArray.unshift(newElm);
-          updatedFormula = formula.length === 0 ?
-                           formula.concat([num1.toString(), '*', num2.toString()]) :
-                           formula.concat(['*', num2.toString()]);
-          break;
-        case '-':
-          newElm = parseInt(num1) - parseInt(num2);
-          updatedNumArray.unshift(newElm);
-          updatedFormula = formula.length === 0 ?
-                           formula.concat([num1.toString(), '-', num2.toString()]) :
-                           formula.concat(['-', num2.toString()]);
-          break;
-        case '/':
-          newElm = parseInt(num1) / parseInt(num2);
-          updatedNumArray.unshift(newElm);
-          updatedFormula = formula.length === 0 ?
-                           formula.concat([num1.toString(), '/', num2.toString()]) :
-                           formula.concat(['/', num2.toString()]);
-          break;
-        default:
-          break;
+  // TODO: Reflect the order of calculation.
+  const generateFormula = (inputArr) => {
+    const operands = ['+', '-', '*', '/'];
+    let formula = [];
+    const calculateTwoNumbers = (numArray, formula) => {
+      if (numArray.length === 0) {
+        formula.push(formula);
+        return;
       }
+      let updatedFormula = [];
+      operands.forEach(operand => {
+        let num1, num2, updatedNumArray;
+        [num1, num2, ...updatedNumArray] = [...numArray];
+        console.log('num1',num1);
+        console.log('num2',num2);
+        console.log('updatedNumArray',updatedNumArray);
 
-        return calculateTwoNumbers(updatedNumArray, updatedFormula);
-    });
-  };
+        switch (operand) {
+          case '+':
+            updatedFormula = formula.length === 0 ?
+                             formula.concat([num1.toString(), '+', num2.toString()]) :
+                             formula.concat(['+', num2.toString()]);
+            break;
+          case '*':
+            updatedFormula = formula.length === 0 ?
+                             formula.concat([num1.toString(), '*', num2.toString()]) :
+                             formula.concat(['*', num2.toString()]);
+            break;
+          case '-':
+            updatedFormula = formula.length === 0 ?
+                             formula.concat([num1.toString(), '-', num2.toString()]) :
+                             formula.concat(['-', num2.toString()]);
+            break;
+          case '/':
+            updatedFormula = formula.length === 0 ?
+                             formula.concat([num1.toString(), '/', num2.toString()]) :
+                             formula.concat(['/', num2.toString()]);
+            break;
+          default:
+            break;
+        }
+          return calculateTwoNumbers(updatedNumArray, updatedFormula);
+      });
+    };
 
+    calculateTwoNumbers(inputArr, formula);
+    return formula;
+  }
 
+  console.log('generateFormula',generateFormula(inputArr));
   // =====================================================
   // Add () in the appropriate positions based on the input array.
   const constructFormulaStr = (calculationResultObj) => {
