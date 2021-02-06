@@ -84,33 +84,29 @@ function solve24 (numStr) {
         formulaCollection.push(formula);
         return;
       }
-      let updatedFormula = [];
-      let num1 = numArray[0];
-      let num2 = numArray[1];
-      let updatedNumArray = [...numArray];
-      updatedNumArray.splice(0,2);
 
+      let updatedNumArray = [...numArray];
+      if (formula.length === 0) {
+        formula.push(numArray[0].toString());
+        updatedNumArray.splice(0,1);
+      }
+      let num1 = updatedNumArray[0];
+      updatedNumArray.splice(0,1);
+
+      let updatedFormula = [];
       operands.forEach(operand => {
         switch (operand) {
           case '+':
-            updatedFormula = formula.length === 0 ?
-                             formula.concat([num1.toString(), '+', num2.toString()]) :
-                             formula.concat(['+', num2.toString()]);
+            updatedFormula = formula.concat(['+', num1.toString()]);
             break;
           case '*':
-            updatedFormula = formula.length === 0 ?
-                             formula.concat([num1.toString(), '*', num2.toString()]) :
-                             formula.concat(['*', num2.toString()]);
+            updatedFormula = formula.concat(['*', num1.toString()]);
             break;
           case '-':
-            updatedFormula = formula.length === 0 ?
-                             formula.concat([num1.toString(), '-', num2.toString()]) :
-                             formula.concat(['-', num2.toString()]);
+            updatedFormula = formula.concat(['-', num1.toString()]);
             break;
           case '/':
-            updatedFormula = formula.length === 0 ?
-                             formula.concat([num1.toString(), '/', num2.toString()]) :
-                             formula.concat(['/', num2.toString()]);
+            updatedFormula = formula.concat(['/', num1.toString()]);
             break;
           default:
             break;
@@ -120,7 +116,7 @@ function solve24 (numStr) {
       return formula;
     };
 
-    calculateTwoNumbers(inputArr, '');
+    calculateTwoNumbers(inputArr, []);
     return formulaCollection;
   }
 
