@@ -78,20 +78,19 @@ function solve24 (numStr) {
   // TODO: Reflect the order of calculation.
   const generateFormula = (inputArr) => {
     const operands = ['+', '-', '*', '/'];
-    let formula = [];
+    let formulaCollection = [];
     const calculateTwoNumbers = (numArray, formula) => {
       if (numArray.length === 0) {
-        formula.push(formula);
+        formulaCollection.push(formula);
         return;
       }
       let updatedFormula = [];
-      operands.forEach(operand => {
-        let num1, num2, updatedNumArray;
-        [num1, num2, ...updatedNumArray] = [...numArray];
-        console.log('num1',num1);
-        console.log('num2',num2);
-        console.log('updatedNumArray',updatedNumArray);
+      let num1 = numArray[0];
+      let num2 = numArray[1];
+      let updatedNumArray = [...numArray];
+      updatedNumArray.splice(0,2);
 
+      operands.forEach(operand => {
         switch (operand) {
           case '+':
             updatedFormula = formula.length === 0 ?
@@ -118,13 +117,14 @@ function solve24 (numStr) {
         }
           return calculateTwoNumbers(updatedNumArray, updatedFormula);
       });
+      return formula;
     };
 
-    calculateTwoNumbers(inputArr, formula);
-    return formula;
+    calculateTwoNumbers(inputArr, '');
+    return formulaCollection;
   }
 
-  console.log('generateFormula',generateFormula(inputArr));
+  console.log('generateFormula',generateFormula([1,2,3,4]));
   // =====================================================
   // Add () in the appropriate positions based on the input array.
   const constructFormulaStr = (calculationResultObj) => {
@@ -150,8 +150,7 @@ function solve24 (numStr) {
 
   let formulaStr;
   for (let i = 0; i < permInputNums.length; i++) {
-    sumAndFormula = [];
-    calculateTwoNumbers(permInputNums[i], []);
+    let sumAndFormula = generateFormula(permInputNums[i]);
     const resultObj24 = sumAndFormula.find(calculationResultObj => {
       return calculationResultObj.sum === 24;
     });
