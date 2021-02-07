@@ -64,63 +64,77 @@ function solve24 (numStr) {
   };
 
   const permInputNums = generateArrayPermutation(inputArr);
-  // Generate the order of the calculation.
-  const numOfCalcs = inputArr.length - 1;
-  let calcArr = [];
-  for (let i = 0; i < numOfCalcs; i ++) {
-    calcArr.push(i);
+
+  const generateCalcOrder = (inputArr) => {
+    const numOfCalcs = inputArr.length - 1;
+    let calcArr = [];
+    for (let i = 0; i < numOfCalcs; i ++) {
+      calcArr.push(i);
+    }
+    return generateArrayPermutation(calcArr);
+  };
+  const permCalcOrder = generateCalcOrder(inputArr);
+
+  console.log('permCalcOrder',permCalcOrder);
+
+
+  // TODO: take permInputNums and apply generateFormula() for each of them:
+  const calcAllNumInAllOrder = (permInputNums, permCalcOrder) => {
+
+    return
   }
-  const permCalcOrder = generateArrayPermutation(calcArr);
+
 
   // =====================================================
   // Take an array of numbers and array of formula (numbers and operators).
   // Output all combination of operands and their results in an array.
-  // TODO: Reflect the order of calculation.
-  const generateFormula = (inputArr) => {
-    const operands = ['+', '-', '*', '/'];
-    let formulaCollection = [];
-    const calculateTwoNumbers = (numArray, formula) => {
-      if (numArray.length === 0) {
-        formulaCollection.push(formula);
-        return;
-      }
+  // const generateFormula = (inputArr) => {
+  //   const operands = ['+', '-', '*', '/'];
+  //   let formulaCollection = [];
+  //   const calculateTwoNumbers = (numArray, formula) => {
+  //     if (numArray.length === 0) {
+  //       formulaCollection.push(formula);
+  //       return;
+  //     }
+  //
+  //     let updatedNumArray = [...numArray];
+  //     if (formula.length === 0) {
+  //       formula.push(numArray[0].toString());
+  //       updatedNumArray.splice(0,1);
+  //     }
+  //     let num1 = updatedNumArray[0];
+  //     updatedNumArray.splice(0,1);
+  //
+  //     let updatedFormula = [];
+  //     operands.forEach(operand => {
+  //       switch (operand) {
+  //         case '+':
+  //           updatedFormula = formula.concat(['+', num1.toString()]);
+  //           break;
+  //         case '*':
+  //           updatedFormula = formula.concat(['*', num1.toString()]);
+  //           break;
+  //         case '-':
+  //           updatedFormula = formula.concat(['-', num1.toString()]);
+  //           break;
+  //         case '/':
+  //           updatedFormula = formula.concat(['/', num1.toString()]);
+  //           break;
+  //         default:
+  //           break;
+  //       }
+  //         return calculateTwoNumbers(updatedNumArray, updatedFormula);
+  //     });
+  //     return formula;
+  //   };
+  //
+  //   calculateTwoNumbers(inputArr, []);
+  //   return formulaCollection;
+  // }
 
-      let updatedNumArray = [...numArray];
-      if (formula.length === 0) {
-        formula.push(numArray[0].toString());
-        updatedNumArray.splice(0,1);
-      }
-      let num1 = updatedNumArray[0];
-      updatedNumArray.splice(0,1);
 
-      let updatedFormula = [];
-      operands.forEach(operand => {
-        switch (operand) {
-          case '+':
-            updatedFormula = formula.concat(['+', num1.toString()]);
-            break;
-          case '*':
-            updatedFormula = formula.concat(['*', num1.toString()]);
-            break;
-          case '-':
-            updatedFormula = formula.concat(['-', num1.toString()]);
-            break;
-          case '/':
-            updatedFormula = formula.concat(['/', num1.toString()]);
-            break;
-          default:
-            break;
-        }
-          return calculateTwoNumbers(updatedNumArray, updatedFormula);
-      });
-      return formula;
-    };
+  // console.log('generateFormula',generateFormula([1,2,3,4]));
 
-    calculateTwoNumbers(inputArr, []);
-    return formulaCollection;
-  }
-
-  console.log('generateFormula',generateFormula([1,2,3,4]));
   // =====================================================
   // Add () in the appropriate positions based on the input array.
   const constructFormulaStr = (calculationResultObj) => {
