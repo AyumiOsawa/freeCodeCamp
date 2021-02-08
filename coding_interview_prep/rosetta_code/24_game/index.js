@@ -28,10 +28,11 @@
 // https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/24-game
 
 function solve24 (numStr) {
-  const inputArr = numStr.split('');
+  let inputArr = numStr.split('');
+  inputArr = inputArr.map(numStr => parseInt(numStr, 10));
 
-  // Take the array of possible numbers to add one accumulator array, and
-  // generate all permunations of the numbers in the array
+  // =============================================================
+  // STEP 1:  Take an array of numbers and return the permunatation
   const generateArrayPermutation = (remainingNum) => {
     let permutations = [];
     const permutate = (remainingNum, arrayToAddTo = []) => {
@@ -39,7 +40,6 @@ function solve24 (numStr) {
         permutations.push(arrayToAddTo);
         return;
       }
-
       let updatedArrays = [];
       for (let i = 0; i < remainingNum.length; i++) {
         let updatedArray = [...arrayToAddTo];
@@ -51,9 +51,7 @@ function solve24 (numStr) {
                         array     : updatedArray
                      };
         updatedArrays.push(newArr);
-
       }
-
       updatedArrays.forEach(arrObj => {
         return permutate(arrObj.remaining, arrObj.array);
       });
@@ -62,9 +60,63 @@ function solve24 (numStr) {
     permutate(remainingNum);
     return permutations;
   };
-
+  console.log('inputArr',inputArr);
   const permInputNums = generateArrayPermutation(inputArr);
+  console.log('permInputNums',permInputNums);
 
+  // =====================================================
+  // STEP 2: Take ONE array of numbers and generate formulas (numbers and
+  // operators) with all combination of operands.
+  const generateFormula = (inputArr) => {
+    const operands = ['+', '-', '*', '/'];
+    let formulaCollection = [];
+    const addOperand = (numArray, formula) => {
+      if (numArray.length === 0) {
+        formulaCollection.push(formula);
+        return;
+      }
+      let updatedNumArray = [...numArray];
+      if (formula.length === 0) {
+        formula.push(numArray[0]);
+        updatedNumArray.splice(0,1);
+      }
+      let num1 = updatedNumArray[0];
+      updatedNumArray.splice(0,1);
+
+      let updatedFormula = [];
+      operands.forEach(operand => {
+        switch (operand) {
+          case '+':
+            updatedFormula = formula.concat(['+', num1]);
+            break;
+          case '*':
+            updatedFormula = formula.concat(['*', num1]);
+            break;
+          case '-':
+            updatedFormula = formula.concat(['-', num1]);
+            break;
+          case '/':
+            updatedFormula = formula.concat(['/', num1]);
+            break;
+          default:
+            break;
+        }
+          return addOperand(updatedNumArray, updatedFormula);
+      });
+      return formula;
+    };
+
+    addOperand(inputArr, []);
+    return formulaCollection;
+  }
+  const exampleFormulas = generateFormula(permInputNums[0]);
+  console.log('generateFormula example',exampleFormulas);
+
+
+  // =====================================================
+  // STEP 3: Take ONE formula and calculate it in ALL calculation orders
+
+  // Generate all the orders of calculation of the formula
   const generateCalcOrder = (inputArr) => {
     const numOfCalcs = inputArr.length - 1;
     let calcArr = [];
@@ -74,106 +126,141 @@ function solve24 (numStr) {
     return generateArrayPermutation(calcArr);
   };
   const permCalcOrder = generateCalcOrder(inputArr);
-
   console.log('permCalcOrder',permCalcOrder);
 
+  // Take ONE formula and calculate it in ALL orders
+  const calculateFormula = (formulaArr, calcOrders) => {
+    const performArithmetics = (num1, num2, operandStr) => {
+      // console.log('num1',num1);
+      // console.log('num2',num2);
+      // console.log('operandStr',operandStr);
+      let result;
+      switch (operandStr) {
+        case '+':
+          result = num1 + num2;
+          break;
+        case '-':
+          result = num1 - num2;
+          break;
+        case '*':
+          result = num1 * num2;
+          break;
+        case '/':
+          result = num1 / num2;
+          break;
+        default:
+          break;
+      }
+      return result;
+    };
 
-  // TODO: take permInputNums and apply generateFormula() for each of them:
-  const calcAllNumInAllOrder = (permInputNums, permCalcOrder) => {
-
-    return
-  }
-
-
-  // =====================================================
-  // Take an array of numbers and array of formula (numbers and operators).
-  // Output all combination of operands and their results in an array.
-  // const generateFormula = (inputArr) => {
-  //   const operands = ['+', '-', '*', '/'];
-  //   let formulaCollection = [];
-  //   const calculateTwoNumbers = (numArray, formula) => {
-  //     if (numArray.length === 0) {
-  //       formulaCollection.push(formula);
-  //       return;
-  //     }
-  //
-  //     let updatedNumArray = [...numArray];
-  //     if (formula.length === 0) {
-  //       formula.push(numArray[0].toString());
-  //       updatedNumArray.splice(0,1);
-  //     }
-  //     let num1 = updatedNumArray[0];
-  //     updatedNumArray.splice(0,1);
-  //
-  //     let updatedFormula = [];
-  //     operands.forEach(operand => {
-  //       switch (operand) {
-  //         case '+':
-  //           updatedFormula = formula.concat(['+', num1.toString()]);
-  //           break;
-  //         case '*':
-  //           updatedFormula = formula.concat(['*', num1.toString()]);
-  //           break;
-  //         case '-':
-  //           updatedFormula = formula.concat(['-', num1.toString()]);
-  //           break;
-  //         case '/':
-  //           updatedFormula = formula.concat(['/', num1.toString()]);
-  //           break;
-  //         default:
-  //           break;
-  //       }
-  //         return calculateTwoNumbers(updatedNumArray, updatedFormula);
-  //     });
-  //     return formula;
-  //   };
-  //
-  //   calculateTwoNumbers(inputArr, []);
-  //   return formulaCollection;
-  // }
-
-
-  // console.log('generateFormula',generateFormula([1,2,3,4]));
-
-  // =====================================================
-  // Add () in the appropriate positions based on the input array.
-  const constructFormulaStr = (calculationResultObj) => {
-    const {sum, formula} = calculationResultObj;
-    let formulaStr = '';
-    const operand1 = formula[1];
-    const operand2 = formula[3];
-    const operand3 = formula[5];
-    const isOperand1Weak = operand1 === '+' || operand1 === '-';
-    const isOperand2Weak = operand2 === '+' || operand2 === '-';
-    const isOperand3Weak = operand3 === '+' || operand3 === '-';
-
-    if (isOperand2Weak && !isOperand3Weak) {
-      formula.splice(0, 0, '(');
-      formula.splice(-2, 0, ')');
-    } else if (isOperand1Weak && !isOperand2Weak) {
-      formula.splice(0, 0, '(');
-      formula.splice(4, 0, ')');
+    let workingFormulaArr;
+    console.log('going to calculate...',formulaArr);
+    for (let calcOrdersIndex = 0;
+         calcOrdersIndex < calcOrders.length;
+         calcOrdersIndex++) {
+      console.log('in the oder of', calcOrders[calcOrdersIndex]);
+      // Reset the working formula before checkcing a new order
+      workingFormulaArr = [...formulaArr];
+      calcOrders[calcOrdersIndex].forEach((operatingPair, index) => {
+        // An update on the index of calculating pair is needed, as the working
+        // formula gets updated (shortened) at the end of each loop cycle.
+        let calcPair = Math.max(operatingPair - index, 0);
+        // calculate the pair and update the worknig formula
+        let num1 = workingFormulaArr[calcPair * 2];
+        let num2 = workingFormulaArr[calcPair * 2 + 2];
+        let operand = workingFormulaArr[calcPair * 2 + 1];
+        let newNum = performArithmetics(num1, num2, operand);
+        workingFormulaArr.splice(calcPair * 2, 3, newNum);
+      })
+      console.log('calc result',workingFormulaArr);
+      // console.log('j1', workingFormulaArr.length === 1);
+      // console.log('j2',  workingFormulaArr[0] === 24);
+      if (workingFormulaArr.length === 1 && workingFormulaArr[0] === 24) {
+        console.log('result found!');
+        return calcOrders[calcOrdersIndex];
+      }
     }
+    // when the formula doesn't return 24 in any order
+    return false;
+  };
+  // console.log('any returns 24?', calculateFormula(exampleFormulas[30], permCalcOrder));
 
-    return formula.reduce((accum, currentVal) => accum+currentVal);
+
+  // =====================================================
+  // STEP 4: Generate ALL formulas, and calculate it in ALL calculation orders.
+  const calcAllNumInAllOrder = (permInputNums, permCalcOrder) => {
+    // go through all the permuted numbers and generate formulas
+    let calcRefsult = false;
+    for (let permNumsIndex = 0;
+         permNumsIndex < permInputNums.length;
+         permNumsIndex++) {
+      const formulas = generateFormula(permInputNums[permNumsIndex]);
+
+      for (let formulasIndex = 0;
+           formulasIndex < formulas.length;
+           formulasIndex++) {
+        calcRefsult = calculateFormula(formulas[formulasIndex], permCalcOrder);
+        if (calcRefsult) {
+          return [formulas[formulasIndex], calcRefsult];
+        }
+      }
+    }
+    // when no formula yields 24 in any order
+    return false;
   };
 
-  let formulaStr;
-  for (let i = 0; i < permInputNums.length; i++) {
-    let sumAndFormula = generateFormula(permInputNums[i]);
-    const resultObj24 = sumAndFormula.find(calculationResultObj => {
-      return calculationResultObj.sum === 24;
-    });
+  const makes24 = calcAllNumInAllOrder(permInputNums, permCalcOrder);
+  console.log('makes24?', makes24)
 
-    if (resultObj24) {
-      formulaStr = constructFormulaStr(resultObj24);
-      break;
-    };
+  // =====================================================
+  //Step 5: Add () in the appropriate positions based on the input array.
+  const constructFormulaStr = (calculationResultObj) => {
+    const {formula, order} = calculationResultObj;
+    const numOfOperands = inputArr.length - 1;
+    const operands = {};
+    for (let operandIndex = 0;
+         operandIndex < numOfOperands;
+         operandIndex++) {
+      operands[operandIndex + 1] = formula[operandIndex * 2 + 1];
+    }
+    const isOperand1Weak = operands[1] === '+' || operand1 === '-';
+    const isOperand2Weak = operands[2] === '+' || operand2 === '-';
+    const isOperand3Weak = operands[3] === '+' || operand3 === '-';
+
+    // TODO: check the calculation order and add () to appropriate places
+
+    // let formulaStr = ''
+    // if (isOperand2Weak && !isOperand3Weak) {
+    //   formula.splice(0, 0, '(');
+    //   formula.splice(-2, 0, ')');
+    // } else if (isOperand1Weak && !isOperand2Weak) {
+    //   formula.splice(0, 0, '(');
+    //   formula.splice(4, 0, ')');
+    // }
+
+    // return formula.reduce((accum, currentVal) => accum+currentVal);
+  };
+  //
+  // let formulaStr;
+  // for (let i = 0; i < permInputNums.length; i++) {
+  //   let sumAndFormula = generateFormula(permInputNums[i]);
+  //   const resultObj24 = sumAndFormula.find(calculationResultObj => {
+  //     return calculationResultObj.sum === 24;
+  //   });
+  //
+  //   if (resultObj24) {
+  //     formulaStr = constructFormulaStr(resultObj24);
+  //     break;
+  //   };
+  // }
+  //
+  // return typeof formulaStr === 'undefined' ?
+  //        'no solution exists' :
+  //        formulaStr;
+  if (!makes24) {
+    return 'no solution exists';
   }
-
-  return typeof formulaStr === 'undefined' ?
-         'no solution exists' :
-         formulaStr;
 };
 
 console.log(solve24('6789'));
