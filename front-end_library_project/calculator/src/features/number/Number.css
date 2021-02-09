@@ -1,6 +1,22 @@
+.key_wrapper__number {
+  height: calc(70vh / 4);
+  background: conic-gradient(
+     from 45deg, #999999, #777777, #999999);
+  border: 1px solid #777777;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .key__number {
-  border: 1px solid red;
-  line-height: calc(70vh / 4);
+  text-align: center;
+  font-size: 3rem;
+  line-height: calc(70vh / 4 * 0.8);
+  height: 80%;
+  width: calc(100% - 70vh / 4 * 0.2);
+  background-color: #aaaaaa;
+  box-shadow: 0px 0px 10px #777777;
+  border-radius: 5px 5px;
 }
 
 .colmn__numbers {

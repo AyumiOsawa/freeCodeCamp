@@ -155,11 +155,9 @@ function solve24 (numStr) {
     };
 
     let workingFormulaArr;
-    console.log('going to calculate...',formulaArr);
     for (let calcOrdersIndex = 0;
          calcOrdersIndex < calcOrders.length;
          calcOrdersIndex++) {
-      console.log('in the oder of', calcOrders[calcOrdersIndex]);
       // Reset the working formula before checkcing a new order
       workingFormulaArr = [...formulaArr];
       calcOrders[calcOrdersIndex].forEach((operatingPair, index) => {
@@ -173,11 +171,7 @@ function solve24 (numStr) {
         let newNum = performArithmetics(num1, num2, operand);
         workingFormulaArr.splice(calcPair * 2, 3, newNum);
       })
-      console.log('calc result',workingFormulaArr);
-      // console.log('j1', workingFormulaArr.length === 1);
-      // console.log('j2',  workingFormulaArr[0] === 24);
       if (workingFormulaArr.length === 1 && workingFormulaArr[0] === 24) {
-        console.log('result found!');
         return calcOrders[calcOrdersIndex];
       }
     }
@@ -209,26 +203,66 @@ function solve24 (numStr) {
     // when no formula yields 24 in any order
     return false;
   };
-
   const makes24 = calcAllNumInAllOrder(permInputNums, permCalcOrder);
   console.log('makes24?', makes24)
 
   // =====================================================
   //Step 5: Add () in the appropriate positions based on the input array.
   const constructFormulaStr = (calculationResultObj) => {
-    const {formula, order} = calculationResultObj;
-    const numOfOperands = inputArr.length - 1;
-    const operands = {};
-    for (let operandIndex = 0;
-         operandIndex < numOfOperands;
-         operandIndex++) {
-      operands[operandIndex + 1] = formula[operandIndex * 2 + 1];
-    }
-    const isOperand1Weak = operands[1] === '+' || operand1 === '-';
-    const isOperand2Weak = operands[2] === '+' || operand2 === '-';
-    const isOperand3Weak = operands[3] === '+' || operand3 === '-';
+    const [formula, order] = calculationResultObj;
+    console.log(' inside const form formula',formula);
+    console.log('inside const form order',order);
+
 
     // TODO: check the calculation order and add () to appropriate places
+    const checkTheFollowingOperandPerecedence = (formula, orderIndex, orderArray) => {
+      const numOfOperands = orderArray.length;
+      const operands = {};
+      const isOperandWeak = {};
+      for (let operandIndex = 0;
+           operandIndex < numOfOperands;
+           operandIndex++) {
+        operands[operandIndex] = formula[operandIndex * 2 + 1];
+        isOperandWeak[operandIndex] = operands[operandIndex] === '+' ||
+                                      operands[operandIndex] === '-';
+      }
+      // get the operands that are not yet calculated
+      const followingOperands = [...orderArray];
+      followingOperands.splice(0, orderIndex + 1);
+      console.log('orderIndex',orderIndex);
+      console.log('followingOperands',followingOperands);
+
+      const isWeak = (operand) => {
+        return isOperandWeak[operand];
+      };
+
+      // Check if the pair needs parenthesis.
+      // For the operands that have not been calculated:
+      // CASE 1: all have the same strength (weak-weak, strong-strong) as current pair's operand has
+      // CASE 2: contains at least one operand that is stronger than the current one
+    }
+
+    let needParentheses = [];
+    order.forEach((calcPair, calcPairIndex, calcOrder) => {
+      checkTheFollowingOperandPerecedence(formula, calcPairIndex, calcOrder);
+      // switch (calcPair) {
+      //   case '0':
+      //      // either one of, or both of operand2 and operand 3 is/are * or /
+      //     if (!isOperand2Weak || !isOperand3Weak) {
+      //       formula.splice(0, 0, '(');
+      //       formula.splice(4, 0, ')');
+      //     }
+      //     break;
+      //   case '1':
+      //
+      //     break;
+      //   case '2':
+      //
+      //     break;
+      //   default:
+      //
+      // }
+    });
 
     // let formulaStr = ''
     // if (isOperand2Weak && !isOperand3Weak) {
@@ -241,8 +275,8 @@ function solve24 (numStr) {
 
     // return formula.reduce((accum, currentVal) => accum+currentVal);
   };
-  //
-  // let formulaStr;
+  constructFormulaStr(makes24);
+  // let formulaStcr;
   // for (let i = 0; i < permInputNums.length; i++) {
   //   let sumAndFormula = generateFormula(permInputNums[i]);
   //   const resultObj24 = sumAndFormula.find(calculationResultObj => {
