@@ -26,6 +26,12 @@
   flex-grow: 1;
 }
 
+.key__control:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+  overflow: hidden;
+}
+
 .key__equal {
   flex-grow: 2;
 }

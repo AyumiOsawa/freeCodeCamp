@@ -19,6 +19,11 @@
   border-radius: 5px 5px;
 }
 
+.key__number:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
 .colmn__numbers {
   width: 50vw;
   display: grid;
