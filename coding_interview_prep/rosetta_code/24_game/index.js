@@ -138,7 +138,6 @@ function solve24 (numStr) {
     for (let calcOrdersIndex = 0;
          calcOrdersIndex < calcOrders.length;
          calcOrdersIndex++) {
-        console.log('calculate', formulaArr, 'in the order of', calcOrders[calcOrdersIndex]);
       currentFormulaArr = [...formulaArr];
       calcOrders[calcOrdersIndex].forEach((operatingPair, index) => {
         // calcPair is either bigger one of (operatingPair - index) or 0,
@@ -157,7 +156,6 @@ function solve24 (numStr) {
         currentFormulaArr.splice(calcPair * 2, 3, newNum);
       })
       if (currentFormulaArr.length === 1 && currentFormulaArr[0] === 24) {
-        console.log('found');
         return calcOrders[calcOrdersIndex];
       }
     }
@@ -201,15 +199,8 @@ function solve24 (numStr) {
     if (!makes24) {
       return 'no solution exists';
     }
-    const [formula, order] = makes24;
-    console.log(' inside const form formula',formula);
-    console.log('inside const form order',order);
-    if (!formula && !order) {
-      return
-    }
-
-    // TODO: check the calculation order and add () to appropriate places
-    const checkTheFollowingOperandPerecedence = (formula, orderIndex, orderArray) => {
+    let [formula, order] = makes24;
+    const checkIfAPairNeedsParentheses = (formula, orderIndex, orderArray) => {
       const numOfOperands = orderArray.length;
       const operands = {};
       const isOperandWeak = {};
@@ -220,73 +211,89 @@ function solve24 (numStr) {
         isOperandWeak[operandIndex] = operands[operandIndex] === '+' ||
                                       operands[operandIndex] === '-';
       }
-      // get the operands that are not yet calculated
-      const followingOperands = [...orderArray];
-      followingOperands.splice(0, orderIndex + 1);
-      console.log('orderIndex',orderIndex);
-      console.log('followingOperands',followingOperands);
-
+      // CASE 1: All operands have the same strength (weak/strong) as current
+      // pair's operand does.
       const isWeak = (operand) => {
         return isOperandWeak[operand];
       };
+      const isAllTheSameStrength = orderArray.every(order => {
+        return isOperandWeak[orderIndex] === isOperandWeak[order];
+      });
+      // CASE 2: The operands that are not calculated yet contain at least one
+      // operand that is stronger than the current one.
+      const followingOperands = [...orderArray];
+      followingOperands.splice(0, orderIndex + 1);
+      console.log('followingOperands',followingOperands);
+      areAllRemainingsWeak = followingOperands.every(operand => {
+        if(isWeak())
+        isWeak(operand)
+      });
+      console.log('areAllRemainingsWeak',areAllRemainingsWeak);
 
-      // Check if the pair needs parenthesis.
-      // For the operands that have not been calculated:
-      // CASE 1: all have the same strength (weak-weak, strong-strong) as current pair's operand has
-      // CASE 2: contains at least one operand that is stronger than the current one
-    }
 
-    let needParentheses = [];
-    order.forEach((calcPair, calcPairIndex, calcOrder) => {
-      checkTheFollowingOperandPerecedence(formula, calcPairIndex, calcOrder);
-      // switch (calcPair) {
-      //   case '0':
-      //      // either one of, or both of operand2 and operand 3 is/are * or /
-      //     if (!isOperand2Weak || !isOperand3Weak) {
-      //       formula.splice(0, 0, '(');
-      //       formula.splice(4, 0, ')');
-      //     }
-      //     break;
-      //   case '1':
-      //
-      //     break;
-      //   case '2':
-      //
-      //     break;
-      //   default:
-      //
-      // }
+      const needParentheses = isAllTheSameStrength || !areAllRemainingsWeak;
+      console.log('final output',needParentheses);
+      return needParentheses;
+    };
+
+    const addParentheses = (formula, calcPairIndex, calcOrder) => {
+      let openParenthIndex;
+      let closeParenthIndex;
+      switch (calcPairIndex) {
+        case 0:
+          openParenthIndex  = 0;
+          closeParenthIndex = formula[3] !== '(' ? 4 : 8;
+          break;
+        case 1:
+          openParenthIndex  = formula[0] !== '(' ? 0 : 2;
+          closeParenthIndex = formula[formula.length - 1] !== ')' ? 6 : 10;
+          break;
+        case 2:
+          openParenthIndex  = formula[formula.length - 3] !== ')' ?
+                              formula.length - 3 :
+                              formula.length - 7;
+          closeParenthIndex = formula.length + 1;
+          break;
+        default:
+          break;
+      }
+      formula.splice(openParenthIndex, 0, '(');
+      formula.splice(closeParenthIndex, 0, ')');
+      return formula;
+    };
+
+    order.forEach((calcPair, calcPairIndex, order) => {
+      const needsParentheses = checkIfAPairNeedsParentheses(formula,
+                                                            calcPairIndex,
+                                                            order);
+      if(needsParentheses) {
+        formula = addParentheses(formula, calcPairIndex, order);
+      }
     });
 
-    // let formulaStr = ''
-    // if (isOperand2Weak && !isOperand3Weak) {
-    //   formula.splice(0, 0, '(');
-    //   formula.splice(-2, 0, ')');
-    // } else if (isOperand1Weak && !isOperand2Weak) {
-    //   formula.splice(0, 0, '(');
-    //   formula.splice(4, 0, ')');
-    // }
-
-    // return formula.reduce((accum, currentVal) => accum+currentVal);
+    return formula.reduce((accum, currentVal) => {
+      if (typeof accum === 'number') {
+        accum = accum.toString();
+      }
+      return accum+currentVal;
+    });
   };
 
   // ===============================
   // FOR DEBUGGING
   console.log('inputArr',inputArr);
-  const permInputNums = generateArrayPermutation(inputArr);
-  console.log('permInputNums',permInputNums);
-  const exampleFormulas = generateFormula(permInputNums[0]);
-  console.log('generateFormula example',exampleFormulas);
+  // const permInputNums = generateArrayPermutation(inputArr);
+  // console.log('permInputNums',permInputNums);
+  // const exampleFormulas = generateFormula(permInputNums[0]);
+  // console.log('generateFormula example',exampleFormulas);
   const permCalcOrder = generateCalcOrder(inputArr);
   console.log('permCalcOrder',permCalcOrder);
   const makes24 = calcAllNumInAllOrder();
   console.log('makes24?', makes24)
-  constructFormulaStr(makes24);
-
+  return constructFormulaStr();
 };
 
 console.log(solve24('6789'));
-
 // module.exports = solve24;
 //
 //
