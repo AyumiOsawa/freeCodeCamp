@@ -1,27 +1,41 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const numberSlice = createSlice({
-  name: 'number',
-  initialState: {
-    currentVal: 0
-  },
+// 2 states: calculation input
+const calculateFormula = (formula) => {
+
+
+};
+
+const calculationSlice = createSlice({
+  name: 'calculation',
+  initialState,
   reducers: {
-    add(state, action) {
-      state.currentVal += action.payload;
+    calculate: (state, action) => {
+      state = calculateFormula(action.payload);
     },
-    sub(state, action) {
-      state.currentVal -= action.payload;
-    },
-    mul(state, action) {
-      state.currentVal *= action.payload;
-    },
-    div(state, action) {
-      state.currentVal /= action.payload;
-    },
-  },
+    clear: (state, action) => {
+      state = initialState;
+    }
+  }
 });
 
-export const { add, sub, mul, div } = numberSlice.actions;
+const inputSlice = createSlice({
+  name: 'input',
+  initialState: [],
+  reducers: (state, action) => {
+    state.push(action.payload)
+  }
+})
+
+const floatInputSlice = createSlice({
+  name: 'floatInput',
+  initialState: false,
+  reducers: (state, action) => {
+    state = !state
+  }
+})
+
+// export const { add, sub, mul, div } = calculationSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
