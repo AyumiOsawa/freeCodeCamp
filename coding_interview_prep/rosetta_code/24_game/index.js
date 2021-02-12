@@ -134,7 +134,7 @@ function solve24 (numStr) {
     };
 
     // Calculate an entire formula.
-    let workingFormulaArr = [];
+    let currentFormulaArr = [];
     for (let calcOrdersIndex = 0;
          calcOrdersIndex < calcOrders.length;
          calcOrdersIndex++) {
@@ -202,6 +202,11 @@ function solve24 (numStr) {
     let [formula, order] = makes24;
     const checkIfAPairNeedsParentheses = (formula, orderIndex, orderArray) => {
       const numOfOperands = orderArray.length;
+      const isLastOperand = orderIndex === numOfOperands - 1;
+
+      if(isLastOperand) {
+        return false;
+      }
       const operands = {};
       const isOperandWeak = {};
       for (let operandIndex = 0;
@@ -219,27 +224,31 @@ function solve24 (numStr) {
       const isAllTheSameStrength = orderArray.every(order => {
         return isOperandWeak[orderIndex] === isOperandWeak[order];
       });
+
       // CASE 2: The operands that are not calculated yet contain at least one
       // operand that is stronger than the current one.
       const followingOperands = [...orderArray];
       followingOperands.splice(0, orderIndex + 1);
-      console.log('followingOperands',followingOperands);
-      areAllRemainingsWeak = followingOperands.every(operand => {
+      // console.log('followingOperands',followingOperands);
+      const areAllRemainingsWeak = followingOperands.every(operand => {
         if(isWeak())
         isWeak(operand)
       });
-      console.log('areAllRemainingsWeak',areAllRemainingsWeak);
-
 
       const needParentheses = isAllTheSameStrength || !areAllRemainingsWeak;
-      console.log('final output',needParentheses);
+      console.log('final output, needParentheses?',needParentheses);
       return needParentheses;
     };
 
-    const addParentheses = (formula, calcPairIndex, calcOrder) => {
+    const addParentheses = (formula, calcPair, calcOrder) => {
+      // console.log(' === ADD PARENTESES ===');
+      // console.log('input formula',formula);
+      // console.log('calcPairIndex',calcPair);
+      // console.log('calcOrder',calcOrder);
+
       let openParenthIndex;
       let closeParenthIndex;
-      switch (calcPairIndex) {
+      switch (calcPair) {
         case 0:
           openParenthIndex  = 0;
           closeParenthIndex = formula[3] !== '(' ? 4 : 8;
@@ -259,6 +268,7 @@ function solve24 (numStr) {
       }
       formula.splice(openParenthIndex, 0, '(');
       formula.splice(closeParenthIndex, 0, ')');
+      console.log('output formula',formula);
       return formula;
     };
 
@@ -267,7 +277,7 @@ function solve24 (numStr) {
                                                             calcPairIndex,
                                                             order);
       if(needsParentheses) {
-        formula = addParentheses(formula, calcPairIndex, order);
+        formula = addParentheses(formula, calcPair, order);
       }
     });
 
@@ -281,20 +291,20 @@ function solve24 (numStr) {
 
   // ===============================
   // FOR DEBUGGING
-  console.log('inputArr',inputArr);
+  // console.log('inputArr',inputArr);
   // const permInputNums = generateArrayPermutation(inputArr);
   // console.log('permInputNums',permInputNums);
   // const exampleFormulas = generateFormula(permInputNums[0]);
   // console.log('generateFormula example',exampleFormulas);
-  const permCalcOrder = generateCalcOrder(inputArr);
-  console.log('permCalcOrder',permCalcOrder);
-  const makes24 = calcAllNumInAllOrder();
-  console.log('makes24?', makes24)
-  return constructFormulaStr();
+  // const permCalcOrder = generateCalcOrder(inputArr);
+  // console.log('permCalcOrder',permCalcOrder);
+  // const makes24 = calcAllNumInAllOrder();
+  // console.log('makes24?', makes24)
+  // return constructFormulaStr();
 };
 
-console.log(solve24('6789'));
-// module.exports = solve24;
+// console.log(solve24('6789'));
+module.exports = solve24;
 //
 //
 // memo:

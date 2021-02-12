@@ -41,7 +41,11 @@ describe(`The solve24 should find out the arithmetic expression that consists
             test(`solve24("1127") should return a permutation of (1+7)*(1+2)`,
                   () => {
                     const regex6 = new RegExp('(1+7)*(1+2)');
+                    const regex7 = new RegExp('(1+2)*(1+7)');
+                    const combineRegex67 = new RegExp(regex6.source +
+                                                      '|' +
+                                                      regex7.source);
                     expect(solve24("1127"))
-                    .toMatch(regex6);
+                    .toMatch(combineRegex67);
                   });
           });
