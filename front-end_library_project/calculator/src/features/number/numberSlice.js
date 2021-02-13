@@ -8,13 +8,13 @@ const calculateFormula = (formula) => {
 
 const calculationSlice = createSlice({
   name: 'calculation',
-  initialState,
+  initialState: 0,
   reducers: {
     calculate: (state, action) => {
       state = calculateFormula(action.payload);
     },
     clear: (state, action) => {
-      state = initialState;
+      state = 0;
     }
   }
 });
@@ -52,4 +52,15 @@ const floatInputSlice = createSlice({
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const selectCurrentVal = state => state.currentVal;
 
-export default numberSlice.reducer;
+export const calculateReducer = calculationSlice.reducer;
+export const inputReducer = inputSlice.reducer;
+export const floatInputReeducer = floatInputSlice.reducer;
+
+export const {
+  calculate: calculateActionCreator,
+  clear: clearActionCreator
+} = calculationSlice.actions;
+
+export const inputActionCreator = inputSlice.actions;
+console.log('slice, inp', inputSlice);
+export const floatActionCreator = floatInputSlice.actions;

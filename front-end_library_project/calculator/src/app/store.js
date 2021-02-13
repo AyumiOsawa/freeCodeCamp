@@ -1,8 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
-import numberReducer from '../features/number/numberSlice';
+import {
+  calculateReducer,
+  inputReducer,
+  floatInputReeducer,
+  selectCurrentVal
+} from '../features/number/numberSlice';
+
+const reducer = {
+  calculation: calculateReducer,
+  input: inputReducer,
+  float: floatInputReeducer
+};
 
 export default configureStore({
-  reducer: {
-    number: numberReducer,
-  },
+  reducer
 });
