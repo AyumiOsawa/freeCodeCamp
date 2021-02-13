@@ -26,8 +26,8 @@ export function Number() {
     // console.log('even', event.target.outerText);
     // console.log(`${event} clicked`);
     // console.log('type of input', typeof input
-    console.log('inputActionCreator', inputActionCreator);
-    // dispatch(inputActionCreator(keyInput));
+    // console.log('inputActionCreator', inputActionCreator);
+    dispatch(inputActionCreator(keyInput));
   };
 
   return (

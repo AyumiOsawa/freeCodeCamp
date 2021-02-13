@@ -22,9 +22,10 @@ const calculationSlice = createSlice({
 const inputSlice = createSlice({
   name: 'input',
   initialState: [],
-  reducers: (state, action) => {
+  reducers: {
+    input: (state, action) => {
     state.push(action.payload)
-  }
+  }}
 })
 
 const floatInputSlice = createSlice({
@@ -50,7 +51,7 @@ const floatInputSlice = createSlice({
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
-export const selectCurrentVal = state => state.currentVal;
+export const selectInput = state => state.input;
 
 export const calculateReducer = calculationSlice.reducer;
 export const inputReducer = inputSlice.reducer;
@@ -61,6 +62,6 @@ export const {
   clear: clearActionCreator
 } = calculationSlice.actions;
 
-export const inputActionCreator = inputSlice.actions;
+export const inputActionCreator = inputSlice.actions.input;
 console.log('slice, inp', inputSlice);
 export const floatActionCreator = floatInputSlice.actions;
