@@ -31,9 +31,10 @@ const inputSlice = createSlice({
 const floatInputSlice = createSlice({
   name: 'floatInput',
   initialState: false,
-  reducers: (state, action) => {
+  reducers: {
+    floatInput: (state, action) => {
     state = !state
-  }
+  }}
 })
 
 // export const { add, sub, mul, div } = calculationSlice.actions;
@@ -64,4 +65,4 @@ export const {
 
 export const inputActionCreator = inputSlice.actions.input;
 console.log('slice, inp', inputSlice);
-export const floatActionCreator = floatInputSlice.actions;
+export const floatActionCreator = floatInputSlice.actions.floatInput;

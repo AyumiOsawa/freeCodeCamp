@@ -4,23 +4,22 @@ import { useDispatch } from 'react-redux';
 import { inputActionCreator } from './numberSlice';
 import './Number.css';
 
+const keyNumberNames = [
+                        'zero',
+                        'one',
+                        'two',
+                        'three',
+                        'four',
+                        'five',
+                        'six',
+                        'seven',
+                        'eight',
+                        'nine'
+                        ];
+const reversedKeyNumNames = keyNumberNames.reverse();
 
 export function Number() {
-  const keyNumberNames = [
-                          'zero',
-                          'one',
-                          'two',
-                          'three',
-                          'four',
-                          'five',
-                          'six',
-                          'seven',
-                          'eight',
-                          'nine'
-                          ];
-  const reversedKeyNumNames = keyNumberNames.reverse();
   const dispatch = useDispatch();
-
   const handleClick = (event) => {
     const keyInput = event.target.outerText;
     // console.log('even', event.target.outerText);
