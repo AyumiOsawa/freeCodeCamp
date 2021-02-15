@@ -131,9 +131,10 @@ const inputSlice = createSlice({
        }
        // State update
        if (calculationResult) {
+         const resultStr = calculationResult.toString();
          return {
            ...state,
-           inputs: [calculationResult.toString()],
+           inputs: resultStr.split(''),
            isFloat: false
          };
        }
