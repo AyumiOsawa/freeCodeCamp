@@ -1,18 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectInput } from '../number/numberSlice';
+import { selectInputs } from '../number/numberSlice';
 
 export function Display () {
-  const currentInput = useSelector(selectInput);
-  console.log('currentInput',currentInput)
+  const currentInputs = useSelector(selectInputs);
+  console.log('currentInput',currentInputs)
 
   return (
     <div className="display" id="display">
       {
-        currentInput.length === 0 ?
+        currentInputs.length === 0 ?
         0 :
-        currentInput.join('')
+        currentInputs.join('')
       }
     </div>
   )

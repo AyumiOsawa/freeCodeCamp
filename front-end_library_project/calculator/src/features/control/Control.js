@@ -1,7 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { inputActionCreator } from '../number/numberSlice';
+import {
+  inputActionCreator,
+  clearActionCreator
+} from '../number/numberSlice';
 import './Control.css';
 
 const controlKeys = [
@@ -46,7 +49,8 @@ export function Control() {
 
   const handleClickClear = (event) => {
     console.log('handleClickClear');
-    // dispatch();
+    console.log('clearActionCreator',clearActionCreator);
+    dispatch(clearActionCreator());
   }
 
   const handleClickEqual = (event) => {
