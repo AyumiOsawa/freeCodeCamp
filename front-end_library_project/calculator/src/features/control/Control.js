@@ -44,19 +44,15 @@ export function Control() {
 
   const handleClickOperand = (event) => {
     const keyInput = event.target.outerText;
-    console.log('contorl. outerText',keyInput);
     dispatch(inputActionCreator(keyInput));
   };
 
   const handleClickClear = (event) => {
-    console.log('handleClickClear');
-    console.log('clearActionCreator',clearActionCreator);
+
     dispatch(clearActionCreator());
   }
 
   const handleClickEqual = (event) => {
-    console.log('handleClickEqual');
-    console.log('calculateActionCreator',calculateActionCreator)
     dispatch(calculateActionCreator());
   }
 

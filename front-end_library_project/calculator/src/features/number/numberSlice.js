@@ -1,21 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// // 2 states: calculation input
-// const calculateFormula = (formula) => {
-//
-//
-// };
-
-// const calculationSlice = createSlice({
-//   name: 'calculation',
-//   initialState: 0,
-//   reducers: {
-//     calculate: (state, action) => {
-//       state = calculateFormula(action.payload);
-//     }
-//   }
-// });
-
 const inputSlice = createSlice({
   name: 'input',
   initialState: {
@@ -52,11 +36,11 @@ const inputSlice = createSlice({
         newStateIsFloat = false;
       }
       // Minus can follow zero or one operand except the decimal point
-      const doesDecimalPointPrecede = /[\.]/.test(lastInput);
+      const isTheLastInputDecimalPoint = /\./.test(lastInput);
       const areTheLast2InputsOperands = /[\.\+\-\*\/]/.test(lastInput) &&
                                         /[\.\+\-\*\/]/.test(secondLastInput);
       const shouldRejectMinusInput = areTheLast2InputsOperands ||
-                                     doesDecimalPointPrecede;
+                                     isTheLastInputDecimalPoint;
       if(/\-/.test(newInput) && shouldRejectMinusInput) {
         newStateInputs = [];
       }
@@ -98,7 +82,7 @@ const inputSlice = createSlice({
       let {inputs} = state;
       inputs = inputs.join('');
       const operandIndexExceptMinus = inputs.search(/[\+\*\/]/);
-      const minusIndex = inputs.search(/[\-]/);
+      const minusIndex = inputs.search(/(?<=\d+)\-/);
       let operandIndex;
       let calculationResult;
 
@@ -116,6 +100,11 @@ const inputSlice = createSlice({
        const operand = inputs[operandIndex];
 
        // perform calculation
+       console.log('inputs', inputs);
+       console.log('operandIndex',operandIndex);
+       console.log('firstNum',firstNum);
+       console.log('operand',operand);
+       console.log('secondNum',secondNum);
        switch (operand) {
          case '+':
            calculationResult = firstNum + secondNum;
@@ -130,40 +119,35 @@ const inputSlice = createSlice({
            calculationResult = firstNum / secondNum;
            break;
          default:
-           calculationResult = 0;
+           calculationResult = false;
+       }
+       // The calculationResult is the firstNum, if the last input is an non
+       // number
+       const lastInput = inputs[inputs.length - 1];
+       const isTheLastInputOperand = operandIndex === inputs.length - 1;
+       const isTheLastInputDecimalPoint = /[\.]/.test(lastInput);
+       if (isTheLastInputOperand || isTheLastInputDecimalPoint) {
+         calculationResult = firstNum;
        }
        // State update
-       return {
-         ...state,
-         inputs: [calculationResult],
-         isFloat: false
-       };
+       if (calculationResult) {
+         return {
+           ...state,
+           inputs: [calculationResult.toString()],
+           isFloat: false
+         };
+       }
     }
   }
 })
 
-// const floatInputSlice = createSlice({
-//   name: 'floatInput',
-//   initialState: false,
-//   reducers: {
-//     floatInput: (state, action) => {
-//     state = !state
-//   }}
-// })
 
 export const selectInputs = state => state.input.inputs;
-// export const calculateReducer = calculationSlice.reducer;
-export const inputReducer = inputSlice.reducer;
-// export const floatInputReeducer = floatInputSlice.reducer;
 
-// export const {
-//   calculate: calculateActionCreator
-// } = calculationSlice.actions;
+export const inputReducer = inputSlice.reducer;
 
 export const {
   input: inputActionCreator,
   clear: clearActionCreator,
   calculate: calculateActionCreator
 } = inputSlice.actions;
-
-// export const floatActionCreator = floatInputSlice.actions.floatInput;

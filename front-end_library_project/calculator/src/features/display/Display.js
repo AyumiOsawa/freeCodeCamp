@@ -5,7 +5,6 @@ import { selectInputs } from '../number/numberSlice';
 
 export function Display () {
   const currentInputs = useSelector(selectInputs);
-  console.log('currentInput',currentInputs)
 
   return (
     <div className="display" id="display">
