@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux';
 
 import {
   inputActionCreator,
-  clearActionCreator
+  clearActionCreator,
+  calculateActionCreator
 } from '../number/numberSlice';
 import './Control.css';
 
@@ -55,7 +56,8 @@ export function Control() {
 
   const handleClickEqual = (event) => {
     console.log('handleClickEqual');
-    // dispatch();
+    console.log('calculateActionCreator',calculateActionCreator)
+    dispatch(calculateActionCreator());
   }
 
   controlKeys.forEach(key => {

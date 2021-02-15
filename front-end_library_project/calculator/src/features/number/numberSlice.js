@@ -28,8 +28,9 @@ const inputSlice = createSlice({
       let newInput = action.payload;
       const lastInput = inputs[inputs.length - 1];
       const secondLastInput = inputs[inputs.length - 2];
-      let newStateInputs = [action.payload]
+      let newStateInputs = [action.payload];
       let newStateIsFloat = isFloat;
+
       // A decimal point can be added only once to one number
       if (/\./.test(newInput) && isFloat) {
         newStateInputs = [];
@@ -37,7 +38,7 @@ const inputSlice = createSlice({
         newStateIsFloat = true;
       }
       // Float number input mode is reset when a new operand is given
-      if(/[\+\-\*\=\/]/.test(newInput)) {
+      if(/[\+\-\*\/]/.test(newInput)) {
         newStateIsFloat = false;
       }
       // Add 0 to the front if the first input was a decimal point
@@ -52,8 +53,8 @@ const inputSlice = createSlice({
       }
       // Minus can follow zero or one operand except the decimal point
       const doesDecimalPointPrecede = /[\.]/.test(lastInput);
-      const areTheLast2InputsOperands = /[\.\+\-\*\=\/]/.test(lastInput) &&
-                                        /[\.\+\-\*\=\/]/.test(secondLastInput);
+      const areTheLast2InputsOperands = /[\.\+\-\*\/]/.test(lastInput) &&
+                                        /[\.\+\-\*\/]/.test(secondLastInput);
       const shouldRejectMinusInput = areTheLast2InputsOperands ||
                                      doesDecimalPointPrecede;
       if(/\-/.test(newInput) && shouldRejectMinusInput) {
@@ -63,16 +64,19 @@ const inputSlice = createSlice({
       // given in a row.
       // Replace the second latest input with the new input and delete the last
       // input, if the second lastest input is also an operand.
-
-      if (/[\+\*\=\/]/.test(newInput) && areTheLast2InputsOperands) {
+      if (/[\+\*\/]/.test(newInput) && areTheLast2InputsOperands) {
         inputs[inputs.length - 2] = newInput;
         inputs.pop();
         newStateInputs = [];
-      } else if(/[\+\*\=\/]/.test(newInput) && isTheLastInputOperand) {
+      } else if(/[\+\*\/]/.test(newInput) && isTheLastInputOperand) {
         inputs[inputs.length - 1] = newInput;
         newStateInputs = [];
       }
-
+      // Operands, except minus, can not be added when the inputs array is empty
+      if (/[\+\*\/]/.test(newInput) &&  inputs.length === 0) {
+        newStateInputs = [];
+      }
+      // State update
       state.isFloat = newStateIsFloat;
       console.log('final isFloat',isFloat);
       if (newStateInputs.length !== 0) {
@@ -87,6 +91,53 @@ const inputSlice = createSlice({
         inputs: [],
         isFloat: false
       };
+    },
+    calculate: (state, action) => {
+      // Make the inputs array into string, get the index of the operand.
+      // note: if there is no other operand, minus is the main operand.
+      let {inputs} = state;
+      inputs = inputs.join('');
+      const operandIndexExceptMinus = inputs.search(/[\+\*\/]/);
+      const minusIndex = inputs.search(/[\-]/);
+      let operandIndex;
+      let calculationResult;
+
+      if (operandIndexExceptMinus === -1 && minusIndex === -1) {
+        calculationResult = parseFloat(inputs);
+      } else if (operandIndexExceptMinus === -1) {
+        operandIndex = minusIndex;
+      } else {
+        operandIndex = operandIndexExceptMinus;
+      }
+
+       // find the operand and number, and parse each number
+       let firstNum  = parseFloat(inputs.substring(0, operandIndex));
+       let secondNum = parseFloat(inputs.substring(operandIndex + 1));
+       const operand = inputs[operandIndex];
+
+       // perform calculation
+       switch (operand) {
+         case '+':
+           calculationResult = firstNum + secondNum;
+           break;
+         case '-':
+           calculationResult = firstNum - secondNum;
+           break;
+         case '*':
+           calculationResult = firstNum * secondNum;
+           break;
+         case '/':
+           calculationResult = firstNum / secondNum;
+           break;
+         default:
+           calculationResult = 0;
+       }
+       // State update
+       return {
+         ...state,
+         inputs: [calculationResult],
+         isFloat: false
+       };
     }
   }
 })
@@ -111,7 +162,8 @@ export const inputReducer = inputSlice.reducer;
 
 export const {
   input: inputActionCreator,
-  clear: clearActionCreator
+  clear: clearActionCreator,
+  calculate: calculateActionCreator
 } = inputSlice.actions;
-console.log('slice, inp', inputSlice);
+
 // export const floatActionCreator = floatInputSlice.actions.floatInput;
