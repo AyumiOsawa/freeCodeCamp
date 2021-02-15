@@ -41,9 +41,14 @@ const inputSlice = createSlice({
         newStateIsFloat = false;
       }
       // Add 0 to the front if the first input was a decimal point
-      if(/\./.test(newInput) &&
-         inputs.length === 0) {
+      if(/\./.test(newInput) && inputs.length === 0) {
         newStateInputs = ['0', '.'];
+      }
+      // A decimal point cannot follow any operands
+      const isTheLastInputOperand = /[\+\-\*\/]/.test(lastInput);
+      if (/\./.test(newInput) && isTheLastInputOperand) {
+        newStateInputs = [];
+        newStateIsFloat = false;
       }
       // Minus can follow zero or one operand except the decimal point
       const doesDecimalPointPrecede = /[\.]/.test(lastInput);
@@ -58,12 +63,12 @@ const inputSlice = createSlice({
       // given in a row.
       // Replace the second latest input with the new input and delete the last
       // input, if the second lastest input is also an operand.
-      const isTheLastInputOperand = /[\.\+\-\*\=\/]/.test(lastInput);
-      if (/[\.\+\*\=\/]/.test(newInput) && areTheLast2InputsOperands) {
+
+      if (/[\+\*\=\/]/.test(newInput) && areTheLast2InputsOperands) {
         inputs[inputs.length - 2] = newInput;
         inputs.pop();
         newStateInputs = [];
-      } else if(/[\.\+\*\=\/]/.test(newInput) && isTheLastInputOperand) {
+      } else if(/[\+\*\=\/]/.test(newInput) && isTheLastInputOperand) {
         inputs[inputs.length - 1] = newInput;
         newStateInputs = [];
       }
@@ -79,7 +84,8 @@ const inputSlice = createSlice({
     clear: (state, action) => {
       return {
         ...state,
-        inputs: []
+        inputs: [],
+        isFloat: false
       };
     }
   }
