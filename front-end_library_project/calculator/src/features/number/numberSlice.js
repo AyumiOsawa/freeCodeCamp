@@ -6,23 +6,41 @@ const findOperandIndex = (inputsStr) => {
   let operandIndex;
   if (operandIndexExceptMinus === -1 && minusIndex === -1) {
     operandIndex = false;
-  } else if (operandIndexExceptMinus === -1) {
-    operandIndex = minusIndex;
+  } else if (operandIndexExceptMinus === -1 || minusIndex === -1) {
+    operandIndex = Math.max(operandIndexExceptMinus, minusIndex);
   } else {
-    operandIndex = operandIndexExceptMinus;
+    operandIndex = Math.min(operandIndexExceptMinus, minusIndex);
   }
   return operandIndex;
 };
 
-const calculateFormula = (state) => {
-  // TODO: CALCULATE FORMULA RECURSISVELY, UNTIL NO OPERATOR FOUND.
-  let {inputs} = state;
-  inputs = inputs.join('');
-  // get the operand and two numbers (as float)
-  const operandIndex = findOperandIndex(inputs);
-  let firstNum  = parseFloat(inputs.substring(0, operandIndex));
-  let secondNum = parseFloat(inputs.substring(operandIndex + 1));
-  const operand = operandIndex === -1 ? 'no operand given' : inputs[operandIndex];
+const calculateTwoNums = (inputStr, state) => {
+  const operandIndex = findOperandIndex(inputStr);
+  if (!operandIndex) {
+    return inputStr;
+  }
+  const operand = inputStr[operandIndex];
+  let firstNum  = parseFloat(inputStr.substring(0, operandIndex));
+  let inputsWithoutOperandAndFirstNum = inputStr.slice(operandIndex + 1);
+  const followingOperandIndex = findOperandIndex(inputsWithoutOperandAndFirstNum);
+  let secondNum = followingOperandIndex ?
+                  parseFloat(inputsWithoutOperandAndFirstNum.substring(0, followingOperandIndex)) :
+                  parseFloat(inputStr.substring(operandIndex + 1));
+  console.log('inputStr',inputStr);
+  console.log('operandIndex',operandIndex);
+  console.log('operand',operand);
+  console.log('firstNum',firstNum);
+  console.log('inputsWithoutOperandAndFirstNum',inputsWithoutOperandAndFirstNum);
+  console.log('followingOperandIndex',followingOperandIndex);
+  console.log('secondNum',secondNum);
+  let inputsRemainder;
+  if (followingOperandIndex) {
+    inputsRemainder = inputsWithoutOperandAndFirstNum.slice(followingOperandIndex);
+  } else {
+    inputsRemainder = '';
+  }
+    console.log('updated inputsRemainder',inputsRemainder);
+
    // perform calculation
   let calculationResult;
   switch (operand) {
@@ -38,29 +56,31 @@ const calculateFormula = (state) => {
    case '/':
      calculationResult = firstNum / secondNum;
      break;
-   case 'no operand given':
-     calculationResult = inputs;
-     break;
    default:
-     calculationResult = false;
+     calculationResult = '';
   }
    // The calculationResult is the firstNum, if the last input is an
    // non-number.
-  const lastInput = inputs[inputs.length - 1];
-  const isTheLastInputOperand = operandIndex === inputs.length - 1;
-  const isTheLastInputDecimalPoint = /[\.]/.test(lastInput);
-  if (isTheLastInputOperand || isTheLastInputDecimalPoint) {
+  const lastInput = inputStr[inputStr.length - 1];
+  const isTheLastInputNonNumber = /[\+\*\-\/\.]/.test(lastInput);
+  if (isTheLastInputNonNumber) {
     calculationResult = firstNum;
   }
+  // Combine current result and the remaining inputs
+  calculationResult = calculationResult.toString() + inputsRemainder;
+  return calculateTwoNums(calculationResult);
+};
 
-  if (calculationResult) {
-    const resultStr = calculationResult.toString();
-    return {
-      ...state,
-      inputs: resultStr.split(''),
-      isFloat: false
-    };
-  }
+const calculateFormula = (state) => {
+  let {inputs} = state;
+  inputs = inputs.join('');
+  const result = calculateTwoNums(inputs);
+
+  return {
+    ...state,
+    inputs: result.split(''),
+    isFloat: false
+  };
 };
 
 const sanitize = (state, action) => {
