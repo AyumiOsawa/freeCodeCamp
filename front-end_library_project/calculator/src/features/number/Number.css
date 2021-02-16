@@ -10,7 +10,7 @@
 
 .key__number {
   text-align: center;
-  font-size: 3rem;
+  font-size: 10vh;
   line-height: calc(70vh / 4 * 0.8);
   height: 80%;
   width: calc(100% - 70vh / 4 * 0.2);

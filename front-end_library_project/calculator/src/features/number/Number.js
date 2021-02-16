@@ -22,10 +22,6 @@ export function Number() {
   const dispatch = useDispatch();
   const handleClick = (event) => {
     const keyInput = event.target.outerText;
-    // console.log('even', event.target.outerText);
-    // console.log(`${event} clicked`);
-    // console.log('type of input', typeof input
-    // console.log('inputActionCreator', inputActionCreator);
     dispatch(inputActionCreator(keyInput));
   };
 

@@ -40,8 +40,7 @@ const calculateTwoNums = (inputStr, state) => {
     inputsRemainder = '';
   }
     console.log('updated inputsRemainder',inputsRemainder);
-
-   // perform calculation
+   // calculate first two numbers
   let calculationResult;
   switch (operand) {
    case '+':
@@ -59,11 +58,8 @@ const calculateTwoNums = (inputStr, state) => {
    default:
      calculationResult = '';
   }
-   // The calculationResult is the firstNum, if the last input is an
-   // non-number.
-  const lastInput = inputStr[inputStr.length - 1];
-  const isTheLastInputNonNumber = /[\+\*\-\/\.]/.test(lastInput);
-  if (isTheLastInputNonNumber) {
+  // The calculationResult is the firstNum, if the secondNum was not given.
+  if (isNaN(secondNum)) {
     calculationResult = firstNum;
   }
   // Combine current result and the remaining inputs
@@ -88,6 +84,12 @@ const sanitize = (state, action) => {
   const newInput = action.payload;
   let newStateInputs = [action.payload];
   let newStateIsFloat = isFloat;
+  // Leading zero can only be added once
+  const lastInput = inputs[inputs.length - 1];
+  const isTheLastInputZero = /0/.test(lastInput);
+  if (/0/.test(newInput) && !isFloat && isTheLastInputZero) {
+    newStateInputs = [];
+  }
   // A decimal point can be added only once to one number
   if (/\./.test(newInput) && isFloat) {
     newStateInputs = [];
@@ -103,7 +105,6 @@ const sanitize = (state, action) => {
     newStateInputs = ['0', '.'];
   }
   // A decimal point cannot follow any operands
-  const lastInput = inputs[inputs.length - 1];
   const isTheLastInputOperand = /[\+\-\*\/]/.test(lastInput);
   if (/\./.test(newInput) && isTheLastInputOperand) {
     newStateInputs = [];
