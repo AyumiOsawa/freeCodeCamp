@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -42,6 +42,17 @@ const controlKeys = [
 export function Control() {
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    document.addEventListener('keydown', event => {
+      handleControlKeyDown(event);
+    })
+    return (() => {
+      document.removeEventListener('keydown', event => {
+        handleControlKeyDown(event);
+      })
+    });
+  }, []);
+
   const handleClickOperand = (event) => {
     const keyInput = event.target.outerText;
     dispatch(inputActionCreator(keyInput));
@@ -53,6 +64,34 @@ export function Control() {
 
   const handleClickEqual = (event) => {
     dispatch(calculateActionCreator());
+  };
+
+  const handleControlKeyDown = (event) => {
+    // TODO: Add logic to handle multiple keydown inputs.
+    // handle each input accordingly.
+    console.log('event.code',event.code);
+    switch (event.code) {
+      case '':
+
+        break;
+      case '+':
+
+        break;
+      case '+':
+
+        break;
+      case '+':
+
+        break;
+      case '+':
+
+        break;
+      case '+':
+
+        break;
+      default:
+        break;
+    }
   };
 
   controlKeys.forEach(key => {
