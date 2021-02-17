@@ -48,13 +48,12 @@ export function Control() {
   };
 
   const handleClickClear = (event) => {
-
     dispatch(clearActionCreator());
-  }
+  };
 
   const handleClickEqual = (event) => {
     dispatch(calculateActionCreator());
-  }
+  };
 
   controlKeys.forEach(key => {
     switch (key.id) {
@@ -69,7 +68,6 @@ export function Control() {
         break;
     }
   });
-
 
   return (
     <div className="column__side">

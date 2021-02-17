@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { inputActionCreator } from './numberSlice';
@@ -20,6 +20,27 @@ const reversedKeyNumNames = keyNumberNames.reverse();
 
 export function Number() {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    document.addEventListener('keydown', event => {
+      handleNumberKeyDown(event);
+    });
+    return (() => {
+      document.removeEventListener('keydown', event => {
+        handleNumberKeyDown(event);
+      });
+    });
+  }, []);
+
+
+  const handleNumberKeyDown = (event) => {
+    if (/Digit/.test(event.code)) {
+      const keyInput = event.code.slice(-1);
+      console.log('keyInput',keyInput);
+      dispatch(inputActionCreator(keyInput));
+    }
+  };
+
   const handleClick = (event) => {
     const keyInput = event.target.outerText;
     dispatch(inputActionCreator(keyInput));

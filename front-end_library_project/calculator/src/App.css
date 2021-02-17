@@ -23,6 +23,7 @@ body {
   margin-top: 10vh;
   padding-right: 1rem;
   background-color: #333333;
+  overflow: scroll;
 }
 
 .key {
