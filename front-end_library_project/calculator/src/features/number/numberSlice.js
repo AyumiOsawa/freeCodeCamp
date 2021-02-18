@@ -169,7 +169,7 @@ const inputSlice = createSlice({
       return calculateFormula(state);
     }
   }
-})
+});
 
 export const selectInputs = state => state.input.inputs;
 

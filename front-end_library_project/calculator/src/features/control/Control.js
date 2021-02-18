@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -11,36 +11,64 @@ import './Control.css';
 const controlKeys = [
   {
     id: 'clear',
-    text: 'AC'
+    text: 'AC',
+    keyName: [
+      'Backspace'
+    ]
   },
   {
     id: 'add',
-    text: '+'
+    text: '+',
+    keyName: [
+      'ShiftRight',
+      'ShiftLeft',
+      'Smicolon'
+    ]
   },
   {
     id: 'subtract',
-    text: '-'
+    text: '-',
+    keyName: [
+      'Minus'
+    ]
   },
   {
     id: 'multiply',
-    text: '*'
+    text: '*',
+    keyName: [
+      'ShiftRight',
+      'ShiftLeft',
+      'Quote'
+    ]
   },
   {
     id: 'divide',
-    text: '/'
+    text: '/',
+    keyName: [
+      'Slash'
+    ]
   },
   {
     id: 'decimal',
-    text: '.'
+    text: '.',
+    keyName: [
+      'Period'
+    ]
   },
   {
     id: 'equal',
-    text: '='
+    text: '=',
+    keyName: [
+      'ShiftRight',
+      'ShiftLeft',
+      'Minus'
+    ]
   }
 ];
 
 export function Control() {
   const dispatch = useDispatch();
+  const [ pressed, setPressed ] = useState({});
 
   useEffect(() => {
     document.addEventListener('keydown', event => {
@@ -52,6 +80,18 @@ export function Control() {
       })
     });
   }, []);
+
+  useEffect(() => {
+      // TODO: add addEventListener for keyup
+  }, []);
+
+  useEffect(() => {
+    console.log('state update:', pressed);
+    const keys = Object.keys(pressed)
+
+    //TODO: handle each input accordingly after the state update
+
+  }, [pressed]);
 
   const handleClickOperand = (event) => {
     const keyInput = event.target.outerText;
@@ -67,31 +107,33 @@ export function Control() {
   };
 
   const handleControlKeyDown = (event) => {
-    // TODO: Add logic to handle multiple keydown inputs.
-    // handle each input accordingly.
+    // TODO: check if all the keys are correctly detected.
     console.log('event.code',event.code);
-    switch (event.code) {
-      case '':
-
-        break;
-      case '+':
-
-        break;
-      case '+':
-
-        break;
-      case '+':
-
-        break;
-      case '+':
-
-        break;
-      case '+':
-
-        break;
-      default:
-        break;
+    // switch (event.code) {
+    //   case 'ShiftRight':
+    //   case 'ShiftLeft':
+    //   case 'Semicolon':
+    //   case 'Quote':
+    //   case 'Minus':
+    //   case 'Slash':
+    //   case 'Period':
+    //     setPressed({ [event.code]: true });
+    //     break;
+    //   default:
+    //     break;
+    //
+    const isTargetKeyPressed = controlKeys.some(targetKey => {
+      return targetKey.keyName.includes(event.code);
+    });
+    console.log('isTargetKeyPressed',isTargetKeyPressed);
+    if (isTargetKeyPressed) {
+      console.log('target key pressed');
+      setPressed({ [event.code]: true });
     }
+  };
+
+  const handleControlKeyUp = (event) => {
+    // TODO: add logic to update the keys
   };
 
   controlKeys.forEach(key => {
