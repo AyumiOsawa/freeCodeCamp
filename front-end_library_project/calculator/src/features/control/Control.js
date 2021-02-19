@@ -22,7 +22,7 @@ const controlKeys = [
     keyName: [
       'ShiftRight',
       'ShiftLeft',
-      'Smicolon'
+      'Semicolon'
     ]
   },
   {
@@ -81,13 +81,21 @@ export function Control() {
     });
   }, []);
 
-  useEffect(() => {
-      // TODO: add addEventListener for keyup
-  }, []);
+  // useEffect(() => {
+  //   document.addEventListener('keyup', event => {
+  //     handleControlKeyUp(event);
+  //   })
+  //   return (() => {
+  //     document.removeEventListener('keydown', event => {
+  //       handleControlKeyUp(event);
+  //     })
+  //   });
+  // }, []);
 
   useEffect(() => {
     console.log('state update:', pressed);
-    const keys = Object.keys(pressed)
+    // const keys = Object.keys(pressed)
+
 
     //TODO: handle each input accordingly after the state update
 
@@ -107,33 +115,28 @@ export function Control() {
   };
 
   const handleControlKeyDown = (event) => {
-    // TODO: check if all the keys are correctly detected.
-    console.log('event.code',event.code);
-    // switch (event.code) {
-    //   case 'ShiftRight':
-    //   case 'ShiftLeft':
-    //   case 'Semicolon':
-    //   case 'Quote':
-    //   case 'Minus':
-    //   case 'Slash':
-    //   case 'Period':
-    //     setPressed({ [event.code]: true });
-    //     break;
-    //   default:
-    //     break;
-    //
+    // TODO: keep multiple key inputs in the state
     const isTargetKeyPressed = controlKeys.some(targetKey => {
       return targetKey.keyName.includes(event.code);
     });
-    console.log('isTargetKeyPressed',isTargetKeyPressed);
     if (isTargetKeyPressed) {
-      console.log('target key pressed');
-      setPressed({ [event.code]: true });
+      setPressed({
+        ...pressed,
+        [event.code]: true
+      });
     }
   };
 
   const handleControlKeyUp = (event) => {
-    // TODO: add logic to update the keys
+    const isTargetKeyUp = controlKeys.some(targetKey => {
+      return targetKey.keyName.includes(event.code);
+    });
+    // if (isTargetKeyUp) {
+    //   setPressed({
+    //     ...pressed,
+    //     [event.code]: false
+    //   });
+    // }
   };
 
   controlKeys.forEach(key => {
