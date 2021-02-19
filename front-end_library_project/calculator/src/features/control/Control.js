@@ -120,9 +120,11 @@ export function Control() {
       return targetKey.keyName.includes(event.code);
     });
     if (isTargetKeyPressed) {
-      setPressed({
-        ...pressed,
-        [event.code]: true
+      setPressed(prevState  => {
+        return {
+          ...prevState ,
+          [event.code]: true
+        };
       });
     }
   };
