@@ -153,7 +153,6 @@ export function Control() {
     const isTargetKeyPressed = controlKeys.some(targetKey => {
       return targetKey.keyName.includes(event.code);
     });
-    console.log('pressed key:',event.code);
     if (isTargetKeyPressed) {
       setPressed(prevState => {
         return {
