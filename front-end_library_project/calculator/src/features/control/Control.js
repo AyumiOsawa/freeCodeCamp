@@ -56,7 +56,7 @@ const controlKeys = [
     ]
   },
   {
-    id: 'equal',
+    id: 'equals',
     text: '=',
     keyName: [
       'ShiftRight',
@@ -179,7 +179,7 @@ export function Control() {
 
   controlKeys.forEach(key => {
     switch (key.id) {
-      case 'equal':
+      case 'equals':
         key.onClick = handleClickEqual;
         break;
       case 'clear':
@@ -196,7 +196,7 @@ export function Control() {
       {
         controlKeys.map(key => {
           return (
-              key.id === "equal" ?
+              key.id === "equals" ?
               (
                 <div
                   className="key key_wrapper__control"

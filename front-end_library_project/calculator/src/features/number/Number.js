@@ -35,7 +35,6 @@ export function Number() {
   const handleNumberKeyDown = (event) => {
     if (/Digit/.test(event.code)) {
       const keyInput = event.code.slice(-1);
-      console.log('keyInput',keyInput);
       dispatch(inputActionCreator(keyInput));
     }
   };

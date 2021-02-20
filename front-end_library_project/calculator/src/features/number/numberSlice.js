@@ -26,20 +26,12 @@ const calculateTwoNums = (inputStr, state) => {
   let secondNum = followingOperandIndex ?
                   parseFloat(inputsWithoutOperandAndFirstNum.substring(0, followingOperandIndex)) :
                   parseFloat(inputStr.substring(operandIndex + 1));
-  console.log('inputStr',inputStr);
-  console.log('operandIndex',operandIndex);
-  console.log('operand',operand);
-  console.log('firstNum',firstNum);
-  console.log('inputsWithoutOperandAndFirstNum',inputsWithoutOperandAndFirstNum);
-  console.log('followingOperandIndex',followingOperandIndex);
-  console.log('secondNum',secondNum);
   let inputsRemainder;
   if (followingOperandIndex) {
     inputsRemainder = inputsWithoutOperandAndFirstNum.slice(followingOperandIndex);
   } else {
     inputsRemainder = '';
   }
-    console.log('updated inputsRemainder',inputsRemainder);
    // calculate first two numbers
   let calculationResult;
   switch (operand) {
