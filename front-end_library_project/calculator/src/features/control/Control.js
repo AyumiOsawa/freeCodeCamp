@@ -61,7 +61,8 @@ const controlKeys = [
     keyName: [
       'ShiftRight',
       'ShiftLeft',
-      'Minus'
+      'Minus',
+      'Enter'
     ]
   }
 ];
@@ -81,23 +82,57 @@ export function Control() {
     });
   }, []);
 
-  // useEffect(() => {
-  //   document.addEventListener('keyup', event => {
-  //     handleControlKeyUp(event);
-  //   })
-  //   return (() => {
-  //     document.removeEventListener('keydown', event => {
-  //       handleControlKeyUp(event);
-  //     })
-  //   });
-  // }, []);
+  useEffect(() => {
+    document.addEventListener('keyup', event => {
+      handleControlKeyUp(event);
+    })
+    return (() => {
+      document.removeEventListener('keydown', event => {
+        handleControlKeyUp(event);
+      })
+    });
+  }, []);
 
   useEffect(() => {
-    console.log('state update:', pressed);
-    // const keys = Object.keys(pressed)
+    const isShiftPressed = pressed.ShiftRight || pressed.ShiftLeft;
+    const isClearPressed = pressed.Backspace;
+    const isEqualPressesd = (pressed.Minus && isShiftPressed) ||
+                             pressed.Enter;
+    let operands = [
+      {
+        operand: '+',
+        isPressed: pressed.Semicolon && isShiftPressed
+      },
+      {
+        operand: '-',
+        isPressed: pressed.Minus && !isShiftPressed
+      },
+      {
+        operand: '*',
+        isPressed: pressed.Quote && isShiftPressed
+      },
+      {
+        operand: '/',
+        isPressed: pressed.Slash
+      },
+      {
+        operand: '.',
+        isPressed: pressed.Period
+      }
+    ];
+    const isOperandPressed = operands.some(operand => operand.isPressed);
 
-
-    //TODO: handle each input accordingly after the state update
+    if (isClearPressed) {
+      dispatch(clearActionCreator());
+    } else if (isEqualPressesd) {
+      dispatch(calculateActionCreator());
+    } else if (isOperandPressed) {
+      let pressedOperand = operands.filter(operand => operand.isPressed);
+      pressedOperand = pressedOperand[0] ?? false;
+      if (pressedOperand) {
+        dispatch(inputActionCreator(pressedOperand.operand));
+      }
+    }
 
   }, [pressed]);
 
@@ -115,12 +150,12 @@ export function Control() {
   };
 
   const handleControlKeyDown = (event) => {
-    // TODO: keep multiple key inputs in the state
     const isTargetKeyPressed = controlKeys.some(targetKey => {
       return targetKey.keyName.includes(event.code);
     });
+    console.log('pressed key:',event.code);
     if (isTargetKeyPressed) {
-      setPressed(prevState  => {
+      setPressed(prevState => {
         return {
           ...prevState ,
           [event.code]: true
@@ -133,12 +168,14 @@ export function Control() {
     const isTargetKeyUp = controlKeys.some(targetKey => {
       return targetKey.keyName.includes(event.code);
     });
-    // if (isTargetKeyUp) {
-    //   setPressed({
-    //     ...pressed,
-    //     [event.code]: false
-    //   });
-    // }
+    if (isTargetKeyUp) {
+      setPressed(prevState => {
+        return {
+          ...prevState,
+          [event.code]: false
+        };
+      });
+    }
   };
 
   controlKeys.forEach(key => {
