@@ -1,3 +1,34 @@
 .timer {
   border: 1px red solid;
+  height: 40vh;
+}
+
+.timer_label {
+  font-size: 2.6rem;
+  font-weight: bold;
+  height: 30%;
+  border: 1px red solid;
+}
+
+.time_left {
+  font-size: 4rem;
+  font-weight: bold;
+  height: 50%;
+  border: 1px blue solid;
+}
+
+.controls {
+  height: 20%;
+  display: flex;
+  justify-content: center;
+}
+
+.start_stop {
+  background-color: pink;
+  cursor: pointer;
+}
+
+.reset {
+  background-color: green;
+  cursor: pointer;
 }

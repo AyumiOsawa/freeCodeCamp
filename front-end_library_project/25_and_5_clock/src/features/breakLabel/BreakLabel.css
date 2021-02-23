@@ -1,3 +1,7 @@
 .break-label {
   border: 1px green solid;
 }
+
+.break-label {
+  cursor: pointer;
+}

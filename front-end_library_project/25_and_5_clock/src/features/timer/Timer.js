@@ -10,22 +10,28 @@ export function Timer() {
     >
       <div
         id="timer-label"
+        className="timer_label"
       >
       Session or Break
       </div>
       <div
         id="time-left"
+        className="time_left"
       >
         mm:ss
       </div>
-      <div>
+      <div
+        className="controls"
+      >
         <div
           id="start_stop"
+          className="start_stop"
         >
           Start/Stop
         </div>
         <div
           id="reset"
+          className="reset"
         >
           Reset
         </div>

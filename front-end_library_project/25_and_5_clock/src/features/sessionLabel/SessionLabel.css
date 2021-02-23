@@ -1,3 +1,7 @@
 .session-label {
   border: 1px blue solid;
 }
+
+.session-label {
+  cursor: pointer;
+}
