@@ -1,7 +1,25 @@
-.session-label {
-  border: 1px blue solid;
+.session-container {
+  border: 2px solid blue;
+  margin-top: 15vh;
+  margin-left: 5vw;
+  width: 23vw;
 }
 
 .session-label {
+  font-size: 1.5rem;
+  border: 1px blue solid;
+  cursor: pointer;
+}
+
+.session-control {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.session-decrement, .session-increment {
+  border: 1px pink solid;
+  font-size: 2.5rem;
+  font-weight: bold;
   cursor: pointer;
 }

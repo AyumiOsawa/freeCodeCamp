@@ -1,7 +1,30 @@
-.break-label {
-  border: 1px green solid;
+.break-container {
+  border: 2px solid blue;
+  margin-top: 15vh;
+  margin-right: 5vw;
+  width: 23vw;
 }
 
 .break-label {
+  font-size: 1.5rem;
+  border: 1px green solid;
+  cursor: pointer;
+}
+
+.break-control {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.break-length {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.break-decrement, .break-increment {
+  border: 1px pink solid;
+  font-size: 2.5rem;
+  font-weight: bold;
   cursor: pointer;
 }
