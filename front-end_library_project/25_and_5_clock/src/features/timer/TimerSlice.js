@@ -38,8 +38,7 @@ export const {
   reset
  } = timerSlice.actions;
 
-export const time = amount => dispatch => {
-  // TODO: call update reducer in every 1 sec
+export const tick = () => dispatch => {
   setTimeout(() => {
     dispatch(update());
   }, 1000);
