@@ -18,6 +18,6 @@ export const {
   decrementBreak
  } = breakLabelSlice.actions;
 
-// export const selectrBreakLabel = state => state;
+export const selectrBreakLabel = state => state;
 
 export default breakLabelSlice.reducer;

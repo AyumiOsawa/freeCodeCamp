@@ -1,9 +1,22 @@
 import React from 'react';
 
+import  {
+  update,
+  start,
+  stop,
+  reset,
+  tick,
+  selectStarted,
+  selectElapsed,
+  selectIsTiming
+} from './TimerSlice';
 import './Timer.css';
 
 export function Timer() {
-
+  const startedAt = selectStarted();
+  const elapsed = selectElapsed();
+  const isTiming = selectIsTiming();
+  console.log('elapsed',elapsed);
   return (
     <div
       className="timer"
@@ -18,7 +31,7 @@ export function Timer() {
         id="time-left"
         className="time_left"
       >
-        mm:ss
+        {elapsed}
       </div>
       <div
         className="controls"
