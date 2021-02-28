@@ -18,6 +18,6 @@ export const {
   decrementSession
 } = sessionLabelSlice.actions;
 
-export const selectSessionLabel = state => state;
+export const selectSessionLabel = state => state.sessionLabel;
 
 export default sessionLabelSlice.reducer;

@@ -4,7 +4,7 @@ const t = Date.now();
 const zeroSecElapsed = t - t;
 
 const initialState = {
-  started: null,
+  startedAt: null,
   elapsed: zeroSecElapsed,
   isTiming: true
 }
@@ -14,15 +14,15 @@ export const timerSlice = createSlice({
   initialState,
   reducers: {
     update: state => {
-      state.elapsed = Date.now() - state.started;
+      state.elapsed = Date.now() - state.startedAt;
     },
     start: state => {
       state.isTiming = true;
-      state.started = Date.now();
+      state.startedAt = Date.now();
     },
     stop: state => {
       state.isTiming = false;
-      state.started = null;
+      state.startedAt = null;
     },
     reset: state => {
       state.elapsed = zeroSecElapsed;
@@ -45,12 +45,12 @@ export const tick = () => dispatch => {
 
 // TODO: fix the selector. state is undefined.
 // export const selectStarted = state => state.started;
-export const selectStarted = state => {
+export const selectStartedAt = state => {
   console.log('state',state);
-  // state.started
+  return state.timer.startedAt;
 };
 
-export const selectElapsed = state => state;
-export const selectIsTiming = state => state;
+export const selectElapsed = state => state.timer.elapsed;
+export const selectIsTiming = state => state.timer.isTiming;
 
 export default timerSlice.reducer;

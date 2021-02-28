@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import  {
   update,
@@ -6,17 +7,19 @@ import  {
   stop,
   reset,
   tick,
-  selectStarted,
+  selectStartedAt,
   selectElapsed,
   selectIsTiming
 } from './TimerSlice';
 import './Timer.css';
 
 export function Timer() {
-  const startedAt = selectStarted();
-  const elapsed = selectElapsed();
-  const isTiming = selectIsTiming();
+  const startedAt = useSelector(selectStartedAt);
+  const elapsed = useSelector(selectElapsed);
+  const isTiming = useSelector(selectIsTiming);
+  console.log('startedAt',startedAt);
   console.log('elapsed',elapsed);
+  console.log('isTiming',isTiming);
   return (
     <div
       className="timer"
