@@ -1,12 +1,16 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
-  selectrBreakLabel
+  selectrBreakLabel,
+  incrementBreak,
+  decrementBreak
 } from './BreakLabelSlice';
 import './BreakLabel.css';
 
 export function BreakLabel() {
+  const dispatch = useDispatch();
+
   const breakLabel = useSelector(selectrBreakLabel);
 
   return (
@@ -25,6 +29,7 @@ export function BreakLabel() {
         <div
           id="break-decrement"
           className="break-decrement"
+          onClick={() => dispatch(decrementBreak())}
         >
         ↓
         </div>
@@ -37,6 +42,7 @@ export function BreakLabel() {
         <div
           id="break-increment"
           className="break-increment"
+          onClick={() => dispatch(incrementBreak())}
         >
         ↑
         </div>

@@ -4,11 +4,11 @@ export const sessionLabelSlice = createSlice({
   name: 'sessionLabel',
   initialState: 25,
   reducers: {
-    incrementSession: state => {
-      state += 1;
-    },
+    incrementSession: state => state += 1,
     decrementSession: state => {
-      state -= 1;
+      const newState = state - 1;
+      state = Math.max(newState, 0);
+      return state; 
     }
   },
 });

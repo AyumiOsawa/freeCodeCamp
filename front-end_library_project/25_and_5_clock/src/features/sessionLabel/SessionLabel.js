@@ -1,12 +1,16 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
-  selectSessionLabel
+  selectSessionLabel,
+  incrementSession,
+  decrementSession
 } from './SessionLabelSlice';
 import './SessionLabel.css';
 
 export function SessionLabel() {
+  const dispatch = useDispatch();
+
   const sessionLabel = useSelector(selectSessionLabel);
 
   return (
@@ -25,6 +29,7 @@ export function SessionLabel() {
         <div
           id="session-decrement"
           className="session-decrement"
+          onClick={() => dispatch(decrementSession())}
         >
         ↓
         </div>
@@ -37,6 +42,7 @@ export function SessionLabel() {
         <div
           id="session-increment"
           className="session-increment"
+          onClick={() => dispatch(incrementSession())}
         >
         ↑
         </div>

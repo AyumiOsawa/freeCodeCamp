@@ -4,11 +4,11 @@ export const breakLabelSlice = createSlice({
   name: 'breakLabel',
   initialState: 5,
   reducers: {
-    incrementBreak: state => {
-      state += 1;
-    },
+    incrementBreak: state => state += 1,
     decrementBreak: state => {
-      state -= 1;
+      const newState = state - 1;
+      state = Math.max(newState, 0);
+      return state;
     }
   },
 });
