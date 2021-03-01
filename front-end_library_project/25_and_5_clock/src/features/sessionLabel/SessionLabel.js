@@ -1,8 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
+import {
+  selectSessionLabel
+} from './SessionLabelSlice';
 import './SessionLabel.css';
 
 export function SessionLabel() {
+  const sessionLabel = useSelector(selectSessionLabel);
 
   return (
     <div
@@ -27,7 +32,7 @@ export function SessionLabel() {
           id="session-length"
           className="break-length"
         >
-          (25)
+          {sessionLabel}
         </div>
         <div
           id="session-increment"

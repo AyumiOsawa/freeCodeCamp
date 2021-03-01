@@ -11,15 +11,19 @@ import  {
   selectElapsed,
   selectIsTiming
 } from './TimerSlice';
+import {
+  selectSessionLabel
+} from '../sessionLabel/SessionLabelSlice';
 import './Timer.css';
 
 export function Timer() {
   const startedAt = useSelector(selectStartedAt);
   const elapsed = useSelector(selectElapsed);
   const isTiming = useSelector(selectIsTiming);
-  console.log('startedAt',startedAt);
-  console.log('elapsed',elapsed);
-  console.log('isTiming',isTiming);
+  const sessionLabel = useSelector(selectSessionLabel);
+
+  const remainingTime = sessionLabel - elapsed;
+  console.log('sessionL - elap', remainingTime);
   return (
     <div
       className="timer"
@@ -28,13 +32,19 @@ export function Timer() {
         id="timer-label"
         className="timer_label"
       >
-      Session or Break
+      {
+        isTiming ? 'Session' : 'Break'
+      }
       </div>
       <div
         id="time-left"
         className="time_left"
       >
-        {elapsed}
+        {
+          elapsed === 0 ?
+          remainingTime.toString() +':00' :
+          remainingTime
+        }
       </div>
       <div
         className="controls"

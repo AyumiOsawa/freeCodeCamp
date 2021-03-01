@@ -1,8 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
+import {
+  selectrBreakLabel
+} from './BreakLabelSlice';
 import './BreakLabel.css';
 
 export function BreakLabel() {
+  const breakLabel = useSelector(selectrBreakLabel);
 
   return (
     <div
@@ -27,7 +32,7 @@ export function BreakLabel() {
           id="break-length"
           className="break-length"
         >
-          (5)
+          {breakLabel}
         </div>
         <div
           id="break-increment"

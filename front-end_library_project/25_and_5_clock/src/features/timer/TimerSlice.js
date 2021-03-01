@@ -6,7 +6,7 @@ const zeroSecElapsed = t - t;
 const initialState = {
   startedAt: null,
   elapsed: zeroSecElapsed,
-  isTiming: true
+  isTiming: false
 }
 
 export const timerSlice = createSlice({
@@ -43,13 +43,8 @@ export const tick = () => dispatch => {
   }, 1000);
 };
 
-// TODO: fix the selector. state is undefined.
-// export const selectStarted = state => state.started;
-export const selectStartedAt = state => {
-  console.log('state',state);
-  return state.timer.startedAt;
-};
 
+export const selectStartedAt = state => state.timer.startedAt;
 export const selectElapsed = state => state.timer.elapsed;
 export const selectIsTiming = state => state.timer.isTiming;
 
