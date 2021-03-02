@@ -26,6 +26,7 @@ export const timerSlice = createSlice({
     },
     reset: state => {
       state.elapsed = zeroSecElapsed;
+      console.log('clock reset!');
     }
   },
 });

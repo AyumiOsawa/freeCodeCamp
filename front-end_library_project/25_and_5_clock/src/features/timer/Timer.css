@@ -20,19 +20,22 @@
 }
 
 .controls {
-  height: 20%;
+  min-height: 20vh;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .start_stop {
-  margin-right: 5vw;
+  height: 8vh;
+  margin-right: 10vw;
   background-color: pink;
   cursor: pointer;
 }
 
 .reset {
-  margin-left: 5vw;
+  height: 10vh;
+  margin-left: 10vw;
   background-color: green;
   cursor: pointer;
 }
