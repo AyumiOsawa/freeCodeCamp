@@ -5,10 +5,10 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import  {
+  update,
   start,
   stop,
   reset,
-  tick,
   selectStartedAt,
   selectElapsed,
   selectIsTiming
@@ -27,8 +27,22 @@ export function Timer() {
   const sessionLabel = useSelector(selectSessionLabel);
   console.log('isTiming',isTiming);
 
-  const remainingTime = sessionLabel - elapsed;
-  console.log('sessionL - elap', remainingTime);
+  // const remainingTime = sessionLabel - elapsed;
+  // console.log('sessionL - elap', remainingTime);
+  let timer = null;
+  const handleStartStop = () => {
+    if (isTiming) {
+      dispatch(stop());
+      clearInterval(timer);
+    } else {
+      dispatch(start());
+      timer = setInterval(() => {
+        dispatch(update());
+        console.log('clock update');
+      }, 500);
+    }
+  };
+
   return (
     <div
       className="timer"
@@ -47,8 +61,9 @@ export function Timer() {
       >
         {
           elapsed === 0 ?
-          remainingTime.toString() +':00' :
-          remainingTime
+          sessionLabel.toString() +':00' :
+          // formatTime(elapsed)
+          elapsed
         }
       </div>
       <div
@@ -57,12 +72,7 @@ export function Timer() {
         <div
           id="start_stop"
           className="start_stop"
-          onClick={() => {
-            isTiming ? dispatch(stop())
-            : dispatch(start());
-            // TODO: tick func debug
-            // tick();
-          }}
+          onClick={() => handleStartStop()}
         >
         <svg
           className="start_stop__svg"

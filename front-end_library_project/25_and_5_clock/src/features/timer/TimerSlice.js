@@ -1,11 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const t = Date.now();
-const zeroSecElapsed = t - t;
-
 const initialState = {
   startedAt: null,
-  elapsed: zeroSecElapsed,
+  elapsed: 0,
   isTiming: false
 }
 
@@ -14,7 +11,9 @@ export const timerSlice = createSlice({
   initialState,
   reducers: {
     update: state => {
-      state.elapsed = Date.now() - state.startedAt;
+      const current = Date.now();
+      const elapsed_sec = Math.round((current - state.startedAt) / 1000);
+      state.elapsed += elapsed_sec;
     },
     start: state => {
       state.isTiming = true;
@@ -23,9 +22,11 @@ export const timerSlice = createSlice({
     stop: state => {
       state.isTiming = false;
       state.startedAt = null;
+      console.log('stopped!');
+      console.log('stopped, current elapsed', state.elapsed);
     },
     reset: state => {
-      state.elapsed = zeroSecElapsed;
+      state.elapsed = 0;
       console.log('clock reset!');
     }
   },
@@ -37,13 +38,6 @@ export const {
   stop,
   reset
  } = timerSlice.actions;
-
-export const tick = () => dispatch => {
-  setTimeout(() => {
-    dispatch(update());
-  }, 1000);
-};
-
 
 export const selectStartedAt = state => state.timer.startedAt;
 export const selectElapsed = state => state.timer.elapsed;
