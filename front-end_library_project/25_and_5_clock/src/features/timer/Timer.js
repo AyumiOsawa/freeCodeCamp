@@ -1,7 +1,7 @@
 // <div> start_stop__svg icon made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 // <div> reset__svg icon made by <a href="https://www.flaticon.com/authors/those-icons" title="Those Icons">Those Icons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import  {
@@ -25,21 +25,18 @@ export function Timer() {
   const elapsed = useSelector(selectElapsed);
   const isTiming = useSelector(selectIsTiming);
   const sessionLabel = useSelector(selectSessionLabel);
-  console.log('isTiming',isTiming);
+  let timerId = useRef(null);
 
-  // const remainingTime = sessionLabel - elapsed;
-  // console.log('sessionL - elap', remainingTime);
-  let timer = null;
   const handleStartStop = () => {
     if (isTiming) {
       dispatch(stop());
-      clearInterval(timer);
+      clearInterval(timerId.current);
     } else {
       dispatch(start());
-      timer = setInterval(() => {
+      timerId.current = setInterval(() => {
         dispatch(update());
-        console.log('clock update');
-      }, 500);
+        console.log('This will run every second!');
+      }, 1000);
     }
   };
 
@@ -62,7 +59,7 @@ export function Timer() {
         {
           elapsed === 0 ?
           sessionLabel.toString() +':00' :
-          // formatTime(elapsed)
+          // TODO: format the elapsed
           elapsed
         }
       </div>

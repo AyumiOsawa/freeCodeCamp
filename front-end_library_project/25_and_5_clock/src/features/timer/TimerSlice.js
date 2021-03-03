@@ -11,9 +11,8 @@ export const timerSlice = createSlice({
   initialState,
   reducers: {
     update: state => {
-      const current = Date.now();
-      const elapsed_sec = Math.round((current - state.startedAt) / 1000);
-      state.elapsed += elapsed_sec;
+      state.elapsed += 1;
+      console.log('state.elapsed',state.elapsed);
     },
     start: state => {
       state.isTiming = true;
