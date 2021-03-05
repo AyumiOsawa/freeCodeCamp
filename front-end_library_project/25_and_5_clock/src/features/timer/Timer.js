@@ -18,6 +18,15 @@ import {
 } from '../sessionLabel/SessionLabelSlice';
 import './Timer.css';
 
+const calculateRemainingTime = (setMin, elapsed) => {
+  const setSec = setMin * 60;
+  const remainingTotalSec = setSec - elapsed;
+  const remainingSec = (remainingTotalSec % 60);
+  const remainingSec_str = remainingSec.toString();
+  const remainingMin_str = (Math.round((remainingTotalSec - remainingSec) / 60)).toString();
+  return remainingMin_str.padStart(2, '0') + ':' + remainingSec_str.padStart(2, '0');
+}
+
 export function Timer() {
   const dispatch = useDispatch();
 
@@ -60,7 +69,7 @@ export function Timer() {
           elapsed === 0 ?
           sessionLabel.toString() +':00' :
           // TODO: format the elapsed
-          elapsed
+          calculateRemainingTime(sessionLabel, elapsed)
         }
       </div>
       <div
