@@ -66,9 +66,9 @@ export function Timer() {
         className="time_left"
       >
         {
+          // TODO: stop when it gets 00:00
           elapsed === 0 ?
           sessionLabel.toString() +':00' :
-          // TODO: format the elapsed
           calculateRemainingTime(sessionLabel, elapsed)
         }
       </div>
