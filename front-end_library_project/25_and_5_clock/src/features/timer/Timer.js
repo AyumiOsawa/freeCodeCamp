@@ -21,6 +21,9 @@ import './Timer.css';
 const calculateRemainingTime = (setMin, elapsed) => {
   const setSec = setMin * 60;
   const remainingTotalSec = setSec - elapsed;
+  if (remainingTotalSec < 0) {
+    return '00:00';
+  }
   const remainingSec = (remainingTotalSec % 60);
   const remainingSec_str = remainingSec.toString();
   const remainingMin_str = (Math.round((remainingTotalSec - remainingSec) / 60)).toString();
@@ -35,6 +38,12 @@ export function Timer() {
   const isTiming = useSelector(selectIsTiming);
   const sessionLabel = useSelector(selectSessionLabel);
   let timerId = useRef(null);
+  // let displayRemainingTime;
+  // if (elapsed === 0) { // default
+  //   displayRemainingTime = sessionLabel.toString() +':00';
+  // } else {
+  //   displayRemainingTime = calculateRemainingTime(sessionLabel, elapsed);
+  // }
 
   const handleStartStop = () => {
     if (isTiming) {
@@ -44,10 +53,10 @@ export function Timer() {
       dispatch(start());
       timerId.current = setInterval(() => {
         dispatch(update());
-        console.log('This will run every second!');
       }, 1000);
     }
   };
+
 
   return (
     <div
@@ -66,9 +75,6 @@ export function Timer() {
         className="time_left"
       >
         {
-          // TODO: stop when it gets 00:00
-          elapsed === 0 ?
-          sessionLabel.toString() +':00' :
           calculateRemainingTime(sessionLabel, elapsed)
         }
       </div>
