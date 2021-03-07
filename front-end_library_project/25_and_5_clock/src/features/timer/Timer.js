@@ -38,12 +38,6 @@ export function Timer() {
   const isTiming = useSelector(selectIsTiming);
   const sessionLabel = useSelector(selectSessionLabel);
   let timerId = useRef(null);
-  // let displayRemainingTime;
-  // if (elapsed === 0) { // default
-  //   displayRemainingTime = sessionLabel.toString() +':00';
-  // } else {
-  //   displayRemainingTime = calculateRemainingTime(sessionLabel, elapsed);
-  // }
 
   const handleStartStop = () => {
     if (isTiming) {

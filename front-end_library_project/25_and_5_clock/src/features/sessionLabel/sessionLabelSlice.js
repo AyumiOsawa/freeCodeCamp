@@ -7,8 +7,14 @@ export const sessionLabelSlice = createSlice({
     incrementSession: state => state += 1,
     decrementSession: state => {
       const newState = state - 1;
-      state = Math.max(newState, 0);
-      return state; 
+      if (newState <= 0) {
+        state = 1;
+      } else if (newState > 60) {
+        state = 60;
+      } else {
+        state = newState;
+      }
+      return state;
     }
   },
 });

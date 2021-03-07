@@ -7,7 +7,13 @@ export const breakLabelSlice = createSlice({
     incrementBreak: state => state += 1,
     decrementBreak: state => {
       const newState = state - 1;
-      state = Math.max(newState, 0);
+      if (newState <= 0) {
+        state = 1;
+      } else if (newState > 60) {
+        state = 60;
+      } else {
+        state = newState;
+      }
       return state;
     }
   },
