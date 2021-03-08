@@ -8,7 +8,8 @@ export const breakLabelSlice = createSlice({
     decrementBreak: state => {
       const newState = state - 1;
       if (newState <= 0) {
-        state = 1;
+        // state = 1;
+        state = 0; //DEBUG
       } else if (newState > 60) {
         state = 60;
       } else {
@@ -24,6 +25,6 @@ export const {
   decrementBreak
  } = breakLabelSlice.actions;
 
-export const selectrBreakLabel = state => state.breakLabel;
+export const selectBreakLabel = state => state.breakLabel;
 
 export default breakLabelSlice.reducer;

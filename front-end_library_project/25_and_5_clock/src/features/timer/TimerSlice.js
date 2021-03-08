@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   startedAt: null,
   elapsed: 0,
-  isTiming: false
+  isTiming: false,
+  isSession: true
 }
 
 export const timerSlice = createSlice({
@@ -12,7 +13,6 @@ export const timerSlice = createSlice({
   reducers: {
     update: state => {
       state.elapsed += 1;
-      console.log('state.elapsed',state.elapsed);
     },
     start: state => {
       state.isTiming = true;
@@ -21,12 +21,12 @@ export const timerSlice = createSlice({
     stop: state => {
       state.isTiming = false;
       state.startedAt = null;
-      console.log('stopped!');
-      console.log('stopped, current elapsed', state.elapsed);
     },
     reset: state => {
       state.elapsed = 0;
-      console.log('clock reset!');
+    },
+    switchMode: state => {
+      state.isSession = !state.isSession;
     }
   },
 });
@@ -35,9 +35,11 @@ export const {
   update,
   start,
   stop,
-  reset
+  reset,
+  switchMode
  } = timerSlice.actions;
 
+export const selectIsSession = state => state.timer.isSession;
 export const selectStartedAt = state => state.timer.startedAt;
 export const selectElapsed = state => state.timer.elapsed;
 export const selectIsTiming = state => state.timer.isTiming;

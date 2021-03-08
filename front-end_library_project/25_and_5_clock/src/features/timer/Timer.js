@@ -9,26 +9,19 @@ import  {
   start,
   stop,
   reset,
+  switchMode,
   selectStartedAt,
   selectElapsed,
-  selectIsTiming
+  selectIsTiming,
+  selectIsSession
 } from './TimerSlice';
 import {
   selectSessionLabel
 } from '../sessionLabel/SessionLabelSlice';
+import {
+  selectBreakLabel
+} from '../breakLabel/BreakLabelSlice';
 import './Timer.css';
-
-const calculateRemainingTime = (setMin, elapsed) => {
-  const setSec = setMin * 60;
-  const remainingTotalSec = setSec - elapsed;
-  if (remainingTotalSec < 0) {
-    return '00:00';
-  }
-  const remainingSec = (remainingTotalSec % 60);
-  const remainingSec_str = remainingSec.toString();
-  const remainingMin_str = (Math.round((remainingTotalSec - remainingSec) / 60)).toString();
-  return remainingMin_str.padStart(2, '0') + ':' + remainingSec_str.padStart(2, '0');
-}
 
 export function Timer() {
   const dispatch = useDispatch();
@@ -36,7 +29,10 @@ export function Timer() {
   const startedAt = useSelector(selectStartedAt);
   const elapsed = useSelector(selectElapsed);
   const isTiming = useSelector(selectIsTiming);
+  const isSession = useSelector(selectIsSession);
   const sessionLabel = useSelector(selectSessionLabel);
+  const breakLabel = useSelector(selectBreakLabel);
+
   let timerId = useRef(null);
 
   const handleStartStop = () => {
@@ -51,6 +47,18 @@ export function Timer() {
     }
   };
 
+  const calculateRemainingTime = (setMin, elapsed) => {
+    const setSec = setMin * 60;
+    const remainingTotalSec = setSec - elapsed;
+    if (remainingTotalSec < 0) {
+      dispatch(switchMode());
+      dispatch(reset());
+    }
+    const remainingSec = (remainingTotalSec % 60);
+    const remainingSec_str = remainingSec.toString();
+    const remainingMin_str = (Math.round((remainingTotalSec - remainingSec) / 60)).toString();
+    return remainingMin_str.padStart(2, '0') + ':' + remainingSec_str.padStart(2, '0');
+  };
 
   return (
     <div
@@ -69,7 +77,9 @@ export function Timer() {
         className="time_left"
       >
         {
-          calculateRemainingTime(sessionLabel, elapsed)
+          isSession ?
+          calculateRemainingTime(sessionLabel, elapsed) :
+          calculateRemainingTime(breakLabel, elapsed)
         }
       </div>
       <div

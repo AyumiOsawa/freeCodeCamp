@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
-  selectrBreakLabel,
+  selectBreakLabel,
   incrementBreak,
   decrementBreak
 } from './BreakLabelSlice';
@@ -11,7 +11,7 @@ import './BreakLabel.css';
 export function BreakLabel() {
   const dispatch = useDispatch();
 
-  const breakLabel = useSelector(selectrBreakLabel);
+  const breakLabel = useSelector(selectBreakLabel);
 
   return (
     <div
