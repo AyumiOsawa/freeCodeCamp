@@ -48,6 +48,5 @@ export function BreakLabel() {
         </div>
       </div>
     </div>
-
   )
 }

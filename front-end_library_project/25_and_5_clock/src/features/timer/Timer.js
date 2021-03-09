@@ -1,7 +1,7 @@
 // <div> start_stop__svg icon made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 // <div> reset__svg icon made by <a href="https://www.flaticon.com/authors/those-icons" title="Those Icons">Those Icons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import  {
@@ -34,6 +34,23 @@ export function Timer() {
   const breakLabel = useSelector(selectBreakLabel);
 
   let timerId = useRef(null);
+  let audio = useRef(null);
+
+  useEffect(() => {
+    audio.current = document.getElementById('beep');
+  }, [])
+
+  useEffect(() => {
+    const audioPlayPromies = audio.current.play();
+    if (audioPlayPromies !== undefined) {
+      audioPlayPromies.then(_ => {
+        console.log('audio playing')
+      })
+      .catch(error => {
+        console.log('audio playback error');
+      });
+    }
+  }, [isSession])
 
   const handleStartStop = () => {
     if (isTiming) {
@@ -175,6 +192,16 @@ export function Timer() {
           </svg>
         </div>
       </div>
+      <audio
+        id="beep"
+        preload="auto"
+        volume="0.1"
+      >
+        <source
+          src="https://a.pomf.cat/ybvqkg.wav"
+          type="audio/mpeg"
+        />
+      </audio>
     </div>
   )
 }
