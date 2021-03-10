@@ -1,15 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialStateSession = 25;
+
 export const sessionLabelSlice = createSlice({
   name: 'sessionLabel',
-  initialState: 25,
+  initialState: initialStateSession,
   reducers: {
     incrementSession: state => {
       return sanitizeState(state, true);
     },
     decrementSession: state => {
       return sanitizeState(state, false);
-    }
+    },
+    resetSession: state => initialStateSession
   },
 });
 
@@ -28,7 +31,8 @@ const sanitizeState = (prevState, isAdding) => {
 
 export const {
   incrementSession,
-  decrementSession
+  decrementSession,
+  resetSession
 } = sessionLabelSlice.actions;
 
 export const selectSessionLabel = state => state.sessionLabel;

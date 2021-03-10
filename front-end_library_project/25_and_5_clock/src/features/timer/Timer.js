@@ -16,10 +16,12 @@ import  {
   selectIsSession
 } from './TimerSlice';
 import {
-  selectSessionLabel
+  selectSessionLabel,
+  resetSession
 } from '../sessionLabel/SessionLabelSlice';
 import {
-  selectBreakLabel
+  selectBreakLabel,
+  resetBreak
 } from '../breakLabel/BreakLabelSlice';
 import './Timer.css';
 
@@ -50,6 +52,7 @@ export function Timer() {
       audioPlayPromies.then(_ => {
         if (!shouldPlay) {
           audio.current.pause();
+          audio.current.currentTime = 0;
         }
       })
       .catch(error => {
@@ -66,15 +69,20 @@ export function Timer() {
       clearInterval(timerId.current);
       timerId.current = setInterval(() => {
         dispatch(update());
-      }, 1000);
+      }, 100);
     }
   };
 
   const handleReset = () => {
     clearInterval(timerId.current);
     dispatch(reset());
+    dispatch(resetBreak());
+    dispatch(resetSession());
     if (isTiming) {
       dispatch(stop());
+    }
+    if (!isSession) {
+      dispatch(switchMode());
     }
     handleSoundPlayback(/* shouldPlay = */false);
   }
@@ -213,7 +221,7 @@ export function Timer() {
         volume="0.1"
       >
         <source
-          src="https://a.pomf.cat/ybvqkg.wav"
+          src="https://a.pomf.cat/maiyvy.wav"
           type="audio/mpeg"
         />
       </audio>

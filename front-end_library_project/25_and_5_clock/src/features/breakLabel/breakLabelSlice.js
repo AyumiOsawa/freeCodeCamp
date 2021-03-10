@@ -1,15 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialStateBreak = 5;
+
 export const breakLabelSlice = createSlice({
   name: 'breakLabel',
-  initialState: 5,
+  initialState: initialStateBreak,
   reducers: {
     incrementBreak: state => {
       return sanitizeState(state, true);
     },
     decrementBreak: state => {
       return sanitizeState(state, false);
-    }
+    },
+    resetBreak: state => initialStateBreak
+
   },
 });
 
@@ -28,7 +32,8 @@ const sanitizeState = (prevState, isAdding) => {
 
 export const {
   incrementBreak,
-  decrementBreak
+  decrementBreak,
+  resetBreak
  } = breakLabelSlice.actions;
 
 export const selectBreakLabel = state => state.breakLabel;
