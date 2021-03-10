@@ -1,5 +1,4 @@
 .break-container {
-  border: 2px solid blue;
   margin-top: 15vh;
   margin-right: 5vw;
   width: 23vw;
@@ -7,7 +6,7 @@
 
 .break-label {
   font-size: 1.5rem;
-  border: 1px green solid;
+  line-height: 3rem;
   cursor: pointer;
 }
 
@@ -23,8 +22,15 @@
 }
 
 .break-decrement, .break-increment {
-  border: 1px pink solid;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bold;
+  border: 1px solid #cccccc;
+  background-color: #eeeeee;
+  border-radius: 15%;
+  padding: 1rem;
   cursor: pointer;
+}
+
+.break-decrement:hover, .break-increment:hover {
+  background-color: #888888;
 }

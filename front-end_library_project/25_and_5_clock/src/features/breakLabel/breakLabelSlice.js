@@ -4,21 +4,27 @@ export const breakLabelSlice = createSlice({
   name: 'breakLabel',
   initialState: 5,
   reducers: {
-    incrementBreak: state => state += 1,
+    incrementBreak: state => {
+      return sanitizeState(state, true);
+    },
     decrementBreak: state => {
-      const newState = state - 1;
-      if (newState <= 0) {
-        // state = 1;
-        state = 0; //DEBUG
-      } else if (newState > 60) {
-        state = 60;
-      } else {
-        state = newState;
-      }
-      return state;
+      return sanitizeState(state, false);
     }
   },
 });
+
+const sanitizeState = (prevState, isAdding) => {
+  const calculatedState = isAdding ? prevState += 1 : prevState -= 1
+  let newState;
+  if (calculatedState <= 0) {
+    newState = 1;
+  } else if (calculatedState > 60) {
+    newState = 60;
+  } else {
+    newState = calculatedState;
+  }
+  return newState;
+};
 
 export const {
   incrementBreak,

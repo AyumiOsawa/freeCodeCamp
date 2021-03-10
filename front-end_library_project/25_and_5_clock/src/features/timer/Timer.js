@@ -41,35 +41,50 @@ export function Timer() {
   }, [])
 
   useEffect(() => {
+    handleSoundPlayback(/* shouldPlay = */true);
+  }, [isSession])
+
+  const handleSoundPlayback = (shouldPlay) => {
     const audioPlayPromies = audio.current.play();
     if (audioPlayPromies !== undefined) {
       audioPlayPromies.then(_ => {
-        console.log('audio playing')
+        if (!shouldPlay) {
+          audio.current.pause();
+        }
       })
       .catch(error => {
-        console.log('audio playback error');
-      });
+        console.log('audio error', error);
+      })
     }
-  }, [isSession])
-
+  }
   const handleStartStop = () => {
     if (isTiming) {
       dispatch(stop());
       clearInterval(timerId.current);
     } else {
       dispatch(start());
+      clearInterval(timerId.current);
       timerId.current = setInterval(() => {
         dispatch(update());
       }, 1000);
     }
   };
 
+  const handleReset = () => {
+    clearInterval(timerId.current);
+    dispatch(reset());
+    if (isTiming) {
+      dispatch(stop());
+    }
+    handleSoundPlayback(/* shouldPlay = */false);
+  }
+
   const calculateRemainingTime = (setMin, elapsed) => {
     const setSec = setMin * 60;
     const remainingTotalSec = setSec - elapsed;
     if (remainingTotalSec < 0) {
-      dispatch(switchMode());
       dispatch(reset());
+      dispatch(switchMode());
     }
     const remainingSec = (remainingTotalSec % 60);
     const remainingSec_str = remainingSec.toString();
@@ -86,7 +101,7 @@ export function Timer() {
         className="timer_label"
       >
       {
-        isTiming ? 'Session' : 'Break'
+        isSession ? 'Session' : 'Break'
       }
       </div>
       <div
@@ -172,7 +187,7 @@ export function Timer() {
         <div
           id="reset"
           className="reset"
-          onClick={() => dispatch(reset())}
+          onClick={() => handleReset()}
         >
           <svg
             className="reset__svg"

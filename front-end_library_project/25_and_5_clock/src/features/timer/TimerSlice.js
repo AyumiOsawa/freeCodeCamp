@@ -24,6 +24,7 @@ export const timerSlice = createSlice({
     },
     reset: state => {
       state.elapsed = 0;
+      state.isSession = true;
     },
     switchMode: state => {
       state.isSession = !state.isSession;

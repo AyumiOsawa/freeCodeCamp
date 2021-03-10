@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   height: 100vh;
+  background-image: url('https://www.dropbox.com/s/2ypguv92thy92ik/pomodoro.png?dl=0?raw=1');
 }
 
 .label_container {

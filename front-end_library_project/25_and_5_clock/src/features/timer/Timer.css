@@ -1,5 +1,4 @@
 .timer {
-  border: 1px red solid;
   height: 40vh;
 }
 
@@ -7,8 +6,8 @@
   font-size: 2.6rem;
   font-weight: bold;
   line-height: calc(100vh * 0.4 * 0.3);
+  margin-top: 1.5rem;
   height: 30%;
-  border: 1px red solid;
 }
 
 .time_left {
@@ -16,7 +15,6 @@
   font-weight: bold;
   line-height: calc(100vh * 0.2);
   height: 50%;
-  border: 1px blue solid;
 }
 
 .controls {
@@ -29,13 +27,19 @@
 .start_stop {
   height: 8vh;
   margin-right: 10vw;
-  background-color: pink;
   cursor: pointer;
+}
+
+.start_stop__svg:hover {
+  fill: green;
 }
 
 .reset {
   height: 10vh;
   margin-left: 10vw;
-  background-color: green;
   cursor: pointer;
+}
+
+.reset__svg:hover {
+  fill: red;
 }
